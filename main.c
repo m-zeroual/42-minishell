@@ -1,5 +1,5 @@
-#include "libft/libft.h"
-#include "ft_printf/ft_printf.h"
+#include "../libft/libft.h"
+#include "../ft_printf/ft_printf.h"
 
 int main(int ac, char **av)
 {
@@ -7,3 +7,4 @@ int main(int ac, char **av)
     (void)av;
     return (0);
 }
+
