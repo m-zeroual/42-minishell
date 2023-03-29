@@ -1,9 +1,8 @@
 NAME	=	minishell
 
-CFILES	=	main.c test.c
+SRCS	=	src/main.c src/test.c
 
-SRCS	=	src/$(CFILES)
-OBJS	=	bin/$(CFILES:.c=.o)
+OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror -g
@@ -14,9 +13,9 @@ all	:	$(NAME)
 $(NAME)	:	$(OBJS)
 	@make -C ft_printf
 	@make -C libft
-	$(CC) $(CFLAGS) bin/$^ libft/libft.a ft_printf/libftprintf.a -o $@
+	$(CC) $(CFLAGS) $^ libft/libft.a ft_printf/libftprintf.a -o $@
 
-bin/%.o		:	src/%.c
+%.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^
 
 clean	:
