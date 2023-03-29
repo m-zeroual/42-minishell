@@ -16,7 +16,7 @@ $(NAME)	:	$(OBJS)
 	$(CC) $(CFLAGS) $^ libft/libft.a ft_printf/libftprintf.a -o $@
 
 %.o		:	%.c
-	@$(CC) $(CFLAGS) -c $^
+	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean	:
 	@make -C libft clean
