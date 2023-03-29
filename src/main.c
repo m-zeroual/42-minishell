@@ -1,5 +1,4 @@
-#include "../libft/libft.h"
-#include "../ft_printf/ft_printf.h"
+#include "../includes/main.h"
 
 int main(int ac, char **av)
 {
