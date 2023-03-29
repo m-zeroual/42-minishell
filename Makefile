@@ -19,13 +19,13 @@ $(NAME)	:	$(OBJS)
 	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean	:
-	@make -C libft clean
-	@make -C ft_printf clean
-	@$(RM) $(OBJS)
+	@make clean -C libft
+	@make clean -C ft_printf
+	@$(RM) *.o
 
 fclean	:	clean
-	@make -C libft fclean
-	@make -C ft_printf fclean
+	@make fclean -C libft
+	@make fclean -C ft_printf
 	@$(RM) $(NAME)
 
 re		: fclean	all
