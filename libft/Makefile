@@ -6,7 +6,7 @@
 #    By: esalim <esalim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 18:43:45 by esalim            #+#    #+#              #
-#    Updated: 2023/03/27 13:58:02 by esalim           ###   ########.fr        #
+#    Updated: 2023/03/30 16:35:17 by esalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ CFILES	= ft_isalnum.c \
 		ft_strlen.c \
 		ft_bzero.c \
 		ft_strdup.c \
+		ft_strndup.c \
 		ft_atoi.c \
 		ft_calloc.c \
 		ft_strlcpy.c \
