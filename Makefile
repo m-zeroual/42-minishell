@@ -1,11 +1,11 @@
 NAME	=	minishell
 
-SRCS	=	src/main.c src/test.c
+SRCS	=	src/parsing_args/main.c src/test.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address -g 
+CFLAGS	=	-Wall -Wextra -Werror -g #-fsanitize=address
 RM		=	rm -f
 
 all	:	$(NAME)
