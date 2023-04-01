@@ -69,11 +69,9 @@ void ft_exec_cmd(t_shell _shell)
 			//printf("\t%s\n", _shell.path_split[i]);
 			if (access(_shell.path_split[i], F_OK) == 0)
 			{
-				char *s = _shell.path_split[i];
-				char *arg = ft_strtrim(args, " ");
-				char *str[] = {_shell.cmd_split[0], arg, NULL};
-				printf("%s\n|%s|\n", str[0], arg);
-				if (execve(s, str, _shell.ev) == -1)
+				char *str[] = {_shell.path_split[i], args, NULL};
+				//printf("%s\n%s\n", str[0], args);
+				if (execve(str[0], str, _shell.ev))
 					printf("Error in execve function\n");
 			}
 			i++;
