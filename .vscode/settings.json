@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "_posix_vdisable.h": "c"
+    }
+}

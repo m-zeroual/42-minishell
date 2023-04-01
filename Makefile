@@ -5,7 +5,7 @@ SRCS	=	src/main.c src/test.c
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror 
 RM		=	rm -f
 
 all	:	$(NAME)
@@ -13,7 +13,7 @@ all	:	$(NAME)
 $(NAME)	:	$(OBJS)
 	@make -C ft_printf
 	@make -C libft
-	$(CC) $(CFLAGS) $^ libft/libft.a ft_printf/libftprintf.a -o $@
+	$(CC) $(CFLAGS) $^ libft/libft.a ft_printf/libftprintf.a -lreadline -o $@
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
@@ -21,7 +21,7 @@ $(NAME)	:	$(OBJS)
 clean	:
 	@make clean -C libft
 	@make clean -C ft_printf
-	@$(RM) *.o
+	@$(RM) $(OBJS)
 
 fclean	:	clean
 	@make fclean -C libft

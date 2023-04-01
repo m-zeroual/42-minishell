@@ -1,0 +1,29 @@
+#include "../includes/main.h"
+
+int main(int ac, char **av)
+{
+	char *join;
+	char **split;
+	int i;
+
+	i = 2;
+	join = ft_strjoin(av[1], " ");
+	while (i < ac)
+	{
+		join = ft_strjoin(join, av[i]);
+		join = ft_strjoin(join, " ");
+		i++;
+	}
+
+	split = ft_split(join, ' ');
+	i = 0;
+	while (split[i])
+	{
+		ft_printf("%s\n", split[i]);
+		i++;
+	}
+	readline("minishell-$")
+
+	ft_printf("%s\n", join);
+    return (0);
+}
