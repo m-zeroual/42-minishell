@@ -53,9 +53,10 @@ size_t  count_chars(char *str)
  *
  */
 
+
+
 char    *hundle_first_part(char *first_part) {
     char    *dest;
-    int     i;
     int     j;
     int     separ_index;
     char    separator;
@@ -67,19 +68,26 @@ char    *hundle_first_part(char *first_part) {
     dest = malloc(count_chars(first_part) + 1);
     if (!dest)
         return (NULL);
-    i = 0;
     j = 0;
     int a = 0;
+    dest[j++] = '"';
     while (*first_part)
     {
-        i = 0;
         separ_index = get_separator(first_part, &separator);
-        while (i++ < separ_index)
+        while (separ_index-- && *first_part)
+        {
+            if (!a && *first_part == ' ')
+                dest[j++] = '"';
             dest[j++] = *(first_part++);
+        }
         if (*first_part == separator && first_part++)
             a = !a;
         while (*first_part && *first_part != separator)
+        {
+            if (!a && *first_part == ' ')
+                dest[j++] = '"';
             dest[j++] = *(first_part++);
+        }
         if (*first_part == separator && first_part++)
             a = !a;
     }
@@ -124,9 +132,9 @@ char    **split_line(char *line)
     }
     else
         second_part = ft_strtrim(tmp, " ");
-    first_part = ft_strndup(line, end_of_part_1);
-    first_part = hundle_first_part(first_part);
-    ft_printf("part 1 = |%s|\npart 2 = |%s|\n", first_part, second_part);
+//    first_part = ft_strndup(line, end_of_part_1);
+    first_part = hundle_first_part(line);
+    ft_printf("part 1 = |%s|\n", first_part);
     return (0);
 }
 
