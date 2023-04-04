@@ -1,5 +1,5 @@
 #include "../includes/main.h"
-
+/*
 char **ft_split_path(t_shell _shell)
 {
 	return(ft_split(_shell.path, ':'));
@@ -51,14 +51,12 @@ char *ft_args(char **cmd)
 	args[k] = 0;
 	return (args);
 }
-
+*/
 void ft_exec_cmd(t_shell _shell)
 {
 	int i;
 	int p;
-	char *args;
 
-	args = ft_args(_shell.cmd_split);
 	i = 0;
 	p = fork();
 	if (p == 0)
@@ -66,14 +64,9 @@ void ft_exec_cmd(t_shell _shell)
 		while (_shell.path_split[i])
 		{
 			
-			//printf("\t%s\n", _shell.path_split[i]);
 			if (access(_shell.path_split[i], F_OK) == 0)
 			{
-				char *s = _shell.path_split[i];
-				char *arg = ft_strtrim(args, " ");
-				char *str[] = {_shell.cmd_split[0], arg, NULL};
-				printf("%s\n|%s|\n", str[0], arg);
-				if (execve(s, str, _shell.ev) == -1)
+				if (execve(_shell.path_split[i], _shell.cmd_split, _shell.ev) == -1)
 					printf("Error in execve function\n");
 			}
 			i++;
@@ -86,52 +79,246 @@ void ft_exec_cmd(t_shell _shell)
 void ft_join(t_shell *_shell)
 {
 	int i;
+	char *help_for_free_path_split;
+	char *help_for_free_cmd_split;
 
 	i = 0;
 	while(_shell->path_split[i])
 	{
-		_shell->path_split[i] = ft_strjoin(_shell->path_split[i], "/");
-		_shell->path_split[i] = ft_strjoin(_shell->path_split[i], _shell->cmd_split[0]);
-		//printf("%s\n", _shell->path_split[i]);
+		help_for_free_path_split = ft_strjoin(_shell->path_split[i], "/");
+		free(_shell->path_split[i]);
+		_shell->path_split[i] = help_for_free_path_split;
+
+		help_for_free_cmd_split = ft_strjoin(_shell->path_split[i], _shell->cmd_split[0]);
+		free(_shell->path_split[i]);
+		_shell->path_split[i] = help_for_free_cmd_split;
 		i++;
 	}
+}
+
+char	*ft_pwd(int print)
+{
+	char s[1024];
+	char *pwd;
+
+	pwd = getcwd(s, sizeof(s));
+	if (print == 1)
+		printf("%s\n", pwd);
+	return (pwd);
+}
+
+void ft_exe_cd(t_shell _shell)
+{
+	char *pwd;
+	char *pwd_free;
+
+	if (_shell.cmd_split[1] == NULL || !ft_strncmp(_shell.cmd_split[1], "~\0", 2))
+	{
+		if (chdir(getenv("HOME")))
+			printf("Error cd with no args.\n");
+	}
+	else if ( _shell.cmd_split[1][0] == '/')
+	{
+		if (chdir(_shell.cmd_split[1]))
+			printf("bash: %s: %s: %s.\n", "cd", _shell.cmd_split[1], strerror(errno));
+	}
+	else if (_shell.cmd_split[1])
+	{
+		pwd = getcwd(NULL, 1024);
+		pwd = ft_strjoin(pwd, "/");
+		pwd_free = pwd;
+		pwd = ft_strjoin(pwd, _shell.cmd_split[1]);
+		free(pwd_free);
+		if (chdir(pwd))
+			printf("bash: %s: %s: %s.\n", "cd", _shell.cmd_split[1], strerror(errno));
+	}
+}
+
+void free_split(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
+
+int	ft_check_v(t_shell _shell, char *var)
+{
+	int		i;
+	
+	char	**str;
+
+	i = 0;
+	if (var[0] == '$')
+		var++;
+	else
+		return (0);
+	while (_shell.ev[i])
+	{
+		str = ft_split(_shell.ev[i], '=');
+		if (!ft_strncmp(str[0], var,ft_strlen(var)))
+			return (1);
+		free_split(str);
+		i++;
+	}
+	return (0);
+}
+
+
+
+
+void ft_exe_echo(t_shell _shell)
+{
+	int i;
+	char *help_for_free_cmd_split;
+
+	//str_trim = NULL;
+	i = 1;
+	if (!ft_strncmp(_shell.cmd_split[1], "-n\0", 3) && _shell.cmd_split[2] != 0)
+	{
+		while (_shell.cmd_split[++i])
+		{
+			if (_shell.cmd_split[i][0] == '\'')
+			{
+				help_for_free_cmd_split = ft_strtrim(_shell.cmd_split[i], "\'");
+				free(_shell.cmd_split[i]);
+				_shell.cmd_split[i] = help_for_free_cmd_split;
+				printf("%s", _shell.cmd_split[i]);
+				if (_shell.cmd_split[i + 1])
+					printf(" ");
+			}
+			else
+			{
+				help_for_free_cmd_split = ft_strtrim(_shell.cmd_split[i], "\"");
+				free(_shell.cmd_split[i]);
+				_shell.cmd_split[i] = help_for_free_cmd_split;
+				if (_shell.cmd_split[i][0] == '$')
+				{
+					printf("%s", getenv(++_shell.cmd_split[i]));
+					if (_shell.cmd_split[i + 1])
+						printf(" ");
+				}
+				else 
+				{
+					printf("%s", _shell.cmd_split[i]);
+					if (_shell.cmd_split[i + 1])
+						printf(" ");
+				}
+			}
+		}
+	}
+	else
+	{
+		while (_shell.cmd_split[i])
+		{
+			if (_shell.cmd_split[i][0] == '\'')
+			{
+				help_for_free_cmd_split = ft_strtrim(_shell.cmd_split[i], "\'");
+				free(_shell.cmd_split[i]);
+				_shell.cmd_split[i] = help_for_free_cmd_split;
+				printf("%s", _shell.cmd_split[i]);
+				if (_shell.cmd_split[i + 1])
+					printf(" ");
+			}
+			else
+			{
+				help_for_free_cmd_split = ft_strtrim(_shell.cmd_split[i], "\"");
+				free(_shell.cmd_split[i]);
+				_shell.cmd_split[i] = help_for_free_cmd_split;
+				if (_shell.cmd_split[i][0] == '$')
+				{
+					printf("%s", getenv(++_shell.cmd_split[i]));
+					if (_shell.cmd_split[i + 1])
+						printf(" ");
+				}
+				else 
+				{
+					printf("%s", _shell.cmd_split[i]);
+					if (_shell.cmd_split[i + 1])
+						printf(" ");
+				}
+			}
+			i++;
+		}
+		printf("\n");
+	}
+}
+
+void ft_exe_env(t_shell _shell)
+{
+	int i;
+
+	i = 0;
+	while (_shell.ev[i])
+		printf("%s\n", _shell.ev[i++]);
+}
+
+/*
+void ft_exe_export(t_shell *_shell)
+{
+	// check for variable existe
+
+
+}
+*/
+void sig_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+        //rl_replace_line("", 0);
+        rl_redisplay();
+	}
+}
+void ft_exe(t_shell *_shell)
+{
+	_shell->path = getenv("PATH");
+	_shell->path_split = ft_split(_shell->path, ':');
+
+	_shell->cmd = readline("minishell:$ ");
+	//printf("#%s#\n", _shell->cmd);
+	if (_shell->cmd)
+		add_history(_shell->cmd);
+	if (_shell->cmd == 0)
+		exit (1);
+	if (*_shell->cmd == 0)
+		return ;
+	_shell->cmd_split = ft_split(_shell->cmd, ' ');
+	ft_join(_shell);       // is freed
+	if (!ft_strncmp(_shell->cmd_split[0], "pwd\0", 4))
+		ft_pwd(1);        // is freed
+	else if (!ft_strncmp(_shell->cmd_split[0], "echo\0", 5))
+		ft_exe_echo(*_shell);
+	else if (!ft_strncmp(_shell->cmd_split[0], "cd\0", 3))
+		ft_exe_cd(*_shell);
+	else if (!ft_strncmp(_shell->cmd_split[0], "env\0", 4))
+		ft_exe_env(*_shell);
+	else if (!ft_strncmp(_shell->cmd_split[0], "exit\0", 5))
+		exit (0);
+	//else if (!ft_strncmp(_shell->cmd_split[0], "export\0", 7))
+	//	ft_exe_export(_shell)
+	//else
+	//	ft_exec_cmd(*_shell);
 }
 
 int main(int ac, char *av[], char *ev[])
 {
 	t_shell _shell;
-	int i;
 
-	i = 0;
-	
+	signal(SIGINT, sig_handler);
 
-	(void)ac;	
-	(void)av;	
-	(void)ev;	
 	_shell.ac = ac;
 	_shell.av = av;
 	_shell.ev = ev;
-	_shell.path = getenv("PATH");
-	_shell.path_split = ft_split_path(_shell);
+	while (1)
+		ft_exe(&_shell);
 
-	_shell.cmd = readline("minishell:$");
-	_shell.cmd_split = ft_split_cmd(_shell);
-	ft_join(&_shell);
-	//printf("%s\n", ft_args(_shell.cmd_split));
-	/*
-	while(_shell.path_split[i])
-	{
-		_shell.path_split[i] = ft_strjoin(_shell.path_split[i], "/");
-		_shell.path_split[i] = ft_strjoin(_shell.path_split[i], _shell.cmd_split[0]);
-		i++;
-	}
-	*/
-
-	
-	ft_exec_cmd(_shell);
-	/*
-	while (_shell.cmd_split[i])
-		printf("%s\n", _shell.cmd_split[i++]);
-	*/
-    return (0);
+	return (0);
 }

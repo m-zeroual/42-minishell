@@ -2,6 +2,9 @@
 #define MAIN_H
 
 #include <unistd.h>
+#include <errno.h>
+#include <signal.h>
+#include <string.h>
 #include "../libft/libft.h"
 #include "../ft_printf/ft_printf.h"
 #include <readline/readline.h>
@@ -18,6 +21,8 @@ typedef struct s_shell
 	char 	**cmd_split;
 	
 }	t_shell;
+
+void ft_exe(t_shell *_shell);
 
 
 #endif
