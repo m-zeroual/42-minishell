@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 12:18:30 by esalim            #+#    #+#             */
-/*   Updated: 2022/10/18 17:47:19 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/04 23:27:48 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_putnbr_base(long nbr, char *base, int islong, int *count)
 	if (islong)
 	{
 		nb1 = nbr;
-		if (nb1 >= 0 && nb1 < 16)
+		if (nb1 < 16)
 			ft_putchar(base[nb1], count);
 		if (nb1 >= 16)
 		{
@@ -31,7 +31,7 @@ void	ft_putnbr_base(long nbr, char *base, int islong, int *count)
 	else
 	{
 		nb2 = nbr;
-		if (nb2 >= 0 && nb2 < 16)
+		if (nb2 < 16)
 			ft_putchar(base[nb2], count);
 		if (nb2 >= 16)
 		{
