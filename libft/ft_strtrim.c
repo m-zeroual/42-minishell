@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:07:06 by esalim            #+#    #+#             */
-/*   Updated: 2023/03/30 16:55:26 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/05 17:29:41 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ char *ft_strtrim(char const *s, char const *set)
 	len = ft_strlen(s);
 	while (ft_strchr((char *)set, s[len]))
 		len--;
-	dest = malloc(len + 1);
+    if (len < 2)
+        return (0);
+	dest = ft_calloc(len + 2, sizeof *dest);
 	if (!dest)
 		return (0);
 	while (++i <= len)
 		dest[i] = s[i];
-	dest[i] = 0;
 	return (dest);
 }
 
