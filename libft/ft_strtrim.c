@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:07:06 by esalim            #+#    #+#             */
-/*   Updated: 2023/04/05 17:29:41 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/05 23:21:52 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ char *ft_strtrim(char const *s, char const *set)
 	size_t  i;
     size_t  len;
 
+    i = -1;
 	if (!s || !*s)
 		return (0);
-    i = -1;
 	while (ft_strchr((char *)set, *s))
 		s++;
 	len = ft_strlen(s);
 	while (ft_strchr((char *)set, s[len]))
 		len--;
-    if (len < 2)
+    if (len < 1)
         return (0);
-	dest = ft_calloc(len + 2, sizeof *dest);
+	dest = ft_calloc(len + 1, sizeof *dest);
 	if (!dest)
 		return (0);
 	while (++i <= len)

@@ -64,10 +64,14 @@ char    *hundle_line(char *line) {
 
     if (!line || !*line)
         return (0);
-    tmp = line;
+    tmp = malloc(100);
+    if (!tmp)
+        return (0);
     dest = malloc(ft_strlen(line) + 1);
+    free(tmp);
     if (!dest)
         return (NULL);
+    tmp = line;
     j = 0;
     int a = 0;
     dest[j++] = '`';
@@ -126,7 +130,16 @@ char    **split_line(char *line)
 {
     char    *first_part;
     first_part = hundle_line(line);
-    ft_printf("part 1 |%s|\n", first_part);
+    ft_printf("part -1 |%s|\n", first_part);
+    char **str = ft_split(first_part, '`');
+    int i = -1;
+    while (str[++i])
+    {
+        char *tmp = ft_strtrim(str[i], " \t\n");
+        if (tmp)
+            ft_printf("part %d |%s|\n", i, tmp);
+        free(tmp);
+    }
     return (0);
 }
 
