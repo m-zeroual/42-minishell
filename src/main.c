@@ -76,36 +76,62 @@ void ft_exec_cmd(t_shell _shell)
 	wait(0);
 }
 
-void ft_join(t_shell *_shell)
+void ft_join(t_shell _shell, char **path)
 {
 	int i;
-	char *help_for_free_path_split;
-	char *help_for_free_cmd_split;
+	char *help_for_free;
+	// char *help_for_free_cmd_split;
+	// char *path;
 
 	i = 0;
-	while(_shell->path_split[i])
+	while(path[i])
 	{
-		help_for_free_path_split = ft_strjoin(_shell->path_split[i], "/");
-		free(_shell->path_split[i]);
-		_shell->path_split[i] = help_for_free_path_split;
+		help_for_free = ft_strjoin(path[i], "/");
+		free(path[i]);
+		path[i] = help_for_free;
 
-		help_for_free_cmd_split = ft_strjoin(_shell->path_split[i], _shell->cmd_split[0]);
-		free(_shell->path_split[i]);
-		_shell->path_split[i] = help_for_free_cmd_split;
+		help_for_free = ft_strjoin(path[i], _shell.cmd_split[0]);
+		free(path[i]);
+		path[i] = help_for_free;
+
 		i++;
 	}
 }
 
-char	*ft_pwd(int print)
+// char	*ft_pwd(int print)
+// {
+// 	char s[1024];
+// 	char *pwd;
+
+// 	pwd = getcwd(s, sizeof(s));
+// 	if (print == 1)
+// 		printf("%s\n", pwd);
+// 	return (pwd);
+// }
+
+void ft_exe_pwd(t_shell _shell, char **path)
 {
 	char s[1024];
 	char *pwd;
 
-	pwd = getcwd(s, sizeof(s));
-	if (print == 1)
+	(void )path;
+	if (_shell.cmd_split[0][0] == '/')
+	{
+		if (!ft_strncmp(&_shell.cmd_split[0][ft_get_index_reverse(_shell.cmd_split[0], '/') + 1], PWD, 3))
+		{
+			pwd = getcwd(s, sizeof(s));
+			printf("%s\n", pwd);
+		}
+			// ft_pwd(1);        // is freed
+	}
+	else if (!ft_strncmp(&_shell.cmd_split[0][ft_get_index_reverse(_shell.cmd_split[0], '/')], PWD, 3))
+	{
+		pwd = getcwd(s, sizeof(s));
 		printf("%s\n", pwd);
-	return (pwd);
+	}
+		// ft_pwd(1);
 }
+
 
 void ft_exe_cd(t_shell _shell)
 {
@@ -134,18 +160,7 @@ void ft_exe_cd(t_shell _shell)
 	}
 }
 
-void free_split(char **str)
-{
-	int i;
 
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
 
 
 int	ft_check_v(t_shell _shell, char *var)
@@ -277,13 +292,61 @@ void sig_handler(int sig)
         rl_redisplay();
 	}
 }
+
+
+
+void ft_exe_command(t_shell _shell, char **path)
+{
+	int i;
+
+	i = 0;
+	(void )path;
+	ft_str_to_lower(&_shell.cmd_split[0]);
+	printf("%s\n", path[0]);
+	if (!ft_strncmp(&_shell.cmd_split[0][ft_get_index_reverse(_shell.cmd_split[0], '/') + 1], PWD, 3)
+		|| !ft_strncmp(&_shell.cmd_split[0][ft_get_index_reverse(_shell.cmd_split[0], '/')], PWD, 3))
+		printf("pwd\n");
+	// ft_exe_pwd(_shell, path);
+	// ft_exe_cd(_shell);
+	// ft_exec_cmd(*_shell);
+
+	// if (_shell.cmd_split[0][0] == '/')
+	// {
+	// 	if (!ft_strncmp(&_shell.cmd_split[0][ft_get_index_reverse(_shell.cmd_split[0], '/') + 1], PWD, 3))
+	// 		ft_pwd(1);        // is freed
+	// }
+	// else if (!ft_strncmp(&_shell.cmd_split[0][ft_get_index_reverse(_shell.cmd_split[0], '/')], PWD, 3))
+	// 	ft_pwd(1);        // is freed
+
+
+	// while (_shell.cmd_split[i])
+	// {
+
+	// 	if (path[i])
+	// }
+	// if (!ft_strncmp(_shell->cmd_split[0], PWD, 3))
+	// else if (!ft_strncmp(_shell->cmd_split[0], "echo", 4))
+	// 	ft_exe_echo(*_shell);
+	// else if (!ft_strncmp(_shell->cmd_split[0], CD, 2))
+	// 	ft_exe_cd(*_shell);
+	// else if (!ft_strncmp(_shell->cmd_split[0], ENV, 3))
+	// 	ft_exe_env(*_shell);
+	// else if (!ft_strncmp(_shell->cmd_split[0], EXIT, 4))
+	// 	exit (0);
+	// //else if (!ft_strncmp(_shell->cmd_split[0], "export", 6))
+	// //	ft_exe_export(_shell)
+	// else
+	// 	ft_exec_cmd(*_shell);
+}
 void ft_exe(t_shell *_shell)
 {
+	char **path;
+
 	_shell->path = getenv("PATH");
 	_shell->path_split = ft_split(_shell->path, ':');
+	path = ft_split(_shell->path, ':');
 
 	_shell->cmd = readline("minishell:$ ");
-	//printf("#%s#\n", _shell->cmd);
 	if (_shell->cmd)
 		add_history(_shell->cmd);
 	if (_shell->cmd == 0)
@@ -291,21 +354,24 @@ void ft_exe(t_shell *_shell)
 	if (*_shell->cmd == 0)
 		return ;
 	_shell->cmd_split = ft_split(_shell->cmd, ' ');
-	ft_join(_shell);       // is freed
-	if (!ft_strncmp(_shell->cmd_split[0], "pwd\0", 4))
-		ft_pwd(1);        // is freed
-	else if (!ft_strncmp(_shell->cmd_split[0], "echo\0", 5))
-		ft_exe_echo(*_shell);
-	else if (!ft_strncmp(_shell->cmd_split[0], "cd\0", 3))
-		ft_exe_cd(*_shell);
-	else if (!ft_strncmp(_shell->cmd_split[0], "env\0", 4))
-		ft_exe_env(*_shell);
-	else if (!ft_strncmp(_shell->cmd_split[0], "exit\0", 5))
-		exit (0);
-	//else if (!ft_strncmp(_shell->cmd_split[0], "export\0", 7))
-	//	ft_exe_export(_shell)
-	//else
-	//	ft_exec_cmd(*_shell);
+
+	ft_join(*_shell, path);       // is freed
+	ft_exe_command(*_shell, path);
+
+	// if (!ft_strncmp(_shell->cmd_split[0], PWD, 3))
+	// 	ft_pwd(1);        // is freed
+	// else if (!ft_strncmp(_shell->cmd_split[0], "echo", 4))
+	// 	ft_exe_echo(*_shell);
+	// else if (!ft_strncmp(_shell->cmd_split[0], CD, 2))
+	// 	ft_exe_cd(*_shell);
+	// else if (!ft_strncmp(_shell->cmd_split[0], ENV, 3))
+	// 	ft_exe_env(*_shell);
+	// else if (!ft_strncmp(_shell->cmd_split[0], EXIT, 4))
+	// 	exit (0);
+	// //else if (!ft_strncmp(_shell->cmd_split[0], "export", 6))
+	// //	ft_exe_export(_shell)
+	// else
+	// 	ft_exec_cmd(*_shell);
 }
 
 int main(int ac, char *av[], char *ev[])

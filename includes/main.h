@@ -10,6 +10,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#define PWD  "pwd"
+#define CD   "cd"
+#define ENV  "env"
+#define EXIT  "exit"
+
+
 typedef struct s_shell
 {
 	int		ac;
@@ -22,7 +28,13 @@ typedef struct s_shell
 	
 }	t_shell;
 
+
+// ======> utils.c <=======
+void free_split(char **str);
+void ft_str_to_lower(char **path);
 void ft_exe(t_shell *_shell);
+int ft_get_index(char *str, char c);
+int ft_get_index_reverse(char *str, char c);
 
 
 #endif
