@@ -1,9 +1,11 @@
 #include "../../includes/minishell.h"
 
 /**
- *  TODO:this function return the first (single | double) quotes character in the string
+ *  this function return the index of the first (single | double)
+ *  quotes character in the string and set separ to this character
+ *  EXAMPLE:
+ *      str = `ls -"'a'" -'l'`  ==> separ = `"` | return 4
  */
-
 int    get_separator(char *str, char *separ)
 {
     int i;
@@ -15,7 +17,7 @@ int    get_separator(char *str, char *separ)
     {
         if (str[i] == '\'' || str[i] == '"')
         {
-            separ[0] = str[i];
+            *separ = str[i];
             return (i);
         }
     }
@@ -23,41 +25,17 @@ int    get_separator(char *str, char *separ)
 }
 
 /**
- *  TODO: count how many chararcters in string except single quotes or double quotes ( " || ' )
+ *  hundle the line by removing double and single quotes and return string
+ *  separed by 5 ascii characher 
+ *  EXAMPLE:
+ *      "p""w"'d'  ==> "`pwd`"
+ *      ""l's' "-a" '-l' ""-R  =>  "`ls` `-a` `-l` `-R`"
  */
-
-size_t  count_chars(char *str)
+char    *hundle_line(char *line)
 {
-    char    separator;
-    int     i;
-    size_t  len;
-
-    if (!str || !*str)
-        return (0);
-    i = -1;
-    len = 0;
-    get_separator(str, &separator);
-    while (str[++i])
-        if (str[i] != separator)
-            len++;
-    return (len);
-}
-
-/**
- *  TODO:   hundle the first command
- *  @CASES:
- *      double quotes: "l""s"   ==> ls
- *      single quotes: 'l''s'   ==> ls
- *      mix quotes   : "l"""''"s" ==> ls
- *      redirection to input: < file1
- *
- */
-
-
-
-char    *hundle_line(char *line) {
     char    *dest;
     int     j;
+    int     a;
     int     separ_index;
     char    separator;
     char    *tmp;
@@ -69,34 +47,34 @@ char    *hundle_line(char *line) {
         return (NULL);
     tmp = line;
     j = 0;
-    int a = 0;
-    dest[j++] = '`';
+    a = 0;
+    dest[j++] = 5;
     while (*line)
     {
         separ_index = get_separator(line, &separator);
         while (separ_index-- > 0 && *line)
         {
             if (!a && *line == ' ')
-                dest[j++] = '`';
+                dest[j++] = 5;
             dest[j++] = *(line++);
             if (!a && *(line - 1) == ' ' && *line != ' ')
-                dest[j++] = '`';
+                dest[j++] = 5;
         }
         if (*line && *line == separator && line++)
             a = !a;
         while (*line && *line != separator)
         {
             if (!a && *line == ' ')
-                dest[j++] = '`';
+                dest[j++] = 5;
             dest[j++] = *(line++);
             if (!a && *(line - 1) == ' ' && *line != ' ')
-                dest[j++] = '`';
+                dest[j++] = 5;
         }
         if (*line && *line == separator && line++)
             a = !a;
     }
     if (!a && !*line)
-        dest[j++] = '`';
+        dest[j++] = 5;
     if (a)
         printf("Error : you messing a separator\n");
     dest[j] = 0;
@@ -106,53 +84,118 @@ char    *hundle_line(char *line) {
     return (tmp);
 }
 
+/**
+ *  this function will be free the double pointer that you giving to him
+ */
+void    free_double_pointer(char **str)
+{
+    int i;
+
+    i = 0;
+    if (!str || !*str)
+        return ;
+    while (str[i])
+        free(str[i++]);
+    free(str);
+}
 
 /**
- * @Function: char  **split_line(char *line);
- *
- *  Split  Line to two part. first part contains commands and second part contains options and args
- *  example :
- *      line = "echo 'hello  world'";
- *      part 1 = "echo"
- *      part 2 = "hello  world";
- *
- * @PARAM   char *line 
- *
- * @RETURN double pointer that contains data splited
+ *  this function takes double pointer and trim all strings from it and return
+ *  a double pointer without any Extra spaces
+ *  EXAMPLE:
+ *      {"ls", "     ", "-a", "   -l  ", " ", "-R ", "  "}  ==>  {"ls", "-a", "-l", "-R"}
  *
  */
+char    **get_list_without_spaces(char **dpointer, int len)
+{
+    char    **result;
+    char    *tmp;
+    int     i;
+    int     j;
 
+    if (!dpointer || !*dpointer)
+        return (0);
+    result = ft_calloc(len + 1, sizeof *result);
+    if (!result)
+        return (free_double_pointer(dpointer), NULL);
+    j = 0;
+    i = -1;
+    while (dpointer[++i])
+    {
+        tmp = ft_strtrim(dpointer[i], " \t\n");
+        if (tmp)
+        {
+            result[j++] = ft_strdup(tmp);
+            free(tmp);
+        }
+    }
+    return (free_double_pointer(dpointer), result);
+}
+
+/**
+ *  split the string returned by hundle_line() function using 5 ascii character
+ *  and trim all space in right and left side of each string and retun double
+ *  pointer that pointing to the first string.
+ *  ft_split(str, 5);
+ *  ft_strtrim(str, " \t\n");
+ *  EXAMPLE:
+ *      "`ls` `-a` `-l` `-R`"  =>  {"ls", "-a", "-l", "-R"}
+ */
 char    **split_line(char *line)
 {
-    char    *first_part;
-    first_part = hundle_line(line);
-    ft_printf("part -1 |%s|\n", first_part);
-    char **str = ft_split(first_part, '`');
-    int i = -1;
+    char    *line_after_hundling;
+    char    *tmp;
+    char    **str; 
+    int     i;
+    int     len;
+
+    line_after_hundling = hundle_line(line);
+    if (!line_after_hundling)
+        return (0);
+    str = ft_split(line_after_hundling, 5);
+    free(line_after_hundling);
+    if (!str)
+        return (0);
+    i = -1;
+    len = 0;
     while (str[++i])
     {
-        char *tmp = ft_strtrim(str[i], " \t\n");
+        tmp = ft_strtrim(str[i], " \t\n");
         if (tmp)
-            ft_printf("part %d |%s|\n", i, tmp);
-        free(tmp);
-    }
-    return (0);
+        {
+            len++;
+            free(tmp);
+        }
+    } 
+    return (get_list_without_spaces(str, len));
 }
 
-/*
-char    *parsing_first_command(char *line)
+/**
+ *  the function will remove all extra space in left and right of args and
+ *  after that spliting him by using split_line() function, and return the
+ *  result of last funtion
+ *  `   "ls" "-a" "-l" -R   ` ==> `"ls" "-a" "-l" -R`
+ */
+char    **parsing_args(char *args)
 {
+    char    *line;
 
+    if (!args || !*args)
+        return (0);
+    line = ft_strtrim(args, " \t\n");
+    if (!line)
+        return (0);
+    return (split_line(line));
 }
-*/
+
 int main(void) {
     while (1)
     {
-        char *getLine = /*"'\"'l\"'\"'s'\"s'\"";*/readline("minishell $> ");
-        char *line = ft_strtrim(getLine, " \t\n");
-        split_line(line);
-        //ft_printf("%s\n", str);
-        //system(str);
+        char *getLine = readline("minishell $> ");
+        char    **commands = parsing_args(getLine);
+        while (*commands)
+            printf("|%s|\n", *(commands++));
+        free(getLine);
     }
     return (0);
 }
