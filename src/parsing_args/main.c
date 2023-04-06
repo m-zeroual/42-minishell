@@ -64,11 +64,7 @@ char    *hundle_line(char *line) {
 
     if (!line || !*line)
         return (0);
-    tmp = malloc(100);
-    if (!tmp)
-        return (0);
-    dest = malloc(ft_strlen(line) + 1);
-    free(tmp);
+    dest = ft_calloc(ft_strlen(line) * 2 + 1, sizeof *dest);
     if (!dest)
         return (NULL);
     tmp = line;
