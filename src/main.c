@@ -5,6 +5,6 @@ int main()
     while (1)
     {
         char    *getLine = readline("minishell $> ");
-        parsing_args(getline);
+        parsing_args(getLine);
     }
 }
