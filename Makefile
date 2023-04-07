@@ -1,6 +1,8 @@
 NAME	=	minishell
 
-SRCS	=	src/parsing_args/main.c src/test.c
+SRCS	=	src/main.c 
+			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
+			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
