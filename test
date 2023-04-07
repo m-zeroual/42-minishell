@@ -1,0 +1,1496 @@
+total 64
+drwxr-xr-x  12 esalim  candidates    408 Apr  7 21:15 .
+drwxr-xr-x   5 esalim  candidates    170 Apr  7 20:54 ..
+drwxr-xr-x  15 esalim  candidates    510 Apr  7 16:57 .git
+drwxr-xr-x   3 esalim  candidates    102 Mar 29 23:19 .github
+-rw-r--r--   1 esalim  candidates     12 Apr  7 16:35 .gitignore
+-rw-r--r--   1 esalim  candidates    666 Apr  7 16:35 Makefile
+drwxr-xr-x  17 esalim  candidates    578 Apr  7 21:00 ft_printf
+drwxr-xr-x   4 esalim  candidates    136 Apr  7 21:11 includes
+drwxr-xr-x  84 esalim  candidates   2856 Apr  7 21:00 libft
+-rwxr-xr-x   1 esalim  candidates  23656 Apr  7 21:00 minishell
+drwxr-xr-x   5 esalim  candidates    170 Apr  7 21:00 src
+-rw-r--r--   1 esalim  candidates      0 Apr  7 21:15 test
+
+./.git:
+total 72
+drwxr-xr-x   15 esalim  candidates   510 Apr  7 16:57 .
+drwxr-xr-x   12 esalim  candidates   408 Apr  7 21:15 ..
+-rw-r--r--    1 esalim  candidates    40 Apr  7 16:40 COMMIT_EDITMSG
+-rw-r--r--    1 esalim  candidates   316 Mar 30 14:56 FETCH_HEAD
+-rw-r--r--    1 esalim  candidates    23 Apr  7 16:57 HEAD
+-rw-r--r--    1 esalim  candidates    41 Apr  7 16:40 ORIG_HEAD
+-rw-r--r--    1 esalim  candidates   440 Apr  7 16:33 config
+-rw-r--r--    1 esalim  candidates    73 Mar 29 23:19 description
+drwxr-xr-x   13 esalim  candidates   442 Mar 29 23:19 hooks
+-rw-r--r--    1 esalim  candidates  5788 Apr  7 16:57 index
+drwxr-xr-x    3 esalim  candidates   102 Mar 29 23:19 info
+drwxr-xr-x    4 esalim  candidates   136 Mar 29 23:19 logs
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 objects
+-rw-r--r--    1 esalim  candidates   252 Mar 29 23:19 packed-refs
+drwxr-xr-x    6 esalim  candidates   204 Apr  7 16:39 refs
+
+./.git/hooks:
+total 96
+drwxr-xr-x  13 esalim  candidates   442 Mar 29 23:19 .
+drwxr-xr-x  15 esalim  candidates   510 Apr  7 16:57 ..
+-rwxr-xr-x   1 esalim  candidates   478 Mar 29 23:19 applypatch-msg.sample
+-rwxr-xr-x   1 esalim  candidates   896 Mar 29 23:19 commit-msg.sample
+-rwxr-xr-x   1 esalim  candidates  3327 Mar 29 23:19 fsmonitor-watchman.sample
+-rwxr-xr-x   1 esalim  candidates   189 Mar 29 23:19 post-update.sample
+-rwxr-xr-x   1 esalim  candidates   424 Mar 29 23:19 pre-applypatch.sample
+-rwxr-xr-x   1 esalim  candidates  1638 Mar 29 23:19 pre-commit.sample
+-rwxr-xr-x   1 esalim  candidates  1348 Mar 29 23:19 pre-push.sample
+-rwxr-xr-x   1 esalim  candidates  4898 Mar 29 23:19 pre-rebase.sample
+-rwxr-xr-x   1 esalim  candidates   544 Mar 29 23:19 pre-receive.sample
+-rwxr-xr-x   1 esalim  candidates  1492 Mar 29 23:19 prepare-commit-msg.sample
+-rwxr-xr-x   1 esalim  candidates  3610 Mar 29 23:19 update.sample
+
+./.git/info:
+total 8
+drwxr-xr-x   3 esalim  candidates  102 Mar 29 23:19 .
+drwxr-xr-x  15 esalim  candidates  510 Apr  7 16:57 ..
+-rw-r--r--   1 esalim  candidates  240 Mar 29 23:19 exclude
+
+./.git/logs:
+total 16
+drwxr-xr-x   4 esalim  candidates   136 Mar 29 23:19 .
+drwxr-xr-x  15 esalim  candidates   510 Apr  7 16:57 ..
+-rw-r--r--   1 esalim  candidates  7401 Apr  7 16:57 HEAD
+drwxr-xr-x   5 esalim  candidates   170 Apr  4 16:53 refs
+
+./.git/logs/refs:
+total 8
+drwxr-xr-x  5 esalim  candidates  170 Apr  4 16:53 .
+drwxr-xr-x  4 esalim  candidates  136 Mar 29 23:19 ..
+drwxr-xr-x  5 esalim  candidates  170 Apr  7 16:33 heads
+drwxr-xr-x  3 esalim  candidates  102 Mar 29 23:19 remotes
+-rw-r--r--  1 esalim  candidates  769 Apr  7 16:39 stash
+
+./.git/logs/refs/heads:
+total 24
+drwxr-xr-x  5 esalim  candidates   170 Apr  7 16:33 .
+drwxr-xr-x  5 esalim  candidates   170 Apr  4 16:53 ..
+-rw-r--r--  1 esalim  candidates  2336 Apr  7 16:40 Esalim
+-rw-r--r--  1 esalim  candidates   743 Apr  7 16:40 master
+-rw-r--r--  1 esalim  candidates   195 Mar 30 14:55 mzeroual
+
+./.git/logs/refs/remotes:
+total 0
+drwxr-xr-x  3 esalim  candidates  102 Mar 29 23:19 .
+drwxr-xr-x  5 esalim  candidates  170 Apr  4 16:53 ..
+drwxr-xr-x  6 esalim  candidates  204 Apr  4 23:37 origin
+
+./.git/logs/refs/remotes/origin:
+total 32
+drwxr-xr-x  6 esalim  candidates   204 Apr  4 23:37 .
+drwxr-xr-x  3 esalim  candidates   102 Mar 29 23:19 ..
+-rw-r--r--  1 esalim  candidates  1120 Apr  7 16:40 Esalim
+-rw-r--r--  1 esalim  candidates   200 Mar 29 23:19 HEAD
+-rw-r--r--  1 esalim  candidates   480 Apr  7 16:41 master
+-rw-r--r--  1 esalim  candidates   320 Apr  4 23:22 v1.0.1A
+
+./.git/objects:
+total 0
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 .
+drwxr-xr-x   15 esalim  candidates   510 Apr  7 16:57 ..
+drwxr-xr-x    4 esalim  candidates   136 Mar 31 23:01 00
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 01
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 02
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 03
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 16:56 04
+drwxr-xr-x    5 esalim  candidates   170 Apr  4 16:53 05
+drwxr-xr-x    5 esalim  candidates   170 Apr  4 23:35 07
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 08
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 09
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 0d
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 16:56 0e
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 10
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 12
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 13
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:02 14
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:01 15
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 18
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:03 19
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:32 1b
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 18:15 1f
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 20
+drwxr-xr-x    4 esalim  candidates   136 Mar 31 18:11 23
+drwxr-xr-x    6 esalim  candidates   204 Apr  5 23:34 24
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:39 26
+drwxr-xr-x    4 esalim  candidates   136 Mar 30 23:32 2c
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 2f
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 30
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 16:18 33
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:31 34
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 36
+drwxr-xr-x    6 esalim  candidates   204 Apr  4 18:03 37
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 39
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:34 3a
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:22 3c
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 3e
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:22 3f
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 40
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 18:11 41
+drwxr-xr-x    5 esalim  candidates   170 Apr  4 18:03 42
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:21 44
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:56 45
+drwxr-xr-x    3 esalim  candidates   102 Mar 29 23:22 46
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 18:11 47
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:03 48
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:24 49
+drwxr-xr-x    6 esalim  candidates   204 Apr  7 16:24 4a
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 16:31 4c
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 4d
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 4e
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 18:15 4f
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:53 51
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:07 52
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:40 53
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 23:34 54
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 56
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 58
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 59
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:29 5d
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:24 5e
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:28 60
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 61
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 62
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 64
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 65
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 67
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:34 69
+drwxr-xr-x    7 esalim  candidates   238 Apr  6 23:32 6c
+drwxr-xr-x    6 esalim  candidates   204 Apr  7 16:24 6d
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 23:32 6f
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:36 71
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 72
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 16:31 76
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 16:31 77
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:02 78
+drwxr-xr-x    5 esalim  candidates   170 Apr  6 23:32 7a
+drwxr-xr-x    5 esalim  candidates   170 Apr  6 16:18 7b
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 7d
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:39 7f
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:03 81
+drwxr-xr-x    6 esalim  candidates   204 Apr  6 16:16 83
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 84
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 86
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:31 87
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 8a
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:01 8e
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:34 91
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:40 92
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 18:21 95
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 97
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:53 9a
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 23:02 9b
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 9d
+drwxr-xr-x    4 esalim  candidates   136 Mar 31 23:01 9e
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 a0
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:35 a1
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 16:18 a2
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 16:32 a3
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:32 a4
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 16:31 a5
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 a6
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 a8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 a9
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:02 aa
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 ad
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 16:32 af
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 b0
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:31 b1
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:32 b2
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 b3
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:34 b4
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 16:18 b5
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:03 bb
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:02 bc
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:39 bd
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 18:21 be
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:34 bf
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:22 c0
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 c2
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:10 c3
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:29 c4
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:24 c5
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:53 c8
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 16:53 c9
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 23:32 ca
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 23:34 cf
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 d0
+drwxr-xr-x    4 esalim  candidates   136 Mar 30 23:32 d1
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:31 d2
+drwxr-xr-x    4 esalim  candidates   136 Mar 30 23:32 d3
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 d4
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:39 d6
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 16:16 d7
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:32 d8
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:03 d9
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 da
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 dd
+drwxr-xr-x    5 esalim  candidates   170 Apr  6 23:31 e0
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 e1
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 e5
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 e6
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 e7
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:07 e8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:03 e9
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 ea
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 ed
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 18:15 ef
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 f0
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:33 f1
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 f3
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:10 f6
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 18:11 f7
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 f8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 f9
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 fa
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 fc
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 16:32 fd
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:22 fe
+drwxr-xr-x    2 esalim  candidates    68 Mar 29 23:19 info
+drwxr-xr-x    4 esalim  candidates   136 Mar 29 23:19 pack
+
+./.git/objects/00:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Mar 31 23:01 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   208 Mar 29 23:22 3dce5e354f12ae3f2752a6985ae410f9025e99
+-r--r--r--    1 esalim  candidates  2985 Mar 31 23:01 c717934da45a438acb47b3a6d0126b962aa304
+
+./.git/objects/01:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1421 Apr  4 18:03 9fbdc4a4d55ffa529027aa74605c29716a947f
+
+./.git/objects/02:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   212 Apr  5 18:21 c566fd9569ad98325d8ed32a534b5d1ebcb779
+
+./.git/objects/03:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   167 Apr  4 18:03 3d9b4853d35a90d0549676c481c357977d6058
+
+./.git/objects/04:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 16:56 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   213 Apr  4 16:56 28a7e569901eb1f00958034fad9e61b29f5d6c
+-r--r--r--    1 esalim  candidates  1473 Apr  6 23:31 96d90d9093011d64f46acf0e7a279aa9bd5ba2
+
+./.git/objects/05:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  4 16:53 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   536 Apr  6 23:31 9dde19f1bdcda585ef38610b7a40f80ad8362f
+-r--r--r--    1 esalim  candidates   443 Mar 30 23:32 d92b7a91d60ab26a49cee198dc3e5ddc54c8a3
+-r--r--r--    1 esalim  candidates  1437 Apr  4 16:53 f21e9a8ce3653555813f1de6558b2cf0d4e75f
+
+./.git/objects/07:
+total 32
+drwxr-xr-x    5 esalim  candidates   170 Apr  4 23:35 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   411 Apr  7 16:38 0c91a8a096f4810942093b832d854a6e5e28c7
+-r--r--r--    1 esalim  candidates  7497 Apr  4 23:35 50987b457b26d8ec7aada946d1fa972f31a535
+-r--r--r--    1 esalim  candidates   324 Apr  6 23:31 6f4bdcccc92f5014c94dabb1d966dc3d5c1b0a
+
+./.git/objects/08:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   885 Apr  7 16:38 1945c278e9787402223b91ed2f7fd95ae3816f
+
+./.git/objects/09:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   181 Apr  7 16:29 8b691db21f92f2e8386e81ec64d60b3d5f2dd7
+-r--r--r--    1 esalim  candidates   444 Mar 30 23:32 b3b54a1cbf7df00fd23450b32abefe671134fd
+
+./.git/objects/0d:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   493 Apr  6 23:31 279248dc6b9c9465d49426e0d1cd88293cb6b1
+-r--r--r--    1 esalim  candidates   103 Apr  7 16:39 47ee50242f68605e4702bac42c4fdcda0574ee
+
+./.git/objects/0e:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 16:56 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   187 Apr  4 16:56 16ffd0488c10152503741d4e1b17f2443a54bc
+-r--r--r--    1 esalim  candidates   108 Mar 31 23:03 50c3f218b148557925e5027e104cde034624a6
+
+./.git/objects/10:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   512 Mar 30 23:32 fbb03cfd84e26eb33af6bb4334568a5a9e7ac7
+
+./.git/objects/12:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   324 Apr  7 16:29 0b95d6a1a041e6469f55edf07aad3b0585d8aa
+-r--r--r--    1 esalim  candidates   211 Apr  4 16:53 93fa6b0292660dbe685b8528b775164f8d3161
+
+./.git/objects/13:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  4 18:03 1830fd75987ae5ae95c4a1dc6b79173b814090
+
+./.git/objects/14:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:02 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   648 Apr  5 23:02 ddd3d0de180397ab7e9afed78a0e49918a2c2b
+
+./.git/objects/15:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:01 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   295 Apr  4 23:10 79bb6846fde8f3d83958a41a6b55c3ac4d9401
+
+./.git/objects/18:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   491 Apr  6 23:31 705219b3d484f1e1d7f0688589551e7974b4b8
+
+./.git/objects/19:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   170 Mar 31 23:03 b1b3046a5c115391d81e4a1d8b4e6b95e434d5
+
+./.git/objects/1b:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   188 Apr  6 23:32 42a7aed07eb7db7d5e32321b5246e88e9d52f6
+
+./.git/objects/1f:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   525 Apr  5 18:15 9e35463e3ab06dba97c08acc6f7d7b97ad36fd
+-r--r--r--    1 esalim  candidates    50 Apr  5 16:31 dda7eef8f0d65414d35adfc283513c833d3852
+-r--r--r--    1 esalim  candidates   199 Apr  7 16:38 f987127f85005257dcb1fffef76c359c4918f1
+
+./.git/objects/20:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   332 Apr  5 18:15 7d1b3b34e0b4ed73cd58f62594bf1a50bac48c
+
+./.git/objects/23:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Mar 31 18:11 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   408 Apr  6 23:31 5587b05002f7e8555c4216bc75f30d5d47c738
+-r--r--r--    1 esalim  candidates  1089 Mar 31 18:11 a577177262b0b36ed3bedcbfc52ff48023f629
+
+./.git/objects/24:
+total 40
+drwxr-xr-x    6 esalim  candidates   204 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    51 Apr  5 23:34 116c78dc3b698368aed87b927e4536092ff167
+-r--r--r--    1 esalim  candidates  7506 Apr  5 16:31 5913abda4570e5e1f41be5f566d4a38c14d4f9
+-r--r--r--    1 esalim  candidates   171 Mar 30 23:33 6ffc5c847b7602c2a749e741b7829c178a66a5
+-r--r--r--    1 esalim  candidates   108 Apr  5 18:21 e98dfa185802288416a4344f445db8ab7703a5
+
+./.git/objects/26:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:39 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   208 Apr  7 16:39 4e703e3799a6b56ea9dc1ee7a65721c80200a4
+-r--r--r--    1 esalim  candidates   482 Apr  6 23:31 cdab4f0ccffe7303eba50f72e9a9a240cf7d3d
+
+./.git/objects/2c:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   192 Mar 30 23:32 0b0ce7476cb4c133d7f101212e99edb12e48c3
+-r--r--r--    1 esalim  candidates   359 Apr  6 23:31 6ff5b3181c3094c1f0708b5c16b4a72f128554
+
+./.git/objects/2f:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1530 Mar 30 23:32 ee6b933ab5af77f3a5c86d399f832fd8f43f36
+
+./.git/objects/30:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   907 Mar 30 23:32 a0b3ed5a743b06ffd5a9092429b807be7717b0
+
+./.git/objects/33:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 16:18 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  6 16:18 d7c1ca1a0b8e294466c999039e0ccd8b4464d9
+
+./.git/objects/34:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   136 Apr  7 16:38 16d3df8f28d4e21ddaa89d7eb85daf9d3d9c85
+-r--r--r--    1 esalim  candidates  1418 Apr  5 16:31 bd9d36900a4e0fbaf3dbfa0dcbca242ea72e1d
+
+./.git/objects/36:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   416 Apr  6 23:31 44ed5460b4d276940d5f35524929ba84e53377
+
+./.git/objects/37:
+total 32
+drwxr-xr-x    6 esalim  candidates   204 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   208 Mar 31 23:03 2950223ec4869d27e7d20dc63e813362afc932
+-r--r--r--    1 esalim  candidates   167 Mar 30 23:33 bc7edb44f43044f991c13bff662a20978f66e4
+-r--r--r--    1 esalim  candidates  1173 Apr  4 16:56 e2f948a59e8397943d24fa37b2b3e2df0bd17f
+-r--r--r--    1 esalim  candidates  2539 Apr  4 18:03 fb16f0809db202c8c2c9cbfc08a85a117ec437
+
+./.git/objects/39:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   598 Apr  5 18:15 ecd6a04d927161f44fd66c9552e25f970f4416
+
+./.git/objects/3a:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1244 Apr  5 23:34 614bc9993f1aff2082c1a90f07ae3cd9768a0a
+
+./.git/objects/3c:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:22 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   290 Apr  4 23:22 bbda47636a75b860490f63eb5ad2b9dd157e68
+
+./.git/objects/3e:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   107 Mar 30 23:32 49ca267b3e16b006ecc208a0f3cb990eacae2b
+
+./.git/objects/3f:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:22 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2807 Mar 31 18:11 334e7515e6894b0aeb24cdde7f13557b58350f
+-r--r--r--    1 esalim  candidates   277 Apr  4 23:22 68d71ded7377035bb674879a5b5da7111714e6
+
+./.git/objects/40:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   418 Apr  5 18:15 48a2601991f5f4e2e208712f490cfdced9e1c4
+
+./.git/objects/41:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 18:11 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1186 Mar 31 18:11 c37e6808025daf84e130f244cac95a758f745d
+
+./.git/objects/42:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   290 Apr  4 18:03 253bc4dc645a54953f8efd49c210fd007a2385
+-r--r--r--    1 esalim  candidates   325 Apr  6 23:31 270d870417269de53dd2b714eb126fe5cee048
+-r--r--r--    1 esalim  candidates   293 Mar 31 18:11 52c202d7c13d572534f5847c7215161f0b7940
+
+./.git/objects/44:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    28 Apr  7 16:38 2a0964e96672b3b9b7ba06fafbf1a125206fea
+
+./.git/objects/45:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:56 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    51 Apr  4 16:56 b8920e98deda81f448989c3049326e19d5b7e3
+
+./.git/objects/46:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 29 23:22 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   170 Mar 29 23:22 13808dbc6a01a957ce156b8f950c0256efe535
+
+./.git/objects/47:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 18:11 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1680 Mar 31 18:11 8584193adf95965520f7980a3a2c3d96e504da
+
+./.git/objects/48:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   239 Apr  5 23:03 b67807f2ba906a01dac87f25e482bf059a93d3
+
+./.git/objects/49:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:24 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   322 Apr  7 16:38 6310f08d3e3f679b2294bd8c3709190a542acf
+-r--r--r--    1 esalim  candidates  3033 Apr  4 23:10 64594b0fdb783637b2a80f0fe1759e31c5982f
+-r--r--r--    1 esalim  candidates   695 Apr  5 23:02 dc35022790ee445110975840aae05fbf8965ae
+
+./.git/objects/4a:
+total 40
+drwxr-xr-x    6 esalim  candidates   204 Apr  7 16:24 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7494 Apr  6 23:31 3fb872551aa815af18a34050dac14cd0781937
+-r--r--r--    1 esalim  candidates   335 Apr  6 23:31 aa5ab2f2e033140d124b170da632c062f969c4
+-r--r--r--    1 esalim  candidates   240 Apr  7 16:38 f09d8e5066729268aec995cc1d729429898d27
+-r--r--r--    1 esalim  candidates  1417 Apr  4 23:22 f565cdf561e3bbf9be9b0371b069936a031e5b
+
+./.git/objects/4c:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 16:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   278 Mar 30 23:32 87143bdc183df01aae7556bf866304b6d2f61c
+-r--r--r--    1 esalim  candidates   291 Apr  5 16:31 b70f7f7160c58fdea514fdca394c3ce798d991
+
+./.git/objects/4d:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   290 Apr  4 23:36 60f72b35f5c66d3136d4e1a18b02c86545c317
+
+./.git/objects/4e:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    56 Apr  4 23:36 66374e7b976bbfbb6b2695bd825ce82d5e4ac5
+
+./.git/objects/4f:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   521 Apr  4 23:10 a04cebf9779826da3b33d28dcfcc0d198df6e1
+-r--r--r--    1 esalim  candidates   397 Apr  6 23:31 da395841b67dfeb2080bd4d02782810e66f852
+
+./.git/objects/51:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:53 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    51 Apr  4 16:53 5a8362e9948061267bb9e5399954b2f358aa28
+
+./.git/objects/52:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   338 Apr  7 16:38 8c2a634fe3d9c3ce0e3827fc64b7f03de0b338
+-r--r--r--    1 esalim  candidates   667 Apr  7 16:07 fcd451816afd4c3746e2e6afed3d755654a370
+
+./.git/objects/53:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:40 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   197 Apr  7 16:40 0e39f62549dee429d4f87e7c161c726d5f4e5c
+-r--r--r--    1 esalim  candidates   184 Apr  4 23:35 2694a97057ffcf5f3642bb8d0a448b1f3fd962
+
+./.git/objects/54:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2791 Apr  5 18:15 00562f32e18e5016aaa5208decf97038d9e25a
+-r--r--r--    1 esalim  candidates  1461 Apr  5 23:03 6871aa651b39fd53586fcb8bb54961259bb28f
+-r--r--r--    1 esalim  candidates   365 Apr  7 16:38 8a121b2118fd07e3f90248cd51aeb890400d58
+
+./.git/objects/56:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2278 Mar 30 23:32 76e50e9d6c7d891e9fbdb080ae101cb8546db4
+
+./.git/objects/58:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1373 Apr  5 18:15 1ab89a0b7c0ee6c8784fe3f14ad705d7f006f3
+
+./.git/objects/59:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2378 Apr  5 18:21 bc6854b5975c896652ed0dff4f9eb68e96b749
+
+./.git/objects/5d:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    81 Apr  4 23:36 1476981b127783a438a09d46e97b8551f99c99
+-r--r--r--    1 esalim  candidates   187 Mar 30 23:32 b9f46275e69b261bd8af7e92350f2f2ebf4e6b
+-r--r--r--    1 esalim  candidates    66 Apr  7 16:39 f9f545aaf169ce918795fed0ff3bdcd94f74fd
+
+./.git/objects/5e:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:24 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  4 16:56 25dd9f45d11cf671abc54f93bc67a80c55e576
+-r--r--r--    1 esalim  candidates   444 Mar 31 23:03 4c5ea446058b85bfe51cd12474ffef0f6bd174
+-r--r--r--    1 esalim  candidates  1130 Apr  7 16:38 8c16b8a803ff647fbdbc28c45232e689c82138
+
+./.git/objects/60:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:28 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   134 Apr  7 16:28 817792b35c39dc0916d7a0643f58cba20ab6f8
+
+./.git/objects/61:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   128 Apr  7 16:07 5e40764a3a61f8c7c63a02b1f2bd4e553c8312
+
+./.git/objects/62:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   539 Apr  6 23:31 8cafc721a48e3f8a334554884740a782df5672
+
+./.git/objects/64:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   362 Apr  6 23:31 b49c9209ff926f0b6b36de35e4c49dc08b677e
+
+./.git/objects/65:
+total 16
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7480 Apr  4 18:03 10b53b5ecde170bb8f2587012ee88238d58e7e
+
+./.git/objects/67:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   208 Apr  7 16:07 f0a8499b3ccc99aeaf7701d8b3e86d1e00f575
+
+./.git/objects/69:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1395 Mar 31 23:03 34a9a09e390362ad3e7e181f422516de04d5cc
+-r--r--r--    1 esalim  candidates   524 Apr  7 16:38 594a16ca2912f539f361078d8b6d14394eb86e
+
+./.git/objects/6c:
+total 40
+drwxr-xr-x    7 esalim  candidates   238 Apr  6 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   369 Apr  6 23:31 0e2ea2ce79903b991964bc6653fdfccff18552
+-r--r--r--    1 esalim  candidates   496 Apr  6 23:31 21d0e7fac8ff417e5c77185cef192ef2849562
+-r--r--r--    1 esalim  candidates   277 Apr  6 23:32 48957f698d52cfb9c8e66f19c1c9c3f431dfea
+-r--r--r--    1 esalim  candidates   246 Mar 31 23:03 e077afeea2585e08a9645d546081dbd42a983e
+-r--r--r--    1 esalim  candidates   197 Apr  5 16:31 e2adb71bdaf8792e80884f1ca0990202a208ed
+
+./.git/objects/6d:
+total 32
+drwxr-xr-x    6 esalim  candidates   204 Apr  7 16:24 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  3648 Mar 31 18:11 248896fdc37c95be2c5aea2f217a233feed8a2
+-r--r--r--    1 esalim  candidates   670 Apr  7 16:38 2832d05d92e7a0a4f5acd699565f45ca23616b
+-r--r--r--    1 esalim  candidates   208 Apr  6 23:32 5a81f8c68cbc9395d4495c0e7f4a1b4ee8ba7f
+-r--r--r--    1 esalim  candidates   346 Apr  6 23:31 86304c84e2f2bb7fc348ef578b8a6e9f62be55
+
+./.git/objects/6f:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   444 Apr  6 23:32 4a691b5b7a1cc4b7f8df14a9b1120ec80c1315
+-r--r--r--    1 esalim  candidates   239 Mar 30 23:33 abd5569f291a994c9384f78634e587bd7705e4
+
+./.git/objects/71:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:36 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  3554 Mar 30 23:32 2f11b6163fe812e7b686d16d1d0ef185a92a5f
+-r--r--r--    1 esalim  candidates   211 Apr  4 23:36 d66f4d75ae4bf1963aae59b742db25fc4f06ad
+
+./.git/objects/72:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   324 Apr  6 23:31 1a830816738803b74541793eab386183019cd2
+
+./.git/objects/76:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 16:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1264 Apr  4 23:10 51784d385a07c91421e2182bbb1f116ef12f85
+-r--r--r--    1 esalim  candidates   277 Apr  5 16:31 f7b175b466b3b40a2d628ab47cc29bc6c9b0aa
+
+./.git/objects/77:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 16:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  5 16:31 7956a06b4f9e2c626872fcb2bff29c7f20908a
+
+./.git/objects/78:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:02 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1167 Apr  5 23:02 cb207bcb8c917213045d9b4d7ae9507108a45b
+
+./.git/objects/7a:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  6 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   553 Apr  6 23:31 4ae28ecabbf90587e5122730b02e0e7465712b
+-r--r--r--    1 esalim  candidates    82 Mar 31 23:03 74a54028f59d752a6f08d9d7530225e36a3ed0
+-r--r--r--    1 esalim  candidates    76 Apr  6 23:32 fa76478416aea079fc44abec01e50c06d27522
+
+./.git/objects/7b:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  6 16:18 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   184 Mar 31 23:03 7d30570afc61144966f758dfd88e5ef2c5c5bd
+-r--r--r--    1 esalim  candidates   486 Apr  6 23:31 9118cda3d8c9eb71c3527db6431e0d7bf33508
+-r--r--r--    1 esalim  candidates   240 Apr  6 16:18 ab5fd9ada521c5ac46d9f91ba2991eb77f462a
+
+./.git/objects/7d:
+total 16
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7429 Mar 30 23:32 055182b6692a329686b71a3d8543aefbeb72ae
+
+./.git/objects/7f:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:39 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   403 Apr  6 23:31 c889965b71cb515c7071d15ad21f9a65762850
+-r--r--r--    1 esalim  candidates   184 Apr  7 16:39 d414521a8b7c721a44f847e71dfd7ec3221ac2
+
+./.git/objects/81:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2280 Mar 31 23:03 1d2af3b45bfdba4844263d0757e5c3f8796b9c
+
+./.git/objects/83:
+total 32
+drwxr-xr-x    6 esalim  candidates   204 Apr  6 16:16 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   182 Mar 31 23:03 141bc5ff221b454fa3417bd85fdb64ba9d7f53
+-r--r--r--    1 esalim  candidates  2190 Apr  6 16:16 1950439865c8932641c10a7fb7362d219d26f1
+-r--r--r--    1 esalim  candidates   527 Apr  5 18:15 1c40330f3503356b9a716f7a06c5426bb5ecd6
+-r--r--r--    1 esalim  candidates   455 Apr  6 23:31 4e4cdffaccca0c3083200a79ee3d367687df95
+
+./.git/objects/84:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   175 Apr  7 16:07 1d5d3a78837a1d9f5d279472c2d596e6fa53c7
+
+./.git/objects/86:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2805 Apr  4 18:03 3f21ef330db33da50bc25e1931444e0f32955f
+
+./.git/objects/87:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   532 Apr  6 23:31 656ad90e06a7ddc6141289aae400d3a4a564d7
+
+./.git/objects/8a:
+total 16
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7516 Apr  5 18:15 479b483a5af5d36f77a208d29218b7b1a0d02c
+
+./.git/objects/8e:
+total 16
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 23:01 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7476 Mar 31 23:01 ee9ba8e497e582003be93026764a9df9fec44c
+
+./.git/objects/91:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   182 Apr  5 23:34 0c3ded0fcaae58f845a1a7bb1b7c6b1ab15530
+
+./.git/objects/92:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:40 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   186 Apr  7 16:40 d30e9fc04397bcf125b8140c0d3b14970a6fef
+
+./.git/objects/95:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 18:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1095 Mar 30 23:32 3f1f84f96a505c511475a171790658dac7ebcf
+-r--r--r--    1 esalim  candidates  3244 Apr  5 18:15 44f57fec0d192223daa49f1bb68b2eef6b7a18
+-r--r--r--    1 esalim  candidates   316 Apr  5 18:21 6dc363bc10d7f449e2442750aa73dc42d1c538
+
+./.git/objects/97:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1122 Apr  7 16:07 ad868a8a34b1554b042b715c702819d0ec03b7
+
+./.git/objects/9a:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:53 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   207 Apr  4 16:53 c111b03814cec74117c31efc2668d18432c5c0
+
+./.git/objects/9b:
+total 32
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 23:02 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   986 Apr  5 18:15 05c100ef73ee50b4c0b1a3eae887668da22dd7
+-r--r--r--    1 esalim  candidates   365 Apr  5 23:02 e281f875190bd47f3a5f4a8afffdecbadff0d2
+-r--r--r--    1 esalim  candidates  4143 Apr  5 16:31 f5ef2b218fab8c676d1b8f592bd2aa989d1a0c
+
+./.git/objects/9d:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   221 Mar 30 23:32 c4546d1689af719fd0a3c0e8679b7074cfb812
+
+./.git/objects/9e:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Mar 31 23:01 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   930 Apr  6 23:31 4c8cd775eeea880faf4dc9af0952df712f81a5
+-r--r--r--    1 esalim  candidates   666 Apr  7 16:38 7959925267c2a9f48f71fad08ad8773b796432
+
+./.git/objects/a0:
+total 16
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  4213 Apr  4 18:03 d460f6936484a5217502a941aa7b56a4574041
+
+./.git/objects/a1:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:35 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   493 Apr  6 23:31 293ec7f293e4e7eb646032bbe36c9de2476635
+-r--r--r--    1 esalim  candidates  1419 Apr  4 23:36 8969067f372e6faf2f363b5b47712ab7622d42
+
+./.git/objects/a2:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 16:18 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1197 Mar 31 23:01 4ef91d4add698616ae7df2dffe91eaac169362
+-r--r--r--    1 esalim  candidates   216 Apr  6 16:18 79eefb9c9f6c5f5cdc3be23371cc0279a81c10
+
+./.git/objects/a3:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 16:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   208 Apr  4 16:56 00ddae2133666966f5c20cf639ed69040ee60c
+-r--r--r--    1 esalim  candidates   325 Apr  6 23:31 4ecfc9f7eb120a411177c562c934e62482bb46
+-r--r--r--    1 esalim  candidates   159 Apr  5 16:32 7a3b2605f3947ae1465f8bf197712483f9892e
+
+./.git/objects/a4:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    90 Apr  7 16:39 eea8bb18411bd23bf282ff20117b7a9680b64f
+
+./.git/objects/a5:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 16:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   225 Apr  5 16:31 861d70a90a4b2595e71f9b3a85632a228fc4e0
+
+./.git/objects/a6:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2308 Apr  5 18:15 2ef6d3cec869e571780b96a6c41c7b0d000910
+
+./.git/objects/a8:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   330 Mar 30 23:32 6dcc658fa58374c120f2042b1eebf3a1b44fcb
+
+./.git/objects/a9:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2792 Apr  4 23:35 410c84f41fa83bb556643241c66193bc2fd861
+
+./.git/objects/aa:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:02 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   338 Apr  5 23:02 82b96aee931e0cfaae4f2b65fbf75a0bb31408
+
+./.git/objects/ad:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   473 Apr  6 23:31 aff1a9bb9b717e9ba1061071137551bf3d8198
+
+./.git/objects/af:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 16:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   240 Apr  5 16:32 0ec0f5e4ce435bcc7b570dd99c8ed78b93a214
+
+./.git/objects/b0:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   165 Apr  5 18:21 4c5c4680e9cee767817b7cadc542f9670bd30e
+
+./.git/objects/b1:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1613 Apr  6 23:31 7bbef396304c8f00bef7745b959dbd2302a1c7
+
+./.git/objects/b2:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   168 Apr  7 16:32 84abd995bb68f109dee8e83ba901a930b0c26c
+
+./.git/objects/b3:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   341 Apr  7 16:38 417f5624660468c4027bd7d2dbab2ffd30e57b
+
+./.git/objects/b4:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  4038 Mar 31 23:01 46a531a280e73b9442836bf2b1cad5f6a2bfaf
+-r--r--r--    1 esalim  candidates   240 Apr  5 23:34 99f7d964f80dee5c93951727236e177e3f1753
+
+./.git/objects/b5:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 16:18 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    82 Apr  6 16:18 020b2ec88fe9a7b57c81cbabcfd5ebddd2651b
+-r--r--r--    1 esalim  candidates   508 Apr  4 23:10 e8fc67c937141205cf74e92dd625e2ac07a105
+
+./.git/objects/bb:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  5 23:03 603a38023ed4c60345a82a34ce055ac4d47530
+
+./.git/objects/bc:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:02 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2814 Mar 31 23:01 77b5503a61a3d7f2200e066e0ed6b883f8ae8a
+-r--r--r--    1 esalim  candidates  2551 Apr  5 23:02 ddda25ecd911092bcb780cd6e42ec1a3a88c81
+
+./.git/objects/bd:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:39 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1341 Apr  7 16:40 4af6eabfe206c1f29e6a73a8e111643a537eef
+
+./.git/objects/be:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 18:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    82 Apr  4 18:03 47445eea02d82ed14eef415a922683c44331d4
+-r--r--r--    1 esalim  candidates   208 Apr  5 18:21 b218cf342a914833166bb1e07051948e71db45
+
+./.git/objects/bf:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   180 Apr  5 23:34 11b6f178f733ccac0e0fad19d8bab6031a612c
+-r--r--r--    1 esalim  candidates   286 Mar 30 23:32 98e534df50a94dcc0440be47a7e3c77c5473e4
+
+./.git/objects/c0:
+total 24
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 23:22 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7483 Apr  4 23:10 017cda1cee91ea72cea311abf3e78adb62a85e
+-r--r--r--    1 esalim  candidates   178 Apr  4 23:22 980a37f91c4af9899d98a5a7e70a0bc5646108
+
+./.git/objects/c2:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 18:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1245 Apr  4 18:03 06863de93d5a2168da0053cb9c729a79763956
+
+./.git/objects/c3:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:10 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2805 Apr  4 23:10 6fe8a9fc8f92325c9a0e080b2139459427d24a
+
+./.git/objects/c4:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   105 Apr  7 16:39 37acbdc259a101681f34c9c19dfc0272888ac0
+
+./.git/objects/c5:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:24 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   133 Apr  7 16:38 d7923cc17f03bccc553468dbaec4f885a917fb
+
+./.git/objects/c8:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 16:53 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   187 Apr  4 16:53 549c380c929f80220d9fb8bfb78158c0a7deff
+
+./.git/objects/c9:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  4 16:53 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  4 16:53 00385202e33649ad85795506f7ff64544ec62a
+-r--r--r--    1 esalim  candidates   505 Mar 31 18:11 b468e85160340120deb8878a0a0146b945ef7a
+
+./.git/objects/ca:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  6 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2283 Apr  6 23:32 8302ae1fe339089f1f7a06d40c9ec609bf9fc6
+-r--r--r--    1 esalim  candidates  2794 Apr  5 16:31 bb56a8a822ecda50f64a2ff2f6df25a25a27e6
+
+./.git/objects/cf:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  5 23:34 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1807 Mar 31 23:01 a9799e62324921061985966a8b4b457a81ccbd
+-r--r--r--    1 esalim  candidates  1400 Apr  7 16:29 bd1c9616a961a043a3989008ca02d4c49b5267
+-r--r--r--    1 esalim  candidates   296 Mar 31 18:11 c5b8b560a24b092bb4e58c96a212ef35d930c9
+
+./.git/objects/d0:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   350 Apr  6 23:31 2d6b44b4337ecea90bc70c29a57fb22aad8480
+
+./.git/objects/d1:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   377 Apr  6 23:31 b64e6773e871b33e2f8d893e45bce1fadf6117
+-r--r--r--    1 esalim  candidates   377 Apr  6 23:31 fd34e01a275327f639f2570bb2f11c06488146
+
+./.git/objects/d2:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 23:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  3427 Apr  6 23:31 8d33b68985e1d12628609c01d66e6e83b2e07a
+
+./.git/objects/d3:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   377 Apr  6 23:31 c8eb626bc8241a4d6ed70974466d952db7c1c0
+-r--r--r--    1 esalim  candidates   837 Apr  6 23:31 f822d93c4c86821524135d4f050540c497e84b
+
+./.git/objects/d4:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   470 Apr  6 23:31 4aba9a061234134735c922e48c676b902e1dfb
+
+./.git/objects/d6:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:39 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   421 Apr  6 23:31 29132c2d1a1755395fd45672bcf741f3dd3885
+-r--r--r--    1 esalim  candidates   240 Apr  7 16:40 ea534fd0fd9d28e8aa08de09fcd02caaf6d645
+
+./.git/objects/d7:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  6 16:16 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1238 Apr  6 16:16 30bef12f9daabd704fce925d2836c3b7159ebc
+
+./.git/objects/d8:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  7 16:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   207 Mar 31 23:03 41f77d4c82e649da817909aa1a5950a69b2dfe
+-r--r--r--    1 esalim  candidates   240 Apr  7 16:32 44353703f3e1361dbb140de7e49c9b63eb4167
+-r--r--r--    1 esalim  candidates   245 Apr  4 18:03 48c50ebc81ea59a48d419fc226b91118ce3ec5
+
+./.git/objects/d9:
+total 24
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 23:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  4144 Apr  4 23:35 4339b1adb328fb18853206c905bf0ff984fd3d
+-r--r--r--    1 esalim  candidates   174 Apr  5 23:03 bcf805e5c7cfcf8f48a0880b3908c1182d75bd
+
+./.git/objects/da:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   411 Apr  4 23:10 f369077bc917d5d0b223c00a3e89cc7c66b209
+
+./.git/objects/dd:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 18:21 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   444 Apr  5 18:21 a598fa5ca39c3046a1dba372092dbd90b8072b
+
+./.git/objects/e0:
+total 24
+drwxr-xr-x    5 esalim  candidates   170 Apr  6 23:31 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  3784 Apr  6 23:31 148229033e8548c19280b8f8cddd2de194424c
+-r--r--r--    1 esalim  candidates   325 Apr  6 23:31 331cbbcd6e1bd65147c2db4b6e828d1094d4a2
+-r--r--r--    1 esalim  candidates   258 Apr  7 16:39 ba2e75dec34d88b8e6dbda190bf2172089ad52
+
+./.git/objects/e1:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   277 Apr  7 16:07 9948a08f1117028425ff9f734405cd550ebe22
+
+./.git/objects/e5:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   420 Apr  6 23:31 47e0d53edc9a1fad9ac8680220dc948f4d90d6
+-r--r--r--    1 esalim  candidates    90 Apr  7 16:29 b4d79a47ae1251d5b1d4a38dd7ad3b2dce94a0
+
+./.git/objects/e6:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   617 Mar 30 23:32 a8c969d4b0ce80575b0ef848c665fb9c4d43fb
+
+./.git/objects/e7:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:35 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   276 Apr  4 23:36 f6cf3b7e777c7415fb8849b9f65802a535d727
+
+./.git/objects/e8:
+total 24
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:07 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  4941 Apr  5 18:15 3b78b4811b0a01c686dff2b7a51f36bb2235d5
+-r--r--r--    1 esalim  candidates   193 Apr  7 16:07 6fe01896facf087930e920f636f5b64781aa4a
+
+./.git/objects/e9:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  5 23:03 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates    82 Apr  5 23:03 225bcde13a372aad18608c914d391ab4eaf164
+
+./.git/objects/ea:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   393 Apr  6 23:31 7b58eccac026cba2e627d0ae7b53047985fceb
+
+./.git/objects/ed:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  7 16:29 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   241 Apr  7 16:29 3836cc30ae3e4ea1511974deba228b6d238886
+-r--r--r--    1 esalim  candidates  2792 Apr  6 23:31 665155b95542fef1bde234b6b19c8ec19806ec
+
+./.git/objects/ef:
+total 16
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 18:15 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   958 Apr  5 18:15 94040add314db30acf347667e8e686b07ca19d
+-r--r--r--    1 esalim  candidates   575 Apr  6 23:31 fca86557720f3ee665769c154adb92bc9ae037
+
+./.git/objects/f0:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   403 Apr  6 23:31 381ff394ce1b813f08a086415f0036715d08e3
+
+./.git/objects/f1:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:33 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1388 Mar 30 23:33 2685ff2d78a687ff67dfdfe5067017fe664f3b
+
+./.git/objects/f3:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   410 Apr  6 23:31 2fd423c945584de87c7a42dd34de769375e5c3
+
+./.git/objects/f6:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:10 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2296 Apr  4 23:10 fc0029070bf42353160f395c78c5c2e469cfab
+
+./.git/objects/f7:
+total 16
+drwxr-xr-x    3 esalim  candidates   102 Mar 31 18:11 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  7477 Mar 31 18:11 beab742fafe0351236210f2d52b71a32969f45
+
+./.git/objects/f8:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   961 Mar 30 23:32 0b253c3d280e54e37ffd355c4c357c3416b699
+
+./.git/objects/f9:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  2812 Mar 30 23:32 adab69545d1762ede58e8c98243ef2118afff2
+
+./.git/objects/fa:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   405 Apr  6 23:31 786655d83717d185d29155d2f188d2c92eba81
+
+./.git/objects/fc:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Mar 30 23:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   401 Apr  6 23:31 0808e7c37c2a4bd7a8ed63e30199c4f36ffcc0
+
+./.git/objects/fd:
+total 24
+drwxr-xr-x    4 esalim  candidates   136 Apr  5 16:32 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates  1397 Apr  5 16:32 54815af3bae2372f1d4cec358a70a6750018b4
+-r--r--r--    1 esalim  candidates  4151 Apr  4 23:10 f02b768b98eb7d1bd44744b293b3dac74f9539
+
+./.git/objects/fe:
+total 8
+drwxr-xr-x    3 esalim  candidates   102 Apr  4 23:22 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   183 Apr  4 23:36 67e08a707edead3f42d694d1dcbfe90014326b
+
+./.git/objects/info:
+total 0
+drwxr-xr-x    2 esalim  candidates    68 Mar 29 23:19 .
+drwxr-xr-x  161 esalim  candidates  5474 Apr  7 16:40 ..
+
+./.git/objects/pack:
+total 80
+drwxr-xr-x    4 esalim  candidates    136 Mar 29 23:19 .
+drwxr-xr-x  161 esalim  candidates   5474 Apr  7 16:40 ..
+-r--r--r--    1 esalim  candidates   4180 Mar 29 23:19 pack-c245b48d5f669ed2be5c9b5ce773a39224d77870.idx
+-r--r--r--    1 esalim  candidates  29949 Apr  5 18:15 pack-c245b48d5f669ed2be5c9b5ce773a39224d77870.pack
+
+./.git/refs:
+total 8
+drwxr-xr-x   6 esalim  candidates  204 Apr  7 16:39 .
+drwxr-xr-x  15 esalim  candidates  510 Apr  7 16:57 ..
+drwxr-xr-x   5 esalim  candidates  170 Apr  7 16:40 heads
+drwxr-xr-x   3 esalim  candidates  102 Mar 29 23:19 remotes
+-rw-r--r--   1 esalim  candidates   41 Apr  7 16:39 stash
+drwxr-xr-x   4 esalim  candidates  136 Mar 30 15:06 tags
+
+./.git/refs/heads:
+total 24
+drwxr-xr-x  5 esalim  candidates  170 Apr  7 16:40 .
+drwxr-xr-x  6 esalim  candidates  204 Apr  7 16:39 ..
+-rw-r--r--  1 esalim  candidates   41 Apr  7 16:40 Esalim
+-rw-r--r--  1 esalim  candidates   41 Apr  7 16:40 master
+-rw-r--r--  1 esalim  candidates   41 Mar 30 14:55 mzeroual
+
+./.git/refs/remotes:
+total 0
+drwxr-xr-x  3 esalim  candidates  102 Mar 29 23:19 .
+drwxr-xr-x  6 esalim  candidates  204 Apr  7 16:39 ..
+drwxr-xr-x  6 esalim  candidates  204 Apr  7 16:41 origin
+
+./.git/refs/remotes/origin:
+total 32
+drwxr-xr-x  6 esalim  candidates  204 Apr  7 16:41 .
+drwxr-xr-x  3 esalim  candidates  102 Mar 29 23:19 ..
+-rw-r--r--  1 esalim  candidates   41 Apr  7 16:40 Esalim
+-rw-r--r--  1 esalim  candidates   32 Mar 29 23:19 HEAD
+-rw-r--r--  1 esalim  candidates   41 Apr  7 16:41 master
+-rw-r--r--  1 esalim  candidates   41 Apr  4 23:22 v1.0.1A
+
+./.git/refs/tags:
+total 16
+drwxr-xr-x  4 esalim  candidates  136 Mar 30 15:06 .
+drwxr-xr-x  6 esalim  candidates  204 Apr  7 16:39 ..
+-rw-r--r--  1 esalim  candidates   41 Mar 30 15:06 Build
+-rw-r--r--  1 esalim  candidates   41 Mar 30 15:05 v1.0.0
+
+./.github:
+total 0
+drwxr-xr-x   3 esalim  candidates  102 Mar 29 23:19 .
+drwxr-xr-x  12 esalim  candidates  408 Apr  7 21:15 ..
+drwxr-xr-x   3 esalim  candidates  102 Mar 29 23:19 workflows
+
+./.github/workflows:
+total 8
+drwxr-xr-x  3 esalim  candidates  102 Mar 29 23:19 .
+drwxr-xr-x  3 esalim  candidates  102 Mar 29 23:19 ..
+-rw-r--r--  1 esalim  candidates  358 Mar 29 23:19 c-cpp.yml
+
+./ft_printf:
+total 128
+drwxr-xr-x  17 esalim  candidates   578 Apr  7 21:00 .
+drwxr-xr-x  12 esalim  candidates   408 Apr  7 21:15 ..
+-rw-r--r--   1 esalim  candidates  1244 Mar 29 23:19 Makefile
+-rw-r--r--   1 esalim  candidates  2102 Mar 29 23:19 ft_printf.c
+-rw-r--r--   1 esalim  candidates  1261 Mar 29 23:19 ft_printf.h
+-rw-r--r--   1 esalim  candidates  3004 Apr  7 21:00 ft_printf.o
+-rw-r--r--   1 esalim  candidates   988 Mar 29 23:19 ft_putchar.c
+-rw-r--r--   1 esalim  candidates   700 Apr  7 21:00 ft_putchar.o
+-rw-r--r--   1 esalim  candidates  1282 Mar 29 23:19 ft_putnbr.c
+-rw-r--r--   1 esalim  candidates   904 Apr  7 21:00 ft_putnbr.o
+-rw-r--r--   1 esalim  candidates  1431 Apr  7 16:35 ft_putnbr_base.c
+-rw-r--r--   1 esalim  candidates   928 Apr  7 21:00 ft_putnbr_base.o
+-rw-r--r--   1 esalim  candidates  1025 Mar 29 23:19 ft_putstr.c
+-rw-r--r--   1 esalim  candidates   748 Apr  7 21:00 ft_putstr.o
+-rw-r--r--   1 esalim  candidates  1131 Mar 29 23:19 ft_strchr.c
+-rw-r--r--   1 esalim  candidates   756 Apr  7 21:00 ft_strchr.o
+-rw-r--r--   1 esalim  candidates  7752 Apr  7 21:00 libftprintf.a
+
+./includes:
+total 16
+drwxr-xr-x   4 esalim  candidates  136 Apr  7 21:11 .
+drwxr-xr-x  12 esalim  candidates  408 Apr  7 21:15 ..
+-rw-r--r--   1 esalim  candidates  186 Apr  7 16:35 minishell.h
+-rw-r--r--   1 esalim  candidates  473 Apr  7 21:02 parsing_single_double_quotes.h
+
+./libft:
+total 720
+drwxr-xr-x  84 esalim  candidates   2856 Apr  7 21:00 .
+drwxr-xr-x  12 esalim  candidates    408 Apr  7 21:15 ..
+-rw-r--r--   1 esalim  candidates   2006 Apr  7 16:35 Makefile
+-rw-r--r--   1 esalim  candidates   1288 Mar 29 23:19 ft_atoi.c
+-rw-r--r--   1 esalim  candidates   1008 Apr  7 21:00 ft_atoi.o
+-rw-r--r--   1 esalim  candidates    970 Mar 29 23:19 ft_bzero.c
+-rw-r--r--   1 esalim  candidates    688 Apr  7 21:00 ft_bzero.o
+-rw-r--r--   1 esalim  candidates   1084 Apr  7 16:35 ft_calloc.c
+-rw-r--r--   1 esalim  candidates    776 Apr  7 21:00 ft_calloc.o
+-rw-r--r--   1 esalim  candidates   1002 Mar 29 23:19 ft_isalnum.c
+-rw-r--r--   1 esalim  candidates    760 Apr  7 21:00 ft_isalnum.o
+-rw-r--r--   1 esalim  candidates   1020 Mar 29 23:19 ft_isalpha.c
+-rw-r--r--   1 esalim  candidates    680 Apr  7 21:00 ft_isalpha.o
+-rw-r--r--   1 esalim  candidates    990 Mar 29 23:19 ft_isascii.c
+-rw-r--r--   1 esalim  candidates    664 Apr  7 21:00 ft_isascii.o
+-rw-r--r--   1 esalim  candidates    992 Mar 29 23:19 ft_isdigit.c
+-rw-r--r--   1 esalim  candidates    664 Apr  7 21:00 ft_isdigit.o
+-rw-r--r--   1 esalim  candidates    991 Mar 29 23:19 ft_isprint.c
+-rw-r--r--   1 esalim  candidates    664 Apr  7 21:00 ft_isprint.o
+-rw-r--r--   1 esalim  candidates   1392 Mar 29 23:19 ft_itoa.c
+-rw-r--r--   1 esalim  candidates   1080 Apr  7 21:00 ft_itoa.o
+-rw-r--r--   1 esalim  candidates   1026 Mar 29 23:19 ft_lstadd_back.c
+-rw-r--r--   1 esalim  candidates    996 Mar 29 23:19 ft_lstadd_front.c
+-rw-r--r--   1 esalim  candidates   1111 Mar 29 23:19 ft_lstclear.c
+-rw-r--r--   1 esalim  candidates   1030 Mar 29 23:19 ft_lstdelone.c
+-rw-r--r--   1 esalim  candidates   1021 Mar 29 23:19 ft_lstiter.c
+-rw-r--r--   1 esalim  candidates   1026 Mar 29 23:19 ft_lstlast.c
+-rw-r--r--   1 esalim  candidates   1207 Mar 29 23:19 ft_lstmap.c
+-rw-r--r--   1 esalim  candidates   1076 Mar 29 23:19 ft_lstnew.c
+-rw-r--r--   1 esalim  candidates   1077 Mar 29 23:19 ft_lstsize.c
+-rw-r--r--   1 esalim  candidates   1112 Mar 29 23:19 ft_memchr.c
+-rw-r--r--   1 esalim  candidates    724 Apr  7 21:00 ft_memchr.o
+-rw-r--r--   1 esalim  candidates   1183 Mar 29 23:19 ft_memcmp.c
+-rw-r--r--   1 esalim  candidates    780 Apr  7 21:00 ft_memcmp.o
+-rw-r--r--   1 esalim  candidates   1128 Mar 29 23:19 ft_memcpy.c
+-rw-r--r--   1 esalim  candidates    756 Apr  7 21:00 ft_memcpy.o
+-rw-r--r--   1 esalim  candidates   1248 Mar 29 23:19 ft_memmove.c
+-rw-r--r--   1 esalim  candidates    872 Apr  7 21:00 ft_memmove.o
+-rw-r--r--   1 esalim  candidates   1058 Mar 29 23:19 ft_memset.c
+-rw-r--r--   1 esalim  candidates    692 Apr  7 21:00 ft_memset.o
+-rw-r--r--   1 esalim  candidates    970 Mar 29 23:19 ft_putchar_fd.c
+-rw-r--r--   1 esalim  candidates    688 Apr  7 21:00 ft_putchar_fd.o
+-rw-r--r--   1 esalim  candidates   1015 Mar 29 23:19 ft_putendl_fd.c
+-rw-r--r--   1 esalim  candidates    848 Apr  7 21:00 ft_putendl_fd.o
+-rw-r--r--   1 esalim  candidates   1281 Mar 29 23:19 ft_putnbr_fd.c
+-rw-r--r--   1 esalim  candidates   1040 Apr  7 21:00 ft_putnbr_fd.o
+-rw-r--r--   1 esalim  candidates   1027 Mar 29 23:19 ft_putstr_fd.c
+-rw-r--r--   1 esalim  candidates    760 Apr  7 21:00 ft_putstr_fd.o
+-rw-r--r--   1 esalim  candidates   1637 Mar 29 23:19 ft_split.c
+-rw-r--r--   1 esalim  candidates   1672 Apr  7 21:00 ft_split.o
+-rw-r--r--   1 esalim  candidates   1114 Apr  7 16:35 ft_strchr.c
+-rw-r--r--   1 esalim  candidates    764 Apr  7 21:00 ft_strchr.o
+-rw-r--r--   1 esalim  candidates   1116 Mar 29 23:19 ft_strdup.c
+-rw-r--r--   1 esalim  candidates    820 Apr  7 21:00 ft_strdup.o
+-rw-r--r--   1 esalim  candidates   1044 Mar 29 23:19 ft_striteri.c
+-rw-r--r--   1 esalim  candidates    712 Apr  7 21:00 ft_striteri.o
+-rw-r--r--   1 esalim  candidates   1182 Mar 29 23:19 ft_strjoin.c
+-rw-r--r--   1 esalim  candidates    952 Apr  7 21:00 ft_strjoin.o
+-rw-r--r--   1 esalim  candidates   1321 Mar 29 23:19 ft_strlcat.c
+-rw-r--r--   1 esalim  candidates    992 Apr  7 21:00 ft_strlcat.o
+-rw-r--r--   1 esalim  candidates   1150 Mar 29 23:19 ft_strlcpy.c
+-rw-r--r--   1 esalim  candidates    848 Apr  7 21:00 ft_strlcpy.o
+-rw-r--r--   1 esalim  candidates   1071 Apr  7 16:35 ft_strlen.c
+-rw-r--r--   1 esalim  candidates    708 Apr  7 21:00 ft_strlen.o
+-rw-r--r--   1 esalim  candidates   1202 Mar 29 23:19 ft_strmapi.c
+-rw-r--r--   1 esalim  candidates    880 Apr  7 21:00 ft_strmapi.o
+-rw-r--r--   1 esalim  candidates   1266 Mar 29 23:19 ft_strncmp.c
+-rw-r--r--   1 esalim  candidates    840 Apr  7 21:00 ft_strncmp.o
+-rw-r--r--   1 esalim  candidates    328 Apr  7 16:35 ft_strndup.c
+-rw-r--r--   1 esalim  candidates    888 Apr  7 21:00 ft_strndup.o
+-rw-r--r--   1 esalim  candidates   1293 Mar 29 23:19 ft_strnstr.c
+-rw-r--r--   1 esalim  candidates    916 Apr  7 21:00 ft_strnstr.o
+-rw-r--r--   1 esalim  candidates   1095 Mar 29 23:19 ft_strrchr.c
+-rw-r--r--   1 esalim  candidates    768 Apr  7 21:00 ft_strrchr.o
+-rw-r--r--   1 esalim  candidates   1613 Apr  7 16:35 ft_strtrim.c
+-rw-r--r--   1 esalim  candidates   1040 Apr  7 21:00 ft_strtrim.o
+-rw-r--r--   1 esalim  candidates   1227 Mar 29 23:19 ft_substr.c
+-rw-r--r--   1 esalim  candidates    936 Apr  7 21:00 ft_substr.o
+-rw-r--r--   1 esalim  candidates    997 Mar 29 23:19 ft_tolower.c
+-rw-r--r--   1 esalim  candidates    664 Apr  7 21:00 ft_tolower.o
+-rw-r--r--   1 esalim  candidates    997 Mar 29 23:19 ft_toupper.c
+-rw-r--r--   1 esalim  candidates    664 Apr  7 21:00 ft_toupper.o
+-rw-r--r--   1 esalim  candidates  32888 Apr  7 21:00 libft.a
+-rw-r--r--   1 esalim  candidates   2961 Apr  7 16:35 libft.h
+
+./src:
+total 16
+drwxr-xr-x   5 esalim  candidates   170 Apr  7 21:00 .
+drwxr-xr-x  12 esalim  candidates   408 Apr  7 21:15 ..
+-rw-r--r--   1 esalim  candidates   294 Apr  7 17:12 main.c
+-rw-r--r--   1 esalim  candidates  2660 Apr  7 21:00 main.o
+drwxr-xr-x   4 esalim  candidates   136 Apr  7 17:02 parsing_args
+
+./src/parsing_args:
+total 0
+drwxr-xr-x  4 esalim  candidates  136 Apr  7 17:02 .
+drwxr-xr-x  5 esalim  candidates  170 Apr  7 21:00 ..
+drwxr-xr-x  3 esalim  candidates  102 Apr  7 21:11 parsing_redirection_and_pipes
+drwxr-xr-x  7 esalim  candidates  238 Apr  7 21:14 parsing_single_double_quotes
+
+./src/parsing_args/parsing_redirection_and_pipes:
+total 8
+drwxr-xr-x  3 esalim  candidates  102 Apr  7 21:11 .
+drwxr-xr-x  4 esalim  candidates  136 Apr  7 17:02 ..
+-rw-r--r--  1 esalim  candidates   94 Apr  7 20:48 parsing_redirection.c
+
+./src/parsing_args/parsing_single_double_quotes:
+total 72
+drwxr-xr-x  7 esalim  candidates    238 Apr  7 21:14 .
+drwxr-xr-x  4 esalim  candidates    136 Apr  7 17:02 ..
+-rw-r--r--  1 esalim  candidates  12288 Apr  7 21:14 .parsing_single_double_quotes.c.swp
+-rw-r--r--  1 esalim  candidates   3012 Apr  7 21:03 parsing_single_double_quotes.c
+-rw-r--r--  1 esalim  candidates   6432 Apr  7 21:00 parsing_single_double_quotes.o
+-rw-r--r--  1 esalim  candidates   1404 Apr  7 16:35 parsing_single_double_quotes_utils.c
+-rw-r--r--  1 esalim  candidates   4156 Apr  7 21:00 parsing_single_double_quotes_utils.o
