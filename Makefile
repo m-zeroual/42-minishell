@@ -2,7 +2,9 @@ NAME	=	minishell
 
 SRCS	=	src/main.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
-			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c
+			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirection.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 

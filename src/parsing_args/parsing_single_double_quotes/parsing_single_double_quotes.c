@@ -6,12 +6,26 @@
 int	check_conditions(char **dest, char **line, int *a, int j)
 {
 	if (!*a && **line == '|' && (*line)++)
+    {
+        (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
+        (*dest)[j++] = SEPARATOR;
+    }
 	else if (!*a && **line == '<' && (*line)++)
+    {
+        (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = INPUT_REDIRECT;
+        (*dest)[j++] = SEPARATOR;
+    }
 	else if (!*a && **line == '>' && (*line)++)
+    {
+        (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = OUTPUT_REDIRECT;
-	else
+        (*dest)[j++] = SEPARATOR;
+    }
+	else if (!*a && (**line == ' ' || **line == '\t') && (*line)++)
+        (*dest)[j++] = SEPARATOR;
+    else
 		(*dest)[j++] = *((*line)++);
 	return (j);
 }
@@ -42,7 +56,7 @@ int	set_dest(char **dest, char **line, int *a, int j)
 			(*dest)[j++] = SEPARATOR;
 		j = check_conditions(dest, line, a, j);
 		if (!*a && **(line - 1) == ' ' && **line != ' ')
-			(*dest)[j++] = SEPARATOR;
+            (*dest)[j++] = SEPARATOR;
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
@@ -50,13 +64,13 @@ int	set_dest(char **dest, char **line, int *a, int j)
 }
 
 /**
- *  hundle the line by removing double and single quotes and return string
+ *  handling the line by removing double and single quotes and return string
  *  separed by 3 ascii characher using set_dest() function. 
  *  EXAMPLE:
  *      "p""w"'d'  ==> "`pwd`"
  *      ""l's' "-a" '-l' ""-R  =>  "`ls` `-a` `-l` `-R`"
  */
-char	*hundle_line(char *line)
+char	*handle_line(char *line)
 {
 	char	*dest;
 	int		j;
@@ -77,7 +91,7 @@ char	*hundle_line(char *line)
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)
-		printf("Error : you messing a separator\n");
+		ft_printf("Error : you messing a separator\n");
 	dest[j] = 0;
 	free(tmp);
 	tmp = ft_strdup(dest);
@@ -86,7 +100,7 @@ char	*hundle_line(char *line)
 }
 
 /**
- *  split the string returned by hundle_line() function using 3 ascii character
+ *  split the string returned by handle_line() function using 3 ascii character
  *  and trim all space in right and left side of each string and retun double
  *  pointer that pointing to the first string.
  *  ft_split(str, 3);
@@ -96,31 +110,17 @@ char	*hundle_line(char *line)
  */
 char	**split_line(char *line)
 {
-	char	*line_after_hundling;
-	char	*tmp;
+	char	*line_after_handling;
 	char	**str;
-	int		i;
-	int		len;
 
-	line_after_hundling = hundle_line(line);
-	if (!line_after_hundling)
+	line_after_handling = handle_line(line);
+	if (!line_after_handling)
 		return (0);
-	str = ft_split(line_after_hundling, SEPARATOR);
-	free(line_after_hundling);
+	str = ft_split(line_after_handling, SEPARATOR);
+	free(line_after_handling);
 	if (!str)
 		return (0);
-	i = -1;
-	len = 0;
-	while (str[++i])
-	{
-		tmp = ft_strtrim(str[i], " \t\n");
-		if (tmp)
-		{
-			len++;
-			free(tmp);
-		}
-	}
-	return (get_list_without_spaces(str, len));
+	return (str);
 }
 
 /**

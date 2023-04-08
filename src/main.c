@@ -6,8 +6,14 @@ int main()
     {
         char    *getLine = readline("minishell $> ");
         char    **commands = parsing_single_double_quotes(getLine);
-        int i = 0;
-        while (commands[i])
-            ft_printf("|%s|\n", commands[i++]);
+        if (!commands)
+            continue ;
+/*        int i = -1;
+        while (commands[++i])
+            ft_printf("|%s|\n", commands[i]);*/
+        parsing_pipes(commands);
+        int len = get_lenght_of_list_without_three(commands);
+        get_list_without_three(commands, len);
+
     }
 }

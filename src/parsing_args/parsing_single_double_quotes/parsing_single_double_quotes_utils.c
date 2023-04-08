@@ -39,17 +39,42 @@ int	get_separator(char *str, char *separ)
 	return (i);
 }
 
+int is_only_three(char    *str)
+{
+    int i;
+
+    i = -1;
+    while (str[++i])
+        if (str[i] != 3)
+            return (0);
+    return (1);
+}
+
+/**
+ *
+ */
+int get_lenght_of_list_without_three(char **str)
+{
+    int     i;
+    int     len;
+
+	i = -1;
+	len = 0;
+	while (str[++i])
+		if (!is_only_three(str[i]))
+            len++;
+    return (len);
+}
+
 /**
  *  this function takes double pointer and trim all strings from it,
  *	and return a double pointer without any Extra spaces.
  *  EXAMPLE:
  *    {"ls", "  ", "-a", "   -l  ", "-R ", " "}  ==>  {"ls", "-a", "-l", "-R"}
- *
  */
-char	**get_list_without_spaces(char **dpointer, int len)
+char	**get_list_without_three(char **dpointer, int len)
 {
 	char	**result;
-	char	*tmp;
 	int		i;
 	int		j;
 
@@ -61,13 +86,8 @@ char	**get_list_without_spaces(char **dpointer, int len)
 	j = 0;
 	i = -1;
 	while (dpointer[++i])
-	{
-		tmp = ft_strtrim(dpointer[i], " \t\n");
-		if (tmp)
-		{
-			result[j++] = ft_strdup(tmp);
-			free(tmp);
-		}
-	}
+		if (!is_only_three(dpointer[i]))
+			result[j++] = ft_strdup(dpointer[i]);
 	return (free_double_pointer(dpointer), result);
 }
+

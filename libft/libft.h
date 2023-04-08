@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2023/03/30 16:34:50 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/08 17:34:08 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,26 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef struct  s_redirect
+{
+    char    *file;
+    char    is_input;
+    char    is_output;
+    char    is_append;
+    char    is_here_doc;
+    char    number_of_arrow;
+}   t_redirect;
+
+typedef struct  s_content
+{
+    char        **commands;
+    t_redirect  *redirections;
+    int         number_of_pipes;
+}   t_content;
+
 typedef struct s_list
 {
-	void			*content;
+    t_content       *content;
 	struct s_list	*next;
 }	t_list;
 
@@ -57,7 +74,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(t_content *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
