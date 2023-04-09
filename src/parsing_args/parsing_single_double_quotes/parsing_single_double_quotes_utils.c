@@ -70,7 +70,7 @@ int get_lenght_of_list_without_three(char **str)
  *  this function takes double pointer and trim all strings from it,
  *	and return a double pointer without any Extra spaces.
  *  EXAMPLE:
- *    {"ls", "  ", "-a", "   -l  ", "-R ", " "}  ==>  {"ls", "-a", "-l", "-R"}
+ *    {"ls",`33333`, "-a", "-l", "-R", `33`}  ==>  {"ls", "-a", "-l", "-R"}
  */
 char	**get_list_without_three(char **dpointer, int len)
 {

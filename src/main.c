@@ -14,6 +14,6 @@ int main()
         parsing_pipes(commands);
         int len = get_lenght_of_list_without_three(commands);
         get_list_without_three(commands, len);
-
+        free(getLine);
     }
 }

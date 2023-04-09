@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2023/04/08 17:34:08 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/09 14:12:32 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 
 typedef struct  s_redirect
 {
-    char    *file;
-    char    is_input;
-    char    is_output;
-    char    is_append;
-    char    is_here_doc;
-    char    number_of_arrow;
+    char            *file;
+    char            is_input;
+    char            is_output;
+    char            is_append;
+    char            is_here_doc;
+    char            is_string;
+    unsigned char   number_of_arrow;
 }   t_redirect;
 
 typedef struct  s_content
