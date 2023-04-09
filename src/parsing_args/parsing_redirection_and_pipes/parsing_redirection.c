@@ -75,8 +75,6 @@ t_redirect  *get_redirections(char   **commands, int *j)
         if (input_len != 0 && commands[*j][0] != OUTPUT_REDIRECT)
         {
             redirection[i].file = ft_strdup(commands[*j]);
-            if (!ft_strncmp(redirection[i].file, "hh", 2))
-                ft_printf("test 1 %p\n", redirection[i].file);
             ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
             redirection[i].is_input = 1;
             redirection[i].is_here_doc = 0;
@@ -124,8 +122,6 @@ t_redirect  *get_redirections(char   **commands, int *j)
         if (output_len != 0 && commands[*j][0] != INPUT_REDIRECT)
         {
             redirection[i].file = ft_strdup(commands[*j]);
-            if (!ft_strncmp(redirection[i].file, "hh", 2))
-                ft_printf("test 2 %p\n", redirection[i].file);
             ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
             redirection[i].is_input = 0;
             redirection[i].is_string = 0;
@@ -224,14 +220,58 @@ void    free_t_redirect(t_redirect *redirect)
         return ;
     i = 0;
     while (redirect[i].file)
-    {
-        if (!ft_strncmp(redirect[i].file, "hh", 2))
-            ft_printf("test 3 %p\n", redirect[i].file);
-        ft_bzero(redirect, sizeof(*redirect));
-        free(redirect[i].file);
-        i++;
-    }
+        free(redirect[i++].file);
+    ft_bzero(redirect, sizeof(*redirect));
     free(redirect);
+}
+
+t_redirect *create_output_files(t_redirect *output)
+{
+    int i;
+    int fd;
+    t_redirect  *last_file;
+
+    if (!output && !output[0].file)
+        return (NULL);
+    i = 0;
+    last_file = ft_calloc(2, sizeof(*last_file));
+    if (!last_file)
+        return (NULL);
+    if (output[i].is_append)
+        fd = open(output[i++].file, O_CREAT | O_APPEND, 0644);
+    else
+        fd = open(output[i++].file, O_CREAT | O_TRUNC, 0644);
+    if (fd == -1)
+    {
+        ft_putstr_fd("bash: ", 2);
+        ft_putstr_fd(output[i - 1].file, 2);
+        ft_putstr_fd(": Not a directory\n", 2);
+        return (NULL);
+    }
+    while (output[i].file)
+    {
+        close(fd);
+        if (output[i].is_append)
+            fd = open(output[i++].file, O_CREAT | O_APPEND, 0644);
+        else
+            fd = open(output[i++].file, O_CREAT | O_TRUNC, 0644);
+        if (fd == -1)
+        {
+            ft_putstr_fd("bash: ", 2);
+            ft_putstr_fd(output[i - 1].file, 2);
+            ft_putstr_fd(": Not a directory\n", 2);
+            return (NULL);
+        }
+    }
+    last_file->file = ft_strdup(output[i - 1].file);
+    last_file->is_append = output[i - 1].is_append;
+    last_file->is_output = output[i - 1].is_output;
+    last_file->is_input = 0;
+    last_file->is_here_doc = 0;
+    last_file->is_string = 0;
+    last_file->number_of_arrow = output[i - 1].number_of_arrow;
+    free_t_redirect(output);
+    return (last_file);
 }
 
 int parsing_redirection(char **redirections, int *j)
@@ -243,16 +283,12 @@ int parsing_redirection(char **redirections, int *j)
     redirect = get_redirections(redirections, j);
     if (!redirect)
         return (0);
-    int i = 0;
     input = get_input_redirections(redirect);
     output = get_output_redirections(redirect);
+    t_redirect *last_file = create_output_files(output);
+    if (last_file)
+        printf("file_name = |%s|\tis_append = |%d|\tis_string = |%d|\tis_here_doc = |%d|\tis_input = |%d|\tis_output = |%d|\tnumber_of_arrow = |%d|\n", last_file->file, last_file->is_append, last_file->is_string, last_file->is_here_doc,last_file->is_input, last_file->is_output, last_file->number_of_arrow);
     free_t_redirect(redirect); 
-    free_t_redirect(output);
-    redirect = input; 
-    while (redirect[i].file)
-    {
-        printf("file_name = |%s|\tis_append = |%d|\tis_string = |%d|\tis_here_doc = |%d|\tis_input = |%d|\tis_output = |%d|\tnumber_of_arrow = |%d|\n", redirect[i].file, redirect[i].is_append, redirect[i].is_string, redirect[i].is_here_doc,redirect[i].is_input, redirect[i].is_output, redirect[i].number_of_arrow);
-        i++;
-    }
-    return (0);
+    return (1);
 }
+//        printf("file_name = |%s|\tis_append = |%d|\tis_string = |%d|\tis_here_doc = |%d|\tis_input = |%d|\tis_output = |%d|\tnumber_of_arrow = |%d|\n", redirect[i].file, redirect[i].is_append, redirect[i].is_string, redirect[i].is_here_doc,redirect[i].is_input, redirect[i].is_output, redirect[i].number_of_arrow);

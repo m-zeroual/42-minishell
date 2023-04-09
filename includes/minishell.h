@@ -6,5 +6,6 @@
 #include "parsing_single_double_quotes.h"
 #include "parsing_redirection_and_pipes.h"
 #include <readline/readline.h>
+#include <fcntl.h>
 
 #endif

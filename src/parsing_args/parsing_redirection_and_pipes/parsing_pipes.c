@@ -72,6 +72,7 @@ void    parsing_pipes(char  **commands)
             j++;
         }
         i++;
+        free(content);
     }
 //    ft_printf("|%d|\n", get_number_of_pipe(commands));
 }
