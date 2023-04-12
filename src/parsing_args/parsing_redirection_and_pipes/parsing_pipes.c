@@ -31,6 +31,14 @@ int get_number_of_pipe(char **commands)
     return (number_of_pipes);
 }
 
+int get_number_of_commands(char **commands, int j)
+{
+    int i = 0;
+    while (commands[j + i] && ft_strncmp(commands[j + i], "|", 2))
+        i++;
+    return (i);
+}
+
 char    ***split_into_pipes(char **commands)
 {
     char    ***pipes;
@@ -40,16 +48,17 @@ char    ***split_into_pipes(char **commands)
     int     s;
 
     if (!commands)
-        exit(5);
+        return (NULL);
     pipes_len = get_number_of_pipe(commands);
-    pipes = ft_calloc(pipes_len + 1, sizeof(char **));
+    pipes = ft_calloc(pipes_len + 2, sizeof(char **));
     if (!pipes)
         return (NULL);
     i = 0;
     j = 0;
-    while (i < pipes_len - 1)
+    while (i <= pipes_len)
     {
         s = 0;
+        pipes[i] = ft_calloc(get_number_of_commands(commands, j) + 1, sizeof(char *));
         while (commands[j])
         {
             if (commands[j] && commands[j][0] == PIPE && ++j)
@@ -63,51 +72,32 @@ char    ***split_into_pipes(char **commands)
     return (pipes);
 }
 
-/*
-char    **split_redirections(char **commands)
-{
-    int i;
-
-    i = 0;
-    while ()
-}
-*/
 t_list    *parsing_pipes(char  **commands)
 {
     
-//    t_list *pipes;
-//    int     number_of_pipes;
+    t_list *pipes;
+    char    ***p;
     int     i;
-    int     j;
+    int     len;
 
-    char    ***p = split_into_pipes(commands);
-    if (!p)
-        exit(5);
-    i = -1;
-    while (p[++i])
-    {
-        j = -1;
-        while (p[i][++j])
-            ft_printf("|%s|\n", p[i][j]);
-        ft_printf("==================================\n");
-    }
-
-   /* 
     if (!commands || !*commands)
         return (NULL);
-    number_of_pipes = get_number_of_pipe(commands);
+    p = split_into_pipes(commands);
+    if (!p)
+        return (NULL);
     i = 0;
-    j = 0;
     pipes = NULL;
-    while (i <=  number_of_pipes)
+    while (p[i])
     {
-        t_content *content = ft_calloc(2, sizeof(*content));
-        parsing_redirection(content, commands, &j);
-        if (commands[j] && commands[j][0] == PIPE)
-            j++;
-        ft_lstadd_front(&pipes, ft_lstnew(content));
+        t_content *content = ft_calloc(1, sizeof(*content));
+        if (!content)
+            return (NULL);
+        parsing_redirection(content, p[i]);
+        len = get_lenght_of_list_without_three(p[i]);
+        p[i] = get_list_without_three(p[i], len);
+        content->commands = p[i];
+        ft_lstadd_back(&pipes, ft_lstnew(content));
         i++;
     }
-//    ft_printf("|%d|\n", get_number_of_pipe(commands));*/
-    return (NULL);
+    return (pipes);
 }

@@ -21,40 +21,42 @@ void    print_error(char *str)
         i = 0;
 }
 
-t_redirect  *get_redirections(char   **commands, int *j)
+t_redirect  *get_redirections(char   **commands)
 {
     t_redirect      *redirection;
     unsigned char   input_len;
     unsigned char   output_len;
     int             i;
+    int             j;
     unsigned char   two;
 
     redirection = ft_calloc(100, sizeof(*redirection));
     if (!redirection)
         return (NULL);
     i = 0;
-    while (commands[*j])
+    j = 0;
+    while (commands[j])
     {
         input_len = 0;
         output_len = 0;
-        while (commands[*j] && commands[*j][0] != INPUT_REDIRECT && commands[*j][0] != OUTPUT_REDIRECT)
+        while (commands[j] && commands[j][0] != INPUT_REDIRECT && commands[j][0] != OUTPUT_REDIRECT)
         {
-            if (commands[*j][0] == PIPE)
+            if (commands[j][0] == PIPE)
                 break ;
-            (*j)++;
+            (j)++;
         }
-        if (commands[*j] && commands[*j][0] == PIPE)
+        if (commands[j] && commands[j][0] == PIPE)
             break ;
         two = 0;
-        while (commands[*j] && commands[*j][0] == INPUT_REDIRECT)
+        while (commands[j] && commands[j][0] == INPUT_REDIRECT)
         {
             input_len++;
             if (input_len > 3 && two < 2 && ++two)
                 print_error("<");
-            ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
-            (*j)++;
+            ft_memset(commands[j], 3, ft_strlen(commands[j]));
+            (j)++;
         }
-        if (!commands[*j] && input_len && input_len < 4)
+        if (!commands[j] && input_len && input_len < 4)
         {
             print_error("newline");
             input_len = 4;
@@ -62,25 +64,25 @@ t_redirect  *get_redirections(char   **commands, int *j)
         if (input_len > 3)
             return (print_error("'\n"), NULL);
         two = 0;
-        while (input_len != 0 && commands[*j] && is_not_acceptable(commands[*j][0]) && two++ < 2)
+        while (input_len != 0 && commands[j] && is_not_acceptable(commands[j][0]) && two++ < 2)
         {
-            if (commands[*j][0] == OUTPUT_REDIRECT || commands[*j][0] == 3)
+            if (commands[j][0] == OUTPUT_REDIRECT || commands[j][0] == 3)
                 print_error(">");
-            else if (commands[*j][0] == INPUT_REDIRECT)
+            else if (commands[j][0] == INPUT_REDIRECT)
                 print_error("<");
-            else if (commands[*j][0] == PIPE && ++two)
+            else if (commands[j][0] == PIPE && ++two)
                 print_error("|");
             else
-                print_error(commands[*j]);
-            (*j)++;
+                print_error(commands[j]);
+            (j)++;
             input_len = 200;
         }
         if (input_len == 200)
             return (print_error("'\n"), NULL);
-        if (input_len != 0 && commands[*j][0] != OUTPUT_REDIRECT)
+        if (input_len != 0 && commands[j][0] != OUTPUT_REDIRECT)
         {
-            redirection[i].file = ft_strdup(commands[*j]);
-            ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
+            redirection[i].file = ft_strdup(commands[j]);
+            ft_memset(commands[j], 3, ft_strlen(commands[j]));
             redirection[i].is_input = 1;
             redirection[i].is_here_doc = 0;
             if (input_len == 2)
@@ -89,18 +91,18 @@ t_redirect  *get_redirections(char   **commands, int *j)
             redirection[i].is_output = 0;
             redirection[i].number_of_arrow = input_len;
             i++;
-            (*j)++;
+            (j)++;
         }
         two = 0;
-        while (commands[*j] && commands[*j][0] == OUTPUT_REDIRECT)
+        while (commands[j] && commands[j][0] == OUTPUT_REDIRECT)
         {
             output_len++;
-            if (output_len > 3 && two < 2 && ++two)
+            if (output_len > 2 && two++ < 2)
                 print_error(">");
-            ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
-            (*j)++;
+            ft_memset(commands[j], 3, ft_strlen(commands[j]));
+            (j)++;
         }
-        if (!commands[*j] && output_len && output_len < 3)
+        if (!commands[j] && output_len && output_len < 3)
         {
             print_error("newline");
             output_len = 4;
@@ -108,25 +110,25 @@ t_redirect  *get_redirections(char   **commands, int *j)
         if (output_len > 2)
             return (print_error("'\n"), NULL);
         two = 0;
-        while (output_len != 0 && commands[*j] && is_not_acceptable(commands[*j][0]) && two++ < 2)
+        while (output_len != 0 && commands[j] && is_not_acceptable(commands[j][0]) && two++ < 2)
         {
-            if (commands[*j][0] == INPUT_REDIRECT || commands[*j][0] == 3)
+            if (commands[j][0] == INPUT_REDIRECT || commands[j][0] == 3)
                 print_error("<");
-            else if (commands[*j][0] == OUTPUT_REDIRECT)
+            else if (commands[j][0] == OUTPUT_REDIRECT)
                 print_error(">");
-            else if (commands[*j][0] == PIPE && ++two)
+            else if (commands[j][0] == PIPE && ++two)
                 print_error("|");
             else
-                print_error(commands[*j]);
-            (*j)++;
+                print_error(commands[j]);
+            (j)++;
             output_len = 200;
         }
         if (output_len == 200)
             return (print_error("'\n"), NULL);
-        if (output_len != 0 && commands[*j] && commands[*j][0] != INPUT_REDIRECT)
+        if (output_len != 0 && commands[j] && commands[j][0] != INPUT_REDIRECT)
         {
-            redirection[i].file = ft_strdup(commands[*j]);
-            ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
+            redirection[i].file = ft_strdup(commands[j]);
+            ft_memset(commands[j], 3, ft_strlen(commands[j]));
             redirection[i].is_input = 0;
             redirection[i].is_append = 0;
             if (output_len == 2)
@@ -135,7 +137,7 @@ t_redirect  *get_redirections(char   **commands, int *j)
             redirection[i].is_output = 1;
             redirection[i].number_of_arrow = output_len;
             i++;
-            (*j)++;
+            j++;
         }
     }
     return (redirection);
@@ -221,21 +223,22 @@ void    free_t_redirect(t_redirect *redirect) {
     free(redirect);
 }
 
-t_redirect *create_output_files(t_redirect *output) {
+t_redirect *create_output_files(t_redirect *output)
+{
     int i;
     int fd;
     t_redirect  *last_file;
 
-    if (!output && !output[0].file)
+    if (!output || !output[0].file)
         return (NULL);
     i = 0;
-    last_file = ft_calloc(2, sizeof(*last_file));
+    last_file = ft_calloc(1, sizeof(*last_file));
     if (!last_file)
         return (NULL);
     if (output[i].is_append)
-        fd = open(output[i++].file, O_CREAT | O_APPEND, 0644);
+        fd = open(output[i].file, O_CREAT | O_APPEND, 0644);
     else
-        fd = open(output[i++].file, O_CREAT | O_TRUNC, 0644);
+        fd = open(output[i].file, O_CREAT | O_TRUNC, 0644);
     if (fd == -1)
     {
         ft_putstr_fd("bash: ", 2);
@@ -243,6 +246,7 @@ t_redirect *create_output_files(t_redirect *output) {
         ft_putstr_fd(": Not a directory\n", 2);
         return (NULL);
     }
+    i++;
     while (output[i].file)
     {
         close(fd);
@@ -342,13 +346,13 @@ char    *get_here_doc_content(char  *eol) {
     return (string);
 }
 
-int parsing_redirection(t_content *content, char **redirections, int *start)
+int parsing_redirection(t_content *content, char **redirections)
 {
     t_redirect *redirect;
 
     if (!redirections || !*redirections)
         return (0);
-    redirect = get_redirections(redirections, start);
+    redirect = get_redirections(redirections);
     if (!redirect)
         return (0);
     //TODO: protect this variables

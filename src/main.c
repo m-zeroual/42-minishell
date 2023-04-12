@@ -11,7 +11,21 @@ int main()
 /*        int i = -1;
         while (commands[++i])
             ft_printf("|%s|\n", commands[i]);*/
-        parsing_pipes(commands);
+        t_list *pipes = parsing_pipes(commands);
+        if (!pipes)
+            continue ;
+        while (pipes)
+        {
+            t_content *content = pipes->content;
+            int o = 0;
+            while (content->commands[o])
+                ft_printf("|%s|\n", content->commands[o++]);
+            if (content->input_redirections)
+                ft_printf("%s\n", content->input_redirections->file);
+            if (content->output_redirections)
+                ft_printf("%s\n", content->output_redirections->file);
+            pipes = pipes->next;
+        }
         /*
         int i = -1;
         while (commands[++i])
