@@ -30,6 +30,39 @@ int get_number_of_pipe(char **commands)
             number_of_pipes++;
     return (number_of_pipes);
 }
+
+char    ***split_into_pipes(char **commands)
+{
+    char    ***pipes;
+    int     pipes_len;
+    int     i;
+    int     j;
+    int     s;
+
+    if (!commands)
+        exit(5);
+    pipes_len = get_number_of_pipe(commands);
+    pipes = ft_calloc(pipes_len + 1, sizeof(char **));
+    if (!pipes)
+        return (NULL);
+    i = 0;
+    j = 0;
+    while (i < pipes_len - 1)
+    {
+        s = 0;
+        while (commands[j])
+        {
+            if (commands[j] && commands[j][0] == PIPE && ++j)
+                break;
+            pipes[i][s++] = ft_strdup(commands[j]);
+            //TODO: free commands[j]
+            j++;
+        }
+        i++;
+    }
+    return (pipes);
+}
+
 /*
 char    **split_redirections(char **commands)
 {
@@ -39,16 +72,29 @@ char    **split_redirections(char **commands)
     while ()
 }
 */
-void    parsing_pipes(char  **commands)
+t_list    *parsing_pipes(char  **commands)
 {
     
-    t_list *pipes;
-    int     number_of_pipes;
+//    t_list *pipes;
+//    int     number_of_pipes;
     int     i;
     int     j;
-    
+
+    char    ***p = split_into_pipes(commands);
+    if (!p)
+        exit(5);
+    i = -1;
+    while (p[++i])
+    {
+        j = -1;
+        while (p[i][++j])
+            ft_printf("|%s|\n", p[i][j]);
+        ft_printf("==================================\n");
+    }
+
+   /* 
     if (!commands || !*commands)
-        return ;
+        return (NULL);
     number_of_pipes = get_number_of_pipe(commands);
     i = 0;
     j = 0;
@@ -56,23 +102,12 @@ void    parsing_pipes(char  **commands)
     while (i <=  number_of_pipes)
     {
         t_content *content = ft_calloc(2, sizeof(*content));
-        while (commands[j])
-        {
-            if (commands[j][0] == PIPE)
-            {
-                i++;
-                break;
-            }
-            if (commands[j][0] == INPUT_REDIRECT || commands[j][0] == OUTPUT_REDIRECT)
-            {
-                parsing_redirection(commands, &j);
-                i = number_of_pipes;
-                break ;
-            }
+        parsing_redirection(content, commands, &j);
+        if (commands[j] && commands[j][0] == PIPE)
             j++;
-        }
+        ft_lstadd_front(&pipes, ft_lstnew(content));
         i++;
-        free(content);
     }
-//    ft_printf("|%d|\n", get_number_of_pipe(commands));
+//    ft_printf("|%d|\n", get_number_of_pipe(commands));*/
+    return (NULL);
 }

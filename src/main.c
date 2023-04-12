@@ -12,6 +12,7 @@ int main()
         while (commands[++i])
             ft_printf("|%s|\n", commands[i]);*/
         parsing_pipes(commands);
+        /*
         int i = -1;
         while (commands[++i])
             ft_printf("|%s|\n", commands[i]);
@@ -20,13 +21,14 @@ int main()
         if (!str)
             continue ;
         i = -1;
-        while (str[++i])
+        while (str[++i] && str[i][0] != 3)
             ft_printf("|%s|\n", str[i]);
+        str[i] = NULL;
         int pid = fork();
         if (pid == 0)
             if (execve(str[0], str, NULL) == -1)
                 ft_printf("Execve Error\n");
-        wait(NULL);
+        wait(NULL);*/
         free(getLine);
     }
 }

@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2023/04/09 21:28:44 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/12 16:53:32 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct  s_redirect
 typedef struct  s_content
 {
     char        **commands;
-    t_redirect  *redirections;
-    int         number_of_pipes;
+    t_redirect  *input_redirections;
+    t_redirect  *output_redirections;
 }   t_content;
 
 typedef struct s_list

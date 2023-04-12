@@ -7,5 +7,6 @@
 #include "parsing_redirection_and_pipes.h"
 #include <readline/readline.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 
 #endif

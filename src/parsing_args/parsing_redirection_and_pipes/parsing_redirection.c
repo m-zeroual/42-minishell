@@ -20,10 +20,6 @@ void    print_error(char *str)
     if (str[0] == '\'')
         i = 0;
 }
-/*
-void    set_redirection(t_redirect *redirect, unsigned char len, char is_input)
-{
-}*/
 
 t_redirect  *get_redirections(char   **commands, int *j)
 {
@@ -42,11 +38,18 @@ t_redirect  *get_redirections(char   **commands, int *j)
         input_len = 0;
         output_len = 0;
         while (commands[*j] && commands[*j][0] != INPUT_REDIRECT && commands[*j][0] != OUTPUT_REDIRECT)
+        {
+            if (commands[*j][0] == PIPE)
+                break ;
             (*j)++;
+        }
+        if (commands[*j] && commands[*j][0] == PIPE)
+            break ;
+        two = 0;
         while (commands[*j] && commands[*j][0] == INPUT_REDIRECT)
         {
             input_len++;
-            if (input_len > 3)
+            if (input_len > 3 && two < 2 && ++two)
                 print_error("<");
             ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
             (*j)++;
@@ -88,10 +91,11 @@ t_redirect  *get_redirections(char   **commands, int *j)
             i++;
             (*j)++;
         }
+        two = 0;
         while (commands[*j] && commands[*j][0] == OUTPUT_REDIRECT)
         {
             output_len++;
-            if (output_len > 2)
+            if (output_len > 3 && two < 2 && ++two)
                 print_error(">");
             ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
             (*j)++;
@@ -136,22 +140,16 @@ t_redirect  *get_redirections(char   **commands, int *j)
     }
     return (redirection);
 }
-/*
-int get_number_of_redirection(char  *string)
-{
-    char    *start = ft_strchr()
-    while ()
-}
-*/
 
-t_redirect  *get_input_redirections(t_redirect *redirections)
-{
+t_redirect  *get_input_redirections(t_redirect *redirections) {
     unsigned char   i;
     t_redirect      *input;
     unsigned char   len;
 
     i = 0;
     len = 0;
+    if (!redirections)
+        return (NULL);
     while (redirections[i].file)
         if (redirections[i++].is_input == 1)
             len++;
@@ -177,15 +175,16 @@ t_redirect  *get_input_redirections(t_redirect *redirections)
     return (input);
 }
 
-t_redirect  *get_output_redirections(t_redirect *redirections)
-{
+t_redirect  *get_output_redirections(t_redirect *redirections) {
     unsigned char   i;
     t_redirect      *output;
     unsigned char   len;
 
     i = 0;
     len = 0;
-    while (redirections[i].file)
+    if (!redirections)
+        return (NULL);
+    while (redirections && redirections[i].file)
         if (redirections[i++].is_output == 1)
             len++;
     output = ft_calloc(len + 1, sizeof(*output));
@@ -193,7 +192,7 @@ t_redirect  *get_output_redirections(t_redirect *redirections)
         return (0);
     i = 0;
     len = 0;
-    while (redirections[i].file)
+    while (redirections && redirections[i].file)
     {
         if (redirections[i].is_output == 1)
         {
@@ -210,8 +209,7 @@ t_redirect  *get_output_redirections(t_redirect *redirections)
     return (output);
 }
 
-void    free_t_redirect(t_redirect *redirect)
-{
+void    free_t_redirect(t_redirect *redirect) {
     unsigned char   i;
 
     if (!redirect)
@@ -223,8 +221,7 @@ void    free_t_redirect(t_redirect *redirect)
     free(redirect);
 }
 
-t_redirect *create_output_files(t_redirect *output)
-{
+t_redirect *create_output_files(t_redirect *output) {
     int i;
     int fd;
     t_redirect  *last_file;
@@ -271,8 +268,7 @@ t_redirect *create_output_files(t_redirect *output)
     return (last_file);
 }
 
-t_redirect  *get_input_file(t_redirect *inputs)
-{
+t_redirect  *get_input_file(t_redirect *inputs) {
     int i;
     int index;
     t_redirect  *last_file;
@@ -287,6 +283,8 @@ t_redirect  *get_input_file(t_redirect *inputs)
     while (inputs[++i].file)
         if (inputs[i].is_here_doc)
             index = i;
+    if (!i)
+        return (NULL);
     last_file->file = ft_strdup(inputs[i - 1].file);
     last_file->is_here_doc = inputs[i - 1].is_here_doc;
     last_file->is_input = inputs[i - 1].is_input;
@@ -309,8 +307,7 @@ t_redirect  *get_input_file(t_redirect *inputs)
 
 }
 
-char    *get_here_doc_content(char  *eol)
-{
+char    *get_here_doc_content(char  *eol) {
     int i;
     int len;
     char    *string;
@@ -321,13 +318,19 @@ char    *get_here_doc_content(char  *eol)
         return (0);
     i = 0;
     len = ft_strlen(eol);
-    string = ft_strdup("");
+    string = ft_calloc(2, sizeof(*string));
+    if (!string)
+        return (NULL);
     while (1)
     {
-        line = readline(">");
+        line = readline("> ");
+        if (!line)
+            return (NULL);
         if (!ft_strncmp(line, eol, len + 1))
         {
-            string[ft_strlen(string) - 1] = 0;
+            len = ft_strlen(string);
+            if (len)
+                string[len - 1] = 0;
             break;
         }
         tmp = ft_strjoin(string, line);
@@ -339,30 +342,18 @@ char    *get_here_doc_content(char  *eol)
     return (string);
 }
 
-int parsing_redirection(char **redirections, int *j)
+int parsing_redirection(t_content *content, char **redirections, int *start)
 {
     t_redirect *redirect;
-    t_redirect *input;
-    t_redirect *output;
 
-    redirect = get_redirections(redirections, j);
+    if (!redirections || !*redirections)
+        return (0);
+    redirect = get_redirections(redirections, start);
     if (!redirect)
         return (0);
-    input = get_input_redirections(redirect);
-    output = get_output_redirections(redirect);
-//    t_redirect *last_output_file = create_output_files(output);
-    t_redirect  *last_input_file = get_input_file(input);
-    if (!last_input_file)
-        return (0);
-    int i = -1;
-    while (last_input_file[++i].file)
-    {
-        if (last_input_file[i].is_here_doc)
-        {
-            char *str = get_here_doc_content(last_input_file[i].file);
-            ft_printf("|%s|\n", str);
-        }
-    }
+    //TODO: protect this variables
+    content->output_redirections = create_output_files(get_output_redirections(redirect));
+    content->input_redirections = get_input_file(get_input_redirections(redirect));
     free_t_redirect(redirect);
     return (1);
 }
