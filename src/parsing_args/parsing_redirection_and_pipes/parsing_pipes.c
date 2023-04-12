@@ -43,7 +43,7 @@ void    parsing_pipes(char  **commands)
 {
     
     t_list *pipes;
-    int     number_of_pipes
+    int     number_of_pipes;
     int     i;
     int     j;
     
