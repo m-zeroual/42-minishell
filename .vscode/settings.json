@@ -2,6 +2,8 @@
     "files.associations": {
         "unistd.h": "c",
         "_posix_vdisable.h": "c",
-        "errno.h": "c"
+        "errno.h": "c",
+        "main.h": "c",
+        "libft.h": "c"
     }
 }

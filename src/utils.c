@@ -1,49 +1,52 @@
 #include "../includes/main.h"
 
-void ft_str_to_lower(char **path)
+char *ft_str_tolower(char *cmd)
 {
 	int i;
-	int j;
+	char *str;
 
 	i = 0;
-	while (path[i])
+	str = malloc(ft_strlen(cmd) + 1);
+	if (!str)
+		return (0);
+	while (cmd[i])
 	{
-		j = 0;
-		while (path[i][j])
-		{
-			path[i][j] = ft_tolower(path[i][j]);
-			j++;
-		}
+		str[i] = ft_tolower(cmd[i]);
 		i++;
 	}
+	str[i] = 0;
+	return (str);
 }
 
-int ft_get_index_reverse(char *str, char c)
+int ft_get_index_reverse(char *str, char c, int count)
 {
 	int	i;
 
 	i = ft_strlen(str) - 1;
-	while (i)
+	while (i && count)
 	{
 		if (str[i] == c)
+			count--;
+		if (count == 0)
 			return (i);
 		i--;
 	}
 	return (0);
 }
-int ft_get_index(char *str, char c)
-{
-	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (0);
-}
+// int ft_get_index(char *str, char c)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == c)
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 void free_split(char **str)
 {

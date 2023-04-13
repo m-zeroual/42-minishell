@@ -1,6 +1,10 @@
 NAME	=	minishell
 
-SRCS	=	src/main.c  src/utils.c
+SRCS	=	src/main.c  \
+			src/utils.c	\
+			src/pwd.c	\
+			src/cd.c	\
+			src/env.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
