@@ -1,21 +1,5 @@
 #include "../../../includes/minishell.h"
-/*
-int counter(char    *str, char  c)
-{
-    unsigned char   i;
-    unsigned char   len;
 
-    i = 0;
-    len = 0;
-    while (str[i])
-    {
-        if (str[i++] != c)
-            break ;
-        len++;
-    }
-    return (len);
-}
-*/
 int get_number_of_pipe(char **commands)
 {
     int number_of_pipes;
@@ -64,7 +48,7 @@ char    ***split_into_pipes(char **commands)
             if (commands[j] && commands[j][0] == PIPE && ++j)
                 break;
             pipes[i][s++] = ft_strdup(commands[j]);
-            //TODO: free commands[j]
+            free(commands[j]);
             j++;
         }
         i++;
@@ -94,8 +78,7 @@ t_list    *parsing_pipes(char  **commands)
             return (NULL);
         parsing_redirection(content, p[i]);
         len = get_lenght_of_list_without_three(p[i]);
-        p[i] = get_list_without_three(p[i], len);
-        content->commands = p[i];
+        content->commands = get_list_without_three(p[i], len);
         ft_lstadd_back(&pipes, ft_lstnew(content));
         i++;
     }

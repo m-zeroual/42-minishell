@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:38:08 by esalim            #+#    #+#             */
-/*   Updated: 2023/04/08 23:23:41 by esalim           ###   ########.fr       */
+/*   Updated: 2022/10/03 16:31:37 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ char	*ft_strdup(const char *s1)
 	char	*dest;
 	size_t	len;
 
-    if (!s1)
-        return (0);
 	len = ft_strlen((char *)s1) + 1;
 	dest = (char *)malloc(len);
 	if (!dest)

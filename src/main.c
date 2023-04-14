@@ -20,6 +20,7 @@ int setup_input_redirections(t_redirect *input)
             str_here_doc = get_here_doc_content(input[i].file);
             ft_putstr_fd(str_here_doc, 0);
             ft_putstr_fd("\n", 0);
+            free(str_here_doc);
             exit(0);
         }
         else if (i == len && !input[i].is_here_doc)
@@ -30,7 +31,10 @@ int setup_input_redirections(t_redirect *input)
             return (1);
         }
         if (input[i].is_here_doc)
-            get_here_doc_content(input[i].file);
+        {
+           str_here_doc = get_here_doc_content(input[i].file);
+           free(str_here_doc);
+        }
     }
     return (1);
 }
@@ -58,46 +62,50 @@ int setup_output_redirections(t_redirect *output)
     return (1);
 }
 
+
 int main()
 {
+    char    *getLine;
+    char    **commands;
+    t_content   *content;
+    t_redirect  *output;
+    t_redirect  *input;
+    int     pid;
+    t_list      *pipes;
+
     while (1)
     {
-        char    *getLine = readline("minishell $> ");
-        char    **commands = parsing_single_double_quotes(getLine);
+        getLine = readline("minishell $> ");
+        commands = parsing_single_double_quotes(getLine);
         if (!commands)
             continue ;
-        /*int i = -1;
-        while (commands[++i])
-            ft_printf("|%s|\n", commands[i]);
-        */
-        t_list *pipes = parsing_pipes(commands);
+        pipes = parsing_pipes(commands);
         if (!pipes)
             exit(0);
         while (pipes)
         {
-            t_content *content = pipes->content;
-            int i = -1;
-            while (content->commands[++i])
-                ft_printf("|%s|\n", commands[i]);
-            pipes = pipes->next;
-        }
-        /*
-        while (pipes)
-        {
-            t_content *content = pipes->content;
-        	int pid = fork();
+            content = pipes->content;
+            output = create_output_files(content->output_redirections);
+            input = get_input_file(content->input_redirections);
+        	pid = fork();
         	if (pid == 0)
        	    {
-                t_redirect *output = create_output_files(content->output_redirections);
-                t_redirect *input = get_input_file(content->input_redirections);
                 if (!setup_input_redirections(input) || !setup_output_redirections(output))
                     exit(1);
        	        if (execve(content->commands[0], content->commands, NULL) == -1)
-       	            ft_printf("Execve Error\n");
+                {
+       	            print_error(commands[0], ": Execve Error\n");
+                    exit(1);
+                }
             }
             wait(NULL);
+            free_t_redirect(input);
+            free_t_redirect(output);
+            free_double_pointer(content->commands);
+            free(content);
+            free(pipes);
             pipes = pipes->next;
-       	}*/
+       	}
         free(getLine);
     }
 }

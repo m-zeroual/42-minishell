@@ -231,7 +231,8 @@ t_redirect  *get_output_redirections(t_redirect *redirections)
     return (output);
 }
 
-void    free_t_redirect(t_redirect *redirect) {
+void    free_t_redirect(t_redirect *redirect)
+{
     unsigned char   i;
 
     if (!redirect)
@@ -252,7 +253,7 @@ t_redirect *create_output_files(t_redirect *output)
     i = 0;
     if (!output || !output[i].file)
         return (NULL);
-    last_file = ft_calloc(1, sizeof(*last_file));
+    last_file = ft_calloc(2, sizeof(*last_file));
     if (!last_file)
         return (NULL);
     if (output[i].is_append \
@@ -373,4 +374,3 @@ int parsing_redirection(t_content *content, char **redirections)
     free_t_redirect(redirect);
     return (1);
 }
-//        printf("file_name = |%s|\tis_append = |%d|\tis_string = |%d|\tis_here_doc = |%d|\tis_input = |%d|\tis_output = |%d|\tnumber_of_arrow = |%d|\n", redirect[i].file, redirect[i].is_append, redirect[i].is_string, redirect[i].is_here_doc,redirect[i].is_input, redirect[i].is_output, redirect[i].number_of_arrow);

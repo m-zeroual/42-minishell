@@ -8,4 +8,6 @@ char        *get_here_doc_content(char  *eol);
 t_redirect  *get_input_file(t_redirect *inputs);
 t_redirect  *create_output_files(t_redirect *output);
 
+void    free_t_redirect(t_redirect *redirect);
+
 #endif
