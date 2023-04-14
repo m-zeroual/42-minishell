@@ -91,7 +91,7 @@ char	*handle_line(char *line)
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)
-		ft_printf("Error : you messing a separator\n");
+		ft_putstr_fd("Error : you messing a separator\n", 2);
 	dest[j] = 0;
 	free(tmp);
 	tmp = ft_strdup(dest);

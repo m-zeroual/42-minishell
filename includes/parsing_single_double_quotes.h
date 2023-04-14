@@ -15,6 +15,6 @@ int		set_dest(char **dest, char **line, int *a, int j);
 char	*handle_line(char *line);
 char	**split_line(char *line);
 char	**parsing_single_double_quotes(char *args);
-int get_lenght_of_list_without_three(char **str);
+int     get_lenght_of_list_without_three(char **str);
 
 #endif

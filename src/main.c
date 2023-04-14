@@ -1,5 +1,63 @@
 #include "../includes/minishell.h"
 
+int setup_input_redirections(t_redirect *input)
+{
+    int     fd;
+    int     i;
+    char    *str_here_doc;
+    int     len;
+
+    if (!input || !input[0].file)
+        return (1);
+    len = -1;
+    i = -1;
+    while (input[++len].file);
+    len--;
+    while (input[++i].file)
+    {
+        if (i == len && input[i].is_here_doc)
+        {
+            str_here_doc = get_here_doc_content(input[i].file);
+            ft_putstr_fd(str_here_doc, 0);
+            ft_putstr_fd("\n", 0);
+            exit(0);
+        }
+        else if (i == len && !input[i].is_here_doc)
+        {
+            fd = open(input[i].file, O_RDONLY, 0644);
+            if (fd == -1 || dup2(fd, 0) == -1)
+                return (0);
+            return (1);
+        }
+        if (input[i].is_here_doc)
+            get_here_doc_content(input[i].file);
+    }
+    return (1);
+}
+
+
+int setup_output_redirections(t_redirect *output)
+{
+    int fd;
+    int     i;
+
+    if (!output || !output[0].file)
+        return (1);
+    i = -1;
+    if (output[0].is_append)
+        fd = open(output[0].file, O_CREAT | O_APPEND | O_WRONLY, 0644);
+    else
+        fd = open(output[0].file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+    if (fd == -1)
+    {
+        print_error(output[0].file, ": Not such file or directory\n");
+        exit(1);
+    }
+    if (dup2(fd, 1) == -1)
+        return (0);
+    return (1);
+}
+
 int main()
 {
     while (1)
@@ -8,41 +66,38 @@ int main()
         char    **commands = parsing_single_double_quotes(getLine);
         if (!commands)
             continue ;
-/*        int i = -1;
+        /*int i = -1;
         while (commands[++i])
-            ft_printf("|%s|\n", commands[i]);*/
+            ft_printf("|%s|\n", commands[i]);
+        */
         t_list *pipes = parsing_pipes(commands);
         if (!pipes)
-            continue ;
+            exit(0);
         while (pipes)
         {
             t_content *content = pipes->content;
-            int o = 0;
-            while (content->commands[o])
-                ft_printf("|%s|\n", content->commands[o++]);
-            if (content->input_redirections)
-                ft_printf("%s\n", content->input_redirections->file);
-            if (content->output_redirections)
-                ft_printf("%s\n", content->output_redirections->file);
+            int i = -1;
+            while (content->commands[++i])
+                ft_printf("|%s|\n", commands[i]);
             pipes = pipes->next;
         }
         /*
-        int i = -1;
-        while (commands[++i])
-            ft_printf("|%s|\n", commands[i]);
-        int len = get_lenght_of_list_without_three(commands);
-        char    **str = get_list_without_three(commands, len);
-        if (!str)
-            continue ;
-        i = -1;
-        while (str[++i] && str[i][0] != 3)
-            ft_printf("|%s|\n", str[i]);
-        str[i] = NULL;
-        int pid = fork();
-        if (pid == 0)
-            if (execve(str[0], str, NULL) == -1)
-                ft_printf("Execve Error\n");
-        wait(NULL);*/
+        while (pipes)
+        {
+            t_content *content = pipes->content;
+        	int pid = fork();
+        	if (pid == 0)
+       	    {
+                t_redirect *output = create_output_files(content->output_redirections);
+                t_redirect *input = get_input_file(content->input_redirections);
+                if (!setup_input_redirections(input) || !setup_output_redirections(output))
+                    exit(1);
+       	        if (execve(content->commands[0], content->commands, NULL) == -1)
+       	            ft_printf("Execve Error\n");
+            }
+            wait(NULL);
+            pipes = pipes->next;
+       	}*/
         free(getLine);
     }
 }
