@@ -1,29 +1,6 @@
-#include "../../../includes/minishell.h"
+#include "../../../../includes/minishell.h"
 
-int get_number_of_pipe(char **commands)
-{
-    int number_of_pipes;
-    int i;
-
-    if (!commands || !*commands)
-        return (0);
-    number_of_pipes = 0;
-    i = -1;
-    while (commands[++i])
-        if (commands[i][0] == PIPE)
-            number_of_pipes++;
-    return (number_of_pipes);
-}
-
-int get_number_of_commands(char **commands, int j)
-{
-    int i = 0;
-    while (commands[j + i] && ft_strncmp(commands[j + i], "|", 2))
-        i++;
-    return (i);
-}
-
-char    ***split_into_pipes(char **commands)
+static char    ***split_into_pipes(char **commands)
 {
     char    ***pipes;
     int     pipes_len;
@@ -37,9 +14,9 @@ char    ***split_into_pipes(char **commands)
     pipes = ft_calloc(pipes_len + 2, sizeof(char **));
     if (!pipes)
         return (NULL);
-    i = 0;
+    i = -1;
     j = 0;
-    while (i <= pipes_len)
+    while (++i <= pipes_len)
     {
         s = 0;
         pipes[i] = ft_calloc(get_number_of_commands(commands, j) + 1, sizeof(char *));
@@ -50,10 +27,8 @@ char    ***split_into_pipes(char **commands)
             if (commands[j] && commands[j][0] == PIPE && ++j)
                 break;
             pipes[i][s++] = ft_strdup(commands[j]);
-            free(commands[j]);
-            j++;
+            free(commands[j++]);
         }
-        i++;
     }
     return (pipes);
 }

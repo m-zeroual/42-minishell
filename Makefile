@@ -4,8 +4,11 @@ SRCS	=	src/main.c \
 			src/errors/print_error.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c \
-			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes.c \
-			src/parsing_args/parsing_redirection_and_pipes/parsing_redirection.c
+			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes_utils.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
