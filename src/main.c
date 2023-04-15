@@ -94,27 +94,20 @@ void ft_exec_cmd(t_shell *_shell)
 	wait(0);
 }
 
-void ft_join(t_shell *_shell)
+void ft_join_cmd(t_shell *_shell)
 {
 	int i;
 	char *help_for_free;
 
 	i = 0;
-	// if (ft_strchr(_shell->cmd, '/'))
-	// {
-	// 	free_split(_shell->pa);
-	// 	_shell->pa[i] = _shell->cmd_split[0];
-	// 	return ;
-	// }
-
 	while(_shell->path[i])
 	{
 		help_for_free = ft_strjoin(_shell->path[i], "/");
 		free(_shell->path[i]);
-		_shell->path[i] = help_for_free;
-		help_for_free = ft_strjoin(_shell->path[i], _shell->cmd_split[0]);
-		free(_shell->path[i]);
-		_shell->path[i] = help_for_free;
+		// _shell->path[i] = help_for_free;
+		_shell->path[i] = ft_strjoin(help_for_free, _shell->cmd_split[0]);
+		free(help_for_free);
+		// _shell->path[i] = help_for_free;
 		i++;
 	}
 }
@@ -166,41 +159,6 @@ void ft_join(t_shell *_shell)
 // 		str = (str + 2);
 // }
 
-void ft_exe_cd(t_shell _shell)
-{
-	if (_shell.cmd_split[1] == NULL || !ft_strncmp(_shell.cmd_split[1], "~", 1))
-		cd_home(&_shell);
-	// else if (!ft_strncmp(_shell.cmd_split[1], "/", 1))
-	// 	cd_root(&_shell);
-	// else if (!ft_strncmp(_shell.cmd_split[1], "..", 2))
-	// 	cd_2dots(&_shell);
-	else
-		cd_path(&_shell);
-}
-
-
-
-
-int	ft_check_v(char **env, char *var)
-{
-	int		i;
-	char	**str;
-
-	i = 0;
-	if (var[0] == '$')
-		var++;
-	while (env[i])
-	{
-		str = ft_split(env[i], '=');
-		// printf("%s\n", str[0]);
-		if (!ft_strncmp(str[0], var,ft_strlen(var)))
-			return (i);
-		free_split(str);
-		i++;
-	}
-	return (-1);
-}
-
 
 void sig_handler(int sig)
 {
@@ -213,172 +171,26 @@ void sig_handler(int sig)
 	}
 }
 
-int	ft_edit_var(t_shell *_shell, char *var, char *value)
-{
-	int index_var;
 
-	index_var = ft_check_v(_shell->ev, var);
-	if (index_var != -1)
-	{
-		char *join_equal = ft_strjoin(var, "=");
-		if (value)
-		{
-			printf("%s\n", var);
-			printf("%d\n", ft_check_v(_shell->ev, var));
-			if (ft_check_v(_shell->ev, var) != -1)
-				_shell->ev[index_var] = ft_strjoin(join_equal, value);
-			else
-				_shell->ev[index_var] = ft_strjoin(join_equal, ft_getenv(_shell->ev , value));
-
-		}
-		else
-			_shell->ev[index_var] = join_equal;
-		return (1);
-	}
-	return (0);
-}
-
-int ft_count_env(char **env)
-{
-
-	int i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	return (i);
-}
-
-void fill_env(t_shell *_shell, char **ev, char *var, char *value)
-{
-	static int	for_free;
-	char		*join_equal;
-	int			i;
-
-	i = 0;
-	while (_shell->ev[i])
-	{
-		ev[i] = _shell->ev[i];
-		i++;
-	}
-	join_equal = ft_strjoin(var, "=");
-	// printf("%s\n", var);
-	// printf("%d\n", ft_check_v(_shell->ev, var));
-	if (ft_check_v(_shell->ev, var) != -1)
-		ev[i] = ft_strjoin(join_equal, value);
-	else
-	{
-		ev[i] = ft_strjoin(join_equal, ft_getenv(_shell->ev , value));
-	}
-	ev[i + 1] = 0;
-	if (!for_free && for_free++)
-		free_split(_shell->ev);
-	free(var);
-	_shell->ev = ev;
-}
-
-long ft_abs(long num)
-{
-	if (num > 0)
-		return (num);
-	else
-		return (num * -1);
-}
-int check_var_error(char *var)
-{
-	int i;
-	
-	i = 0;
-	if (!ft_isalpha(var[i]) && var[i] != '_')
-		return (0);
-	while (var[i])
-	{
-		if (!ft_isalpha(var[i]) && var[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char *ft_getenv(char **env, char *var)
-{
-
-	int index;
-	char **str;
-
-	index = ft_check_v(env, var);
-	str = ft_split(env[index], '=');
-	return (str[1]);
-}
-
-int ft_add_var(t_shell *_shell)
-{
-	char	*var;
-	char	*value;
-	char	**ev;
-	int 	i;
-
-	i = 1;
-	value = 0;
-	ev = malloc(sizeof(char *) * (ft_count_env(_shell->ev) + 2));
-	if (!ev)
-		return (0);
-
-	while (_shell->cmd_split[i])
-	{
-		var = ft_substr(_shell->cmd_split[i], 0,\
-		(ft_abs(ft_strchr(_shell->cmd_split[i], '=') - _shell->cmd_split[i])));
-		if (!check_var_error(var))
-			printf("bash: %s: `%s\': not a valid identifier\n", _shell->cmd_split[0], _shell->cmd_split[i++]);
-		if (!_shell->cmd_split[i])
-			return (0);
-		if (ft_strchr(_shell->cmd_split[i], '='))
-		{
-			value = (ft_strchr(_shell->cmd_split[i], '=') + 1);
-			if (!ft_edit_var(_shell, var, value))
-			{
-				printf("here\n");
-				fill_env(_shell, ev, var, value);
-			}
-		}
-		i++;
-	}
-	return (1);
-}
-
-void ft_exe_export(t_shell *_shell)
-{
-	if (_shell->cmd_split[1])
-	{
-		// printf("%d\n", ft_count_env(_shell->ev));
-		ft_add_var(_shell);
-		// printf("%d\n", ft_count_env(_shell->ev));
-
-	}
-	else
-	{
-		printf("No thing here\n");
-	}
-}
 
 void ft_exe_command(t_shell *_shell)
 {
 	if (!ft_strncmp(_shell->first_part_cmd_l, PWD, 4)
 		|| !ft_strncmp(_shell->first_part_cmd_l + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), PWD, 4))
 		ft_exe_pwd(*_shell);
-	else if (!ft_strncmp(_shell->first_part_cmd_l, ENV, 4)
-		|| !ft_strncmp(_shell->first_part_cmd_l + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), ENV, 4))
+	else if (!ft_strncmp(_shell->first_part_cmd_l, EN, 4)
+		|| !ft_strncmp(_shell->first_part_cmd_l + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), EN, 4))
 		ft_exe_env(*_shell);
 	else if (!ft_strncmp(_shell->first_part_cmd_l, CD, 3)
 		|| !ft_strncmp(_shell->first_part_cmd_l + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), CD, 3))
 		ft_exe_cd(*_shell);
-	else if ((!ft_strncmp(_shell->first_part_cmd_l, EXP, 7)
-		|| !ft_strncmp(_shell->first_part_cmd_l + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), EXP, 7)))
+	else if ((!ft_strncmp(_shell->first_part_cmd_l, EX, 7)
+		|| !ft_strncmp(_shell->first_part_cmd_l + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), EX, 7)))
 		ft_exe_export(_shell);
 	// else if (!ft_strncmp(_shell->first_part_cmd_l, EXP, 7))
 	// 	ft_exe_export(_shell);
-	else
-		ft_exec_cmd(_shell);
+	// else
+	// 	ft_exec_cmd(_shell);
 
 	
 	
@@ -411,33 +223,49 @@ void ft_exe_command(t_shell *_shell)
 }
 
 
-void print_struct(t_shell *_shell)
-{
-	int i = 0;
-	// printf("path\t|%s|\n", _shell->path[]);
-	while(_shell->path[i])
-		printf("path splt\t|%s|\n", _shell->path[i++]);
-	printf("-----------------------\n");
+// void print_struct(t_shell *_shell)
+// {
+// 	int i = 0;
+// 	// printf("path\t|%s|\n", _shell->path[]);
+// 	while(_shell->path[i])
+// 		printf("path splt\t|%s|\n", _shell->path[i++]);
+// 	printf("-----------------------\n");
 	
 
-	i = 0;
-	while(_shell->path[i])
-		printf("pa splt\t\t|%s|\n", _shell->path[i++]);
-	printf("-----------------------\n");
+// 	i = 0;
+// 	while(_shell->path[i])
+// 		printf("pa splt\t\t|%s|\n", _shell->path[i++]);
+// 	printf("-----------------------\n");
 
-	printf("cmd\t\t|%s|\n", _shell->cmd);
-	printf("first_part_cmd_l\t|%s|\n", _shell->first_part_cmd_l);
-	printf("-----------------------\n");
+// 	printf("cmd\t\t|%s|\n", _shell->cmd);
+// 	printf("first_part_cmd_l\t|%s|\n", _shell->first_part_cmd_l);
+// 	printf("-----------------------\n");
 
-	i = 0;
-	while(_shell->cmd_split[i] != 0)
-		printf("cmd splt\t|%s|\n", _shell->cmd_split[i++]);
-}
+// 	i = 0;
+// 	while(_shell->cmd_split[i] != 0)
+// 		printf("cmd splt\t|%s|\n", _shell->cmd_split[i++]);
+// }
+
+// char **ft_fill_env(char **env, int lines)
+// {
+// 	int 	i;
+// 	char 	**env_copy;
+
+// 	i = 0;
+// 	env_copy = malloc(lines * sizeof(char *));
+// 	if (!env_copy)
+// 		return (0);
+// 	while (env[i])
+// 	{
+// 		env_copy[i] = env[i];
+// 		i++;
+// 	}
+// 	return (env_copy);
+// }
 
 
 int ft_init(t_shell *_shell)
 {
-	// _shell->path_split = ft_split(getenv("PATH"), ':');
 	_shell->path = ft_split(getenv("PATH"), ':');
 
 	_shell->cmd = readline("minishell:$ ");
@@ -449,6 +277,7 @@ int ft_init(t_shell *_shell)
 	_shell->cmd_split = ft_split(_shell->cmd, ' ');
 	_shell->first_part_cmd_l = ft_str_tolower(_shell->cmd_split[0]);
 	_shell->second_part = _shell->cmd_split[1];
+	
 	return (1);
 
 }
@@ -457,7 +286,7 @@ void ft_exe(t_shell *_shell)
 {
 	if (!ft_init(_shell))
 		return ;
-	ft_join(_shell);       // is freed
+	ft_join_cmd(_shell);       // is freed
 	ft_exe_command(_shell);
 
 }
@@ -469,18 +298,22 @@ int main(int ac, char *av[], char *ev[])
 	// (void)ac;
 	// (void)av;
 	// (void)ev;
-
-	// printf("\n%d\n", ft_check_v(ev, "PATH"));
-	// printf("\n%d\n", ""));
-
-
 	// signal(SIGINT, sig_handler);
 
 	_shell.ac = ac;
 	_shell.av = av;
 	_shell.ev = ev;
+	_shell.export = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
+	_shell.env = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
+	// int i = 0;
+	// while (_shell.export[i])
+	// 	printf("export %s\n", _shell.export[i++]);
+	// i = 0;
+	// while (_shell.env[i])
+	// 	printf("env %s\n", _shell.env[i++]);
 	while (1)
 		ft_exe(&_shell);
+
 
 	return (0);
 }

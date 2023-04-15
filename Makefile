@@ -1,10 +1,11 @@
 NAME	=	minishell
 
 SRCS	=	src/main.c  \
-			src/utils.c	\
-			src/pwd.c	\
-			src/cd.c	\
-			src/env.c
+			src/ft_utils.c	\
+			src/ft_pwd.c	\
+			src/ft_cd.c	\
+			src/ft_export.c	\
+			src/ft_env.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
@@ -17,7 +18,7 @@ all	:	$(NAME)
 $(NAME)	:	$(OBJS)
 	@make -C ft_printf
 	@make -C libft
-	$(CC) $(CFLAGS) $^ libft/libft.a ft_printf/libftprintf.a -o $@ -lreadline
+	$(CC) $(CFLAGS)  $^ libft/libft.a ft_printf/libftprintf.a -o $@ -lreadline # -fsanitize=address
 
 
 %.o		:	%.c

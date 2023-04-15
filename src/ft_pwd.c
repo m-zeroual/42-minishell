@@ -1,6 +1,5 @@
 #include "../includes/main.h"
 
-
 char *curr_path(t_shell _shell)
 {
 	char **str;
@@ -33,44 +32,6 @@ void ft_exe_pwd(t_shell _shell)
 	else
 		printf("bash: %s: %s\n", _shell.cmd_split[0], strerror(errno));
 }
-
-
-// char *skip_double_slash(char *arg)
-// {
-// 	int i;
-// 	int j;
-// 	char *str;
-
-// 	str = malloc(ft_strlen(arg));
-// 	i = 0;
-// 	j = 0;
-// 	while (arg[i])
-// 	{
-// 		if (arg[i] != '/' || ((arg[i] == '/' && arg[i + 1] != '/') || i == 0))
-// 			str[j++] = arg[i];
-// 		i++;
-// 	}
-// 	str[j] = 0;
-// 	return (str);
-// }
-
-// int how_many_2dots(char *arg)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (arg[i])
-// 	{
-// 		if (arg[i] == '.' && arg[i + 1] == '.')
-// 			j++;
-// 		i++;
-// 	}
-// 	return (j);
-// }
-
-
 
 void ch_pwd(t_shell *_shell)
 {

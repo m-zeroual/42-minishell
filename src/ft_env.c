@@ -11,8 +11,8 @@ void ft_exe_env(t_shell _shell)
 		if (access(_shell.path[i], F_OK) == 0)
 		{
 			j = 0;
-			while (_shell.ev[j])
-				printf("%s\n", _shell.ev[j++]);
+			while (_shell.env[j])
+				printf("%s\n", _shell.env[j++]);
 			return ;
 		}
 		i++;

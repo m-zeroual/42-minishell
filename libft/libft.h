@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2022/10/10 20:22:02 by esalim           ###   ########.fr       */
+/*   Updated: 2023/04/12 16:53:32 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,26 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef struct  s_redirect
+{
+    char            *file;
+    char            is_input;
+    char            is_output;
+    char            is_append;
+    char            is_here_doc;
+    unsigned char   number_of_arrow;
+}   t_redirect;
+
+typedef struct  s_content
+{
+    char        **commands;
+    t_redirect  *input_redirections;
+    t_redirect  *output_redirections;
+}   t_content;
+
 typedef struct s_list
 {
-	void			*content;
+    t_content       *content;
 	struct s_list	*next;
 }	t_list;
 
@@ -45,6 +62,7 @@ int		ft_atoi(const char *str);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);
+char	*ft_strndup(char *str, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
@@ -56,7 +74,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-t_list	*ft_lstnew(void *content);
+t_list	*ft_lstnew(t_content *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);

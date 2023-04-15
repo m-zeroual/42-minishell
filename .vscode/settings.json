@@ -4,6 +4,8 @@
         "_posix_vdisable.h": "c",
         "errno.h": "c",
         "main.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "string.h": "c",
+        "signal.h": "c"
     }
 }
