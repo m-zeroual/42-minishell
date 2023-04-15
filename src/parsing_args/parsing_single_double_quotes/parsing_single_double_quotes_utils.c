@@ -3,7 +3,7 @@
 /**
  *  this function will be free the double pointer that you giving to him.
  */
-void	free_double_pointer(char **str)
+void    free_double_pointer(char **str)
 {
 	int	i;
 
@@ -88,6 +88,9 @@ char	**get_list_without_three(char **dpointer, int len)
 	while (dpointer[++i])
 		if (!is_only_three(dpointer[i]))
 			result[j++] = ft_strdup(dpointer[i]);
-	return (free_double_pointer(dpointer), result);
+    free_double_pointer(dpointer);
+    if (!j)
+        return (free(result), NULL);
+	return (result);
 }
 

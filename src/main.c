@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int setup_input_redirections(t_redirect *input)
+int setup_input_redirections(t_redirect *input, unsigned char check)
 {
     int     fd;
     int     i;
@@ -18,8 +18,11 @@ int setup_input_redirections(t_redirect *input)
         if (i == len && input[i].is_here_doc)
         {
             str_here_doc = get_here_doc_content(input[i].file);
-            ft_putstr_fd(str_here_doc, 0);
-            ft_putstr_fd("\n", 0);
+            if (check)
+            {
+                ft_putstr_fd(str_here_doc, 0);
+                ft_putstr_fd("\n", 0);
+            }
             free(str_here_doc);
             exit(0);
         }
@@ -43,11 +46,9 @@ int setup_input_redirections(t_redirect *input)
 int setup_output_redirections(t_redirect *output)
 {
     int fd;
-    int     i;
 
     if (!output || !output[0].file)
         return (1);
-    i = -1;
     if (output[0].is_append)
         fd = open(output[0].file, O_CREAT | O_APPEND | O_WRONLY, 0644);
     else
@@ -72,6 +73,7 @@ int main()
     t_redirect  *input;
     int     pid;
     t_list      *pipes;
+    t_list      *tmp;
 
     while (1)
     {
@@ -90,8 +92,10 @@ int main()
         	pid = fork();
         	if (pid == 0)
        	    {
-                if (!setup_input_redirections(input) || !setup_output_redirections(output))
+                if (!setup_input_redirections(input, (content->commands != 0)) || !setup_output_redirections(output))
                     exit(1);
+                free_t_redirect(input);
+                free_t_redirect(output);
        	        if (execve(content->commands[0], content->commands, NULL) == -1)
                 {
        	            print_error(commands[0], ": Execve Error\n");
@@ -103,9 +107,11 @@ int main()
             free_t_redirect(output);
             free_double_pointer(content->commands);
             free(content);
-            free(pipes);
+            tmp = pipes;
             pipes = pipes->next;
+            free(tmp);
        	}
+        free(commands);
         free(getLine);
     }
 }

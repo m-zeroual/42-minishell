@@ -43,6 +43,8 @@ char    ***split_into_pipes(char **commands)
     {
         s = 0;
         pipes[i] = ft_calloc(get_number_of_commands(commands, j) + 1, sizeof(char *));
+        if (!pipes[i])
+            return (NULL);
         while (commands[j])
         {
             if (commands[j] && commands[j][0] == PIPE && ++j)
@@ -82,5 +84,6 @@ t_list    *parsing_pipes(char  **commands)
         ft_lstadd_back(&pipes, ft_lstnew(content));
         i++;
     }
+    free(p);
     return (pipes);
 }

@@ -179,7 +179,7 @@ t_redirect  *get_input_redirections(t_redirect *redirections)
         return (0);
     i = 0;
     len = 0;
-    while (redirections[i].file)
+    while (redirections && redirections[i].file)
     {
         if (redirections[i].is_input == 1)
         {
@@ -193,6 +193,8 @@ t_redirect  *get_input_redirections(t_redirect *redirections)
         }
         i++;
     }
+    if (!len)
+        return (free(input), NULL);
     return (input);
 }
 
@@ -228,6 +230,8 @@ t_redirect  *get_output_redirections(t_redirect *redirections)
         }
         i++;
     }
+    if (!len)
+        return (free(output), NULL);
     return (output);
 }
 
@@ -325,7 +329,6 @@ t_redirect  *get_input_file(t_redirect *inputs)
 
 char    *get_here_doc_content(char  *eol)
 {
-    int i;
     int len;
     char    *string;
     char    *line;
@@ -333,7 +336,6 @@ char    *get_here_doc_content(char  *eol)
 
     if (!eol)
         return (0);
-    i = 0;
     len = ft_strlen(eol);
     string = ft_calloc(2, sizeof(*string));
     if (!string)
