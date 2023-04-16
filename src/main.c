@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int setup_input_redirections(t_redirect *input, unsigned char check)
+int setup_input_redirections(t_redirect *input, char **str)
 {
     int     fd;
     int     i;
@@ -17,20 +17,18 @@ int setup_input_redirections(t_redirect *input, unsigned char check)
     {
         if (i == len && input[i].is_here_doc)
         {
-            str_here_doc = get_here_doc_content(input[i].file);
-            if (check)
-            {
-                ft_putstr_fd(str_here_doc, 0);
-                ft_putstr_fd("\n", 0);
-            }
-            free(str_here_doc);
-            exit(0);
+            *str = get_here_doc_content(input[i].file);
+            return (1);
         }
         else if (i == len && !input[i].is_here_doc)
         {
             fd = open(input[i].file, O_RDONLY, 0644);
             if (fd == -1 || dup2(fd, 0) == -1)
+            {
+                close(fd);
                 return (0);
+            }
+            close(fd);
             return (1);
         }
         if (input[i].is_here_doc)
@@ -41,7 +39,6 @@ int setup_input_redirections(t_redirect *input, unsigned char check)
     }
     return (1);
 }
-
 
 int setup_output_redirections(t_redirect *output)
 {
@@ -59,7 +56,11 @@ int setup_output_redirections(t_redirect *output)
         exit(1);
     }
     if (dup2(fd, 1) == -1)
+    {
+        close(fd);
         return (0);
+    }
+    close(fd);
     return (1);
 }
 
@@ -74,6 +75,7 @@ int main()
     int     pid;
     t_list      *pipes;
     t_list      *tmp;
+    char        *str_here_doc;
 
     while (1)
     {
@@ -87,13 +89,22 @@ int main()
         while (pipes)
         {
             content = pipes->content;
+            str_here_doc = NULL;
             output = create_output_files(content->output_redirections);
             input = get_input_file(content->input_redirections);
         	pid = fork();
         	if (pid == 0)
        	    {
-                if (!setup_input_redirections(input, (content->commands != 0)) || !setup_output_redirections(output))
-                    exit(1);
+                if (!setup_input_redirections(input, &str_here_doc) \
+                        || !setup_output_redirections(output))
+                    return (1);
+                if (str_here_doc)
+                {
+                    ft_putstr_fd(str_here_doc, 1);
+                    ft_putstr_fd("\n", 1);
+                    free(str_here_doc);
+                    exit(0);
+                }
                 free_t_redirect(input);
                 free_t_redirect(output);
        	        if (execve(content->commands[0], content->commands, NULL) == -1)
