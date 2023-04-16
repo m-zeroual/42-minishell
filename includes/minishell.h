@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef MINISHELL_H
+#define MINISHELL_H
 
 #include <unistd.h>
 #include <errno.h>
@@ -68,20 +68,41 @@ void	ft_exe_cd(t_shell _shell);
 // void cd_path(t_shell *_shell);         *
 
 
-//		======> ft_export.c <=======
-long ft_abs(long num);
-int ft_count_env(char **env);
+// 		======> ft_command.c <=======
+void exec_path_cmd(t_shell *_shell);
+void ft_exec_cmd(t_shell *_shell);
+
+// 		======> ft_excute.c <=======
+void ft_exe_command(t_shell *_shell);
+void ft_join_cmd(t_shell *_shell);
+int ft_init(t_shell *_shell);
+void ft_exe(t_shell *_shell);
+
+
+
+
+//		======> ft_export1.c <=======
+void ft_getvar_and_value(char *command, char **env, char **var, char **value);
+char *ft_getenv(char **env, char *var);
+char *ft_getvar(char *str);
+int	ft_check_var_exist(char **env, char *var);
+int ft_var_error(t_shell _shell, char *var);
+
+//		======> ft_export2.c <=======
+int edit_var(char **str, char *var, char *value, int check);
+char **add_var(char **env, char *var, char *value);
 char **ft_fill_env(char **env, int lines);
+int ft_count_env(char **env);
 
 
 
-void	ft_exe_export(t_shell *_shell);
-int 	ft_add_var(t_shell *_shell);
-int		check_var_error(char *var);
-int		ft_check_var_exist(char **env, char *var);
-int		ft_edit_var(t_shell *_shell, char *var, char *value);
-void	fill_env(t_shell *_shell, char *var, char *value);
-char	*ft_getenv(char **env, char *var);
+
+//		======> ft_export.c <=======
+int check_var_error(char *var);
+void ft_display_export(char **exp);
+int ft_add_var(t_shell *_shell);
+void ft_exe_export(t_shell *_shell);
+
 
 
 #endif

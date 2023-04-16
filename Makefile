@@ -4,7 +4,12 @@ SRCS	=	src/main.c  \
 			src/ft_utils.c	\
 			src/ft_pwd.c	\
 			src/ft_cd.c	\
+			src/ft_export_1.c	\
+			src/ft_export_2.c	\
+			src/ft_export_3.c	\
 			src/ft_export.c	\
+			src/ft_command.c	\
+			src/ft_excute.c	\
 			src/ft_env.c
 
 OBJS	=	$(SRCS:%.c=%.o)

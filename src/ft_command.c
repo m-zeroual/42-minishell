@@ -1,0 +1,44 @@
+#include "../includes/minishell.h"
+
+void	exec_path_cmd(t_shell *_shell)
+{
+	if (ft_strchr(_shell->cmd, '/'))
+	{
+		if (access(_shell->first_part_cmd_l, F_OK) == 0)
+		{
+			if (execve(_shell->first_part_cmd_l, _shell->cmd_split, \
+				_shell->ev) == -1)
+				printf("Error in execve function\n");
+		}
+		printf("bash: %s: No such file or directory\n", _shell->cmd_split[0]);
+		exit (127);
+	}
+}
+
+void	ft_exec_cmd(t_shell *_shell)
+{
+	int	i;
+	int	p;
+
+	i = 0;
+	p = fork();
+	if (p == -1)
+		exit(0);
+	if (p == 0)
+	{
+		exec_path_cmd(_shell);
+		while (_shell->path[i])
+		{
+			if (access(_shell->path[i], F_OK) == 0)
+			{
+				if (execve(_shell->path[i], _shell->cmd_split, \
+				_shell->ev) == -1)
+					printf("Error in execve function\n");
+			}
+			i++;
+		}
+		printf("bash: %s: command not found\n", _shell->cmd_split[0]);
+		exit (127);
+	}
+	wait(0);
+}

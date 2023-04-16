@@ -1,4 +1,4 @@
-#include "../includes/main.h"
+#include "../includes/minishell.h"
 
 void cd_path(t_shell *_shell)
 {

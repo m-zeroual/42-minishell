@@ -1,4 +1,4 @@
-#include "../includes/main.h"
+#include "../includes/minishell.h"
 
 char *curr_path(t_shell _shell)
 {
