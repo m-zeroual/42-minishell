@@ -64,7 +64,7 @@ int	ft_check_var_exist(char **env, char *var)
 		str = ft_split(env[i], '=');
 		if (!str)
 			return (-1);
-		if (!ft_strncmp(str[0], var + j, ft_strlen(var + j)))
+		if (!ft_strncmp(str[0], var + j, ft_strlen(var + j) + 1))
 			return (i);
 		free_split(str);
 		i++;

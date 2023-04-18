@@ -70,14 +70,15 @@ void	ft_exe_cd(t_shell _shell);
 void exec_path_cmd(t_shell *_shell);
 void ft_exec_cmd(t_shell *_shell);
 
+
+
+
+
 // 		======> ft_excute.c <=======
 void ft_exe_command(t_shell *_shell);
 void ft_join_cmd(t_shell *_shell);
 int ft_init(t_shell *_shell);
 void ft_exe(t_shell *_shell);
-
-
-
 
 //		======> ft_export1.c <=======
 int ft_getvar_and_value(char *command, char **env, char **var, char **value);
@@ -92,14 +93,21 @@ char **add_var(char **env, char *var, char *value);
 char **ft_fill_env(char **env, int lines);
 int ft_count_env(char **env);
 
-
-
-
 //		======> ft_export.c <=======
 int check_var_error(char *var);
 void ft_display_export(char **exp);
 int ft_add_var(t_shell *_shell);
 void ft_exe_export(t_shell *_shell);
+
+
+
+
+
+
+
+
+//		======> ft_unset.c <=======
+void ft_exe_unset(t_shell *_shell);
 
 
 

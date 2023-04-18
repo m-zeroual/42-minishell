@@ -14,6 +14,9 @@ void	ft_exe_command(t_shell *_shell)
 	else if ((!ft_strncmp(_shell->cmd_split[0], EX, 7)
 			|| !ft_strncmp(_shell->cmd_split[0] + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), EX, 7)))
 		ft_exe_export(_shell);
+	else if ((!ft_strncmp(_shell->cmd_split[0], UNS, 5)
+			|| !ft_strncmp(_shell->cmd_split[0] + (ft_get_index_reverse(_shell->first_part_cmd_l, '/', 1) + 1), UNS, 5)))
+		ft_exe_unset(_shell);
 	else
 		ft_exec_cmd(_shell);
 }
