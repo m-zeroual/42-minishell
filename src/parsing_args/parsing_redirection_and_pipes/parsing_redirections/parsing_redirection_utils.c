@@ -30,40 +30,36 @@ void	free_t_redirect(t_redirect *redirect)
 	free(redirect);
 }
 
+int		create_file(t_redirect *file)
+{
+	int	fd;
+
+	if (file->is_append \
+			&& !access(file->file, F_OK) \
+			&& check_permissions(file->file, "0010"))
+		fd = open(file->file, O_CREAT | O_APPEND, 0644);
+	else
+		fd = open(file->file, O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return (0);
+	close(fd);
+	return (1);
+}
+
 t_redirect	*create_output_files(t_redirect *output)
 {
 	t_redirect	*last_file;
 	int			i;
-	int			fd;
 
 	i = 0;
 	if (!output || !output[i].file)
 		return (NULL);
 	last_file = ft_calloc(2, sizeof(*last_file));
-	if (!last_file)
+	if (!last_file || !create_file(&output[0]))
 		return (NULL);
-	if (output[i].is_append \
-			&& !access(output[i].file, F_OK) \
-			&& check_permissions(output[i].file, "0010"))
-		fd = open(output[i].file, O_CREAT | O_APPEND, 0644);
-	else
-		fd = open(output[i].file, O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (NULL);
-	i++;
-	while (output[i].file)
-	{
-		close(fd);
-		if (output[i].is_append \
-				&& !access(output[i].file, F_OK) \
-				&& check_permissions(output[i].file, "0010"))
-			fd = open(output[i++].file, O_CREAT | O_APPEND | O_WRONLY, 0644);
-		else
-			fd = open(output[i++].file, O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
+	while (output[++i].file)
+		if (!create_file(&output[i]))
 			return (NULL);
-	}
-	close(fd);
 	last_file->file = ft_strdup(output[i - 1].file);
 	last_file->is_append = output[i - 1].is_append;
 	last_file->is_output = output[i - 1].is_output;
@@ -116,16 +112,16 @@ char	*get_here_doc_content(char	*eol)
 	char	*tmp;
 
 	if (!eol)
-		return (0);
+		return (ft_strdup(""));
 	len = ft_strlen(eol);
 	string = ft_calloc(2, sizeof(*string));
 	if (!string)
-		return (NULL);
+		return (ft_strdup(""));
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			return (NULL);
+			continue ;
 		if (!ft_strncmp(line, eol, len + 1))
 		{
 			len = ft_strlen(string);

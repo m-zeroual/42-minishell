@@ -83,7 +83,7 @@ t_redirect	*get_output_redirections(t_redirect *redirections)
 	len = 0;
 	if (!redirections)
 		return (NULL);
-	while (redirections && redirections[i].file)
+	while (redirections[i].file)
 		if (redirections[i++].is_output == 1)
 			len++;
 	output = ft_calloc(len + 1, sizeof(*output));

@@ -2,6 +2,7 @@ NAME	=	minishell
 
 SRCS	=	src/main.c \
 			src/errors/print_error.c \
+			src/parsing_args/main_parsing.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes.c \
