@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "_posix_vdisable.h": "c",
+        "errno.h": "c",
+        "main.h": "c",
+        "libft.h": "c",
+        "string.h": "c",
+        "signal.h": "c",
+        "minishell.h": "c"
+    }
+}

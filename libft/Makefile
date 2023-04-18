@@ -6,7 +6,7 @@
 #    By: esalim <esalim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 18:43:45 by esalim            #+#    #+#              #
-#    Updated: 2023/03/30 16:35:17 by esalim           ###   ########.fr        #
+#    Updated: 2023/04/18 23:07:24 by mzeroual         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,21 +44,18 @@ CFILES	= ft_isalnum.c \
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
-		ft_putnbr_fd.c
-
-BONUSFILES = ft_lstnew.c \
-			 ft_lstadd_front.c \
-			 ft_lstsize.c \
-			 ft_lstlast.c \
-			 ft_lstadd_back.c \
-			 ft_lstdelone.c \
-			 ft_lstclear.c \
-			 ft_lstiter.c \
-			 ft_lstmap.c
+		ft_putnbr_fd.c \
+		ft_lstnew.c \
+		ft_lstadd_front.c \
+		ft_lstsize.c \
+		ft_lstlast.c \
+		ft_lstadd_back.c \
+		ft_lstdelone.c \
+		ft_lstclear.c \
+		ft_lstiter.c \
+		ft_lstmap.c
 
 OBJS	= $(CFILES:.c=.o)
-
-BONUSOBJS = $(BONUSFILES:.c=.o)
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror 
@@ -69,14 +66,12 @@ all: 	$(NAME)
 $(NAME): $(OBJS)
 	@ar -rcs $@ $^
 
-bonus:	$(BONUSOBJS)
-	@ar -rcs $(NAME) $^
 
 %.o:%.c
 	@$(CC) -c $(CFLAGS) $^
 
 clean:
-	@rm -f $(OBJS) $(BONUSOBJS)
+	@rm -f $(OBJS)
 
 fclean: clean
 	@rm -f $(NAME)

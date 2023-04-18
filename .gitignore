@@ -1,1 +1,4 @@
-./src/*/*.o
+minishell
+.vscode
+.DS_Store
+*.o
