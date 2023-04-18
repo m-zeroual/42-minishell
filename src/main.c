@@ -11,9 +11,9 @@ void sig_handler(int sig)
 	}
 }
 
-int main(int ac, char *av[], char *ev[])
+int	main(int ac, char *av[], char *ev[])
 {
-	t_shell _shell;
+	t_shell	_shell;
 	
 	// (void)ac;
 	// (void)av;
@@ -25,6 +25,7 @@ int main(int ac, char *av[], char *ev[])
 	_shell.ev = ev;
 	_shell.export = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
 	_shell.env = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
+
 	while (1)
 		ft_exe(&_shell);
 	return (0);

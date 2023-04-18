@@ -1,9 +1,9 @@
 #include "../includes/minishell.h"
 
-char *ft_str_tolower(char *cmd)
+char	*ft_str_tolower(char *cmd)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = 0;
 	str = malloc(ft_strlen(cmd) + 1);
@@ -18,7 +18,7 @@ char *ft_str_tolower(char *cmd)
 	return (str);
 }
 
-int ft_get_index_reverse(char *str, char c, int count)
+int	ft_get_index_reverse(char *str, char c, int count)
 {
 	int	i;
 
@@ -48,9 +48,9 @@ int ft_get_index_reverse(char *str, char c, int count)
 // 	return (0);
 // }
 
-void free_split(char **str)
+void	free_split(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

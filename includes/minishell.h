@@ -33,12 +33,10 @@ typedef struct s_shell
 	char 	**export;
 	char 	**env;
 	char	*cmd;
-	char	*first_part_cmd_l;
-	char	*second_part;
-	char 	**cmd_split;
-	char	**path;
+	char	*first_part_cmd_l;      // =>
+	char 	**cmd_split;			// =>
+	char	**path;					// =>
 
-	
 }	t_shell;
 
 
@@ -82,7 +80,7 @@ void ft_exe(t_shell *_shell);
 
 
 //		======> ft_export1.c <=======
-void ft_getvar_and_value(char *command, char **env, char **var, char **value);
+int ft_getvar_and_value(char *command, char **env, char **var, char **value);
 char *ft_getenv(char **env, char *var);
 char *ft_getvar(char *str);
 int	ft_check_var_exist(char **env, char *var);

@@ -21,24 +21,20 @@ void	ft_exec_cmd(t_shell *_shell)
 	int	p;
 
 	i = 0;
-	p = fork();
-	if (p == -1)
-		exit(0);
-	if (p == 0)
+	while (_shell->path[i])
 	{
-		exec_path_cmd(_shell);
-		while (_shell->path[i])
+		if (access(_shell->path[i], F_OK) == 0)
 		{
-			if (access(_shell->path[i], F_OK) == 0)
+			p = fork();
+			if (p == 0)
 			{
 				if (execve(_shell->path[i], _shell->cmd_split, \
-				_shell->ev) == -1)
-					printf("Error in execve function\n");
+					_shell->ev) == -1)
+					printf("bash: %s: command not found\n", \
+					_shell->cmd_split[0]);
 			}
-			i++;
 		}
-		printf("bash: %s: command not found\n", _shell->cmd_split[0]);
-		exit (127);
+		i++;
 	}
 	wait(0);
 }

@@ -25,7 +25,15 @@ void	ft_display_export(char **exp)
 	while (exp[i])
 	{
 		str = ft_split(exp[i], '=');
-		printf("declare -x %s=\"%s\"\n", str[0], str[1]);
+		if (ft_strchr(exp[i], '='))
+		{
+			if (str[1] && str[1][0] != '"')
+				printf("declare -x %s=\"%s\"\n", str[0], str[1]);
+			else
+				printf("declare -x %s=\"\"\n", str[0]);
+		}
+		else
+			printf("declare -x %s\n", str[0]);
 		free_split(str);
 		i++;
 	}

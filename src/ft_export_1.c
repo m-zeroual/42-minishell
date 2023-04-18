@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	ft_getvar_and_value(char *command, char **env, char **var, char **value)
+int	ft_getvar_and_value(char *command, char **env, char **var, char **value)
 {
 	char	*s;
 	char	*s1;
@@ -23,7 +23,9 @@ void	ft_getvar_and_value(char *command, char **env, char **var, char **value)
 			free(*value);
 			*value = s1;
 		}
+		return (1);
 	}
+	return (0);
 }
 
 char	*ft_getvar(char *str)

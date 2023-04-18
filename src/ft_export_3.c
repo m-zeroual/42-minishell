@@ -9,6 +9,8 @@ char	**ft_fill_env(char **env, int lines)
 	env_copy = malloc((lines + 1) * sizeof(char *));
 	if (!env_copy)
 		return (0);
+	if (!env_copy)
+		return (0);
 	while (env[++i])
 		env_copy[i] = ft_strdup(env[i]);
 	env_copy[i] = 0;

@@ -1,9 +1,9 @@
 #include "../includes/minishell.h"
 
-void ft_exe_env(t_shell _shell)
+void	ft_exe_env(t_shell _shell)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (_shell.path[i])
