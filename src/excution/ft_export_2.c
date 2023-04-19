@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	edit_var(char **str, char *var, char *value, int check)
 {

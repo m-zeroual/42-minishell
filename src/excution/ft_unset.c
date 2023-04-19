@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 
 char **ft_remove_var(char **env, char *var)
@@ -8,12 +8,14 @@ char **ft_remove_var(char **env, char *var)
 	int	count;
 
 	char **s;
+	// (void)var;
+	// (void)env;
 	char **str;
 
 	i = 0;
 	j = 0;
 	count = ft_count_env(env);
-	s = malloc(count * sizeof(char *));
+	s = ft_calloc(count + 1, sizeof(char *));
 	if (!s)
 		return (0);
 	while (env[i])
@@ -24,7 +26,6 @@ char **ft_remove_var(char **env, char *var)
 		free_split(str);
 		i++;
 	}
-	s[j] = 0;
 	free_split(env);
 	return (s);
 }
@@ -46,7 +47,6 @@ void ft_exe_unset(t_shell *_shell)
 		index_var = ft_check_var_exist(_shell->env, var);
 		if (index_var != -1)
 			_shell->env = ft_remove_var(_shell->env, var);
-		
 		index_export = ft_check_var_exist(_shell->export, var);
 		if (index_export != -1)
 			_shell->export = ft_remove_var(_shell->export, var);

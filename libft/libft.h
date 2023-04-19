@@ -23,7 +23,6 @@ typedef struct  s_redirect
     char            is_output;
     char            is_append;
     char            is_here_doc;
-    unsigned char   number_of_arrow;
 }   t_redirect;
 
 typedef struct  s_content

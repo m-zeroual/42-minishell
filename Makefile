@@ -1,19 +1,26 @@
 NAME	=	minishell
 
 SRCS	=	src/main.c \
+			src/errors/print_error.c \
+			src/parsing_args/main_parsing.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c \
-			src/ft_utils.c	\
-			src/ft_pwd.c	\
-			src/ft_cd.c	\
-			src/ft_export_1.c	\
-			src/ft_export_2.c	\
-			src/ft_export_3.c	\
-			src/ft_export.c	\
-			src/ft_command.c	\
-			src/ft_excute.c	\
-			src/ft_unset.c	\
-			src/ft_env.c
+			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes_utils.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
+			src/excution/ft_utils.c	\
+			src/excution/ft_pwd.c	\
+			src/excution/ft_cd.c	\
+			src/excution/ft_export_1.c	\
+			src/excution/ft_export_2.c	\
+			src/excution/ft_export_3.c	\
+			src/excution/ft_export.c	\
+			src/excution/ft_command.c	\
+			src/excution/ft_excute.c	\
+			src/excution/ft_unset.c	\
+			src/excution/ft_env.c \
 
 OBJS	=	$(SRCS:%.c=%.o)
 

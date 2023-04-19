@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char *ft(char *str)
 {
@@ -55,14 +55,21 @@ void	ft_join_cmd(t_shell *_shell)
 int	ft_init(t_shell *_shell)
 {
 	_shell->path = ft_split(getenv("PATH"), ':');
-	_shell->cmd = readline("minishell>$ ");
+	char *cwd = curr_path(*_shell);
+	char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
+	free(cwd);
+	_shell->cmd = readline(s);
+	free(s);
 	if (*_shell->cmd == 0)
 		return (0);
 	if (_shell->cmd == 0)
 		exit (1);
 	add_history(_shell->cmd);
-	_shell->cmd_split = parsing_args(_shell->cmd);
-
+	t_list *pipe = main_parsing(_shell->cmd);
+	t_content *content = pipe->content;
+	_shell->cmd_split = content->commands;
+	free(content);
+	free(pipe);
 	_shell->first_part_cmd_l = ft_str_tolower(_shell->cmd_split[0]);
 	return (1);
 }
@@ -72,10 +79,8 @@ void	ft_exe(t_shell *_shell)
 	if (!ft_init(_shell))
 		return ;
 	ft_join_cmd(_shell);
-	printf();
-	// ft_exe_command(_shell);
+	ft_exe_command(_shell);
 	free_split(_shell->path);
 	free_split(_shell->cmd_split);
 	free(_shell->first_part_cmd_l);
-	free(_shell->cmd);
 }

@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_getvar_and_value(char *command, char **env, char **var, char **value)
 {
@@ -39,13 +39,12 @@ char	*ft_getvar(char *str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
-	s = malloc(sizeof(char) * (i + 1));
+	s = ft_calloc(sizeof(char) , (i + 1));
 	if (!s)
 		return (0);
 	j = -1;
 	while (++j < i)
 		s[j] = str[j];
-	s[j] = 0;
 	return (s);
 }
 
