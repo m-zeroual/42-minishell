@@ -22,10 +22,10 @@ void	cd_home(t_shell *_shell)
 	free(str);
 }
 
-void	ft_exe_cd(t_shell _shell)
+void	ft_exe_cd(t_shell *_shell)
 {
-	if (_shell.cmd_split[1] == NULL || !ft_strncmp(_shell.cmd_split[1], "~", 1))
-		cd_home(&_shell);
+	if (_shell->cmd_split[1] == NULL || !ft_strncmp(_shell->cmd_split[1], "~", 1))
+		cd_home(_shell);
 	else
-		cd_path(&_shell);
+		cd_path(_shell);
 }

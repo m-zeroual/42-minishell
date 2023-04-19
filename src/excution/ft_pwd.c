@@ -7,9 +7,9 @@ char	*curr_path(t_shell _shell)
 	int		i;
 
 	i = 0;
-	while (_shell.ev[i])
+	while (_shell.env[i])
 	{
-		str = ft_split(_shell.ev[i], '=');
+		str = ft_split(_shell.env[i], '=');
 		if (!ft_strncmp(str[0], "PWD", 3))
 		{
 			pwd = ft_strdup(str[1]);
@@ -36,7 +36,7 @@ void	ft_exe_pwd(t_shell _shell)
 			free(str);
 		}
 		else
-			printf("bash: %s: %s\n", _shell.cmd_split[0], strerror(errno));
+			printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
 	}
 	else if (!ft_strncmp(_shell.first_part_cmd_l, PWD, 3))
 	{
@@ -45,14 +45,13 @@ void	ft_exe_pwd(t_shell _shell)
 		free(str);
 	}
 	else
-		printf("bash: %s: %s\n", _shell.cmd_split[0], strerror(errno));
+		printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
 }
 
 void	ch_pwd(t_shell *_shell)
 {
 	int		i;
 	char	**str;
-	char	*s;
 
 	i = 0;
 	while (_shell->env[i])
@@ -60,10 +59,8 @@ void	ch_pwd(t_shell *_shell)
 		str = ft_split(_shell->env[i], '=');
 		if (!ft_strncmp(str[0], "PWD", 3))
 		{
-			s = curr_path(*_shell);
 			free(_shell->env[i]);
-			_shell->env[i] = ft_strjoin("PWD=", s);
-			free(s);
+			_shell->env[i] = ft_strjoin("PWD=", getcwd(NULL, 1024));
 		}
 		free_split(str);
 		i++;

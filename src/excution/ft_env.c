@@ -17,5 +17,5 @@ void	ft_exe_env(t_shell _shell)
 		}
 		i++;
 	}
-	printf("bash: %s: %s\n", _shell.cmd, strerror(errno));
+	printf("minishell: %s: %s\n", _shell.cmd, strerror(errno));
 }

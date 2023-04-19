@@ -1,12 +1,11 @@
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#ifndef EXECUTION_H
+#define EXECUTION_H
 
 #include <unistd.h>
 #include <errno.h>
 #include <signal.h>
 #include <string.h>
 #include "../libft/libft.h"
-#include "../ft_printf/ft_printf.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -33,9 +32,9 @@ typedef struct s_shell
 	char 	**export;
 	char 	**env;
 	char	*cmd;
-	char	*first_part_cmd_l;      // =>
-	char 	**cmd_split;			// =>
-	char	**path;					// =>
+	char	*first_part_cmd_l;
+	char 	**cmd_split;
+	char	**path;
 
 }	t_shell;
 
@@ -59,7 +58,7 @@ void	ft_exe_env(t_shell _shell);
 
 
 // 		======> ft_cd.c <=======
-void	ft_exe_cd(t_shell _shell);
+void	ft_exe_cd(t_shell *_shell);
 // void	cd_home(t_shell *_shell);         *
 // void cd_root(t_shell *_shell);
 // void cd_2dots(t_shell *_shell);

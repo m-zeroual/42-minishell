@@ -19,7 +19,6 @@ int	main(int ac, char *av[], char *ev[])
 	// (void)av;
 	// (void)ev;
 	// signal(SIGINT, sig_handler);
-
 	_shell.ac = ac;
 	_shell.av = av;
 	_shell.ev = ev;
