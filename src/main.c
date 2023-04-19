@@ -7,10 +7,12 @@ void    child_process(t_content *content, char *tmpfile, int has_next, int has_p
     char        *str_here_doc;
 
     str_here_doc = NULL;
+    /*
     if (has_next)
-        dup2(pipe_fds[0], 0);
-    if (has_prev)
         dup2(pipe_fds[1], 1);
+    if (has_prev)
+        dup2(pipe_fds[0], 0);
+        */
     output = create_output_files(content->output_redirections);
     input = get_input_file(content->input_redirections);
     if (!setup_output_redirections(output, pipe_fds, has_next) \
@@ -43,15 +45,19 @@ int main()
         tmpfile = get_random_name(14);
         if (!pipes)
             continue ;
-        pipe(pipe_fds);
         i = 0;
         while (pipes)
         {
             content = pipes->content;
             ft_printf("%s\n", content->commands[0]);
+    //        if(pipes->next)
+      //          dup2(pipe_fds[0], STDIN_FILENO);
+            pipe(pipe_fds);
         	pid = fork();
         	if (!pid)
                 child_process(content, tmpfile, (pipes->next != NULL), i, pipe_fds);
+            close(pipe_fds[0]);
+            close(pipe_fds[1]);
             wait(NULL);
             if (!access(tmpfile, F_OK))
                 unlink(tmpfile);

@@ -8,8 +8,8 @@ int setup_input_redirections(t_redirect *input, char **str, int pipe_fds[2], int
     (void)has_prev;
     if (!input || !input[0].file)
     {
-/*        if (has_prev)
-            dup2(pipe_fds[1], STDOUT_FILENO);*/
+        if (has_prev)
+            dup2(pipe_fds[0], 0);
         return (1);
     }
     i = -1;
@@ -27,7 +27,7 @@ int setup_input_redirections(t_redirect *input, char **str, int pipe_fds[2], int
                 return (0);
             close(fd);
             return (1);
-        }
+       }
         if (input[i].is_here_doc)
            free(get_here_doc_content(input[i].file));
     }
@@ -41,8 +41,8 @@ int setup_output_redirections(t_redirect *output, int pipe_fds[2], int has_next)
     (void)has_next;
     if (!output || !output[0].file)
     {
-/*        if (has_next)
-            dup2(pipe_fds[0], STDIN_FILENO);*/
+        if (has_next)
+            dup2(pipe_fds[1], 1);
         return (1);
     }
     if (output[0].is_append)
