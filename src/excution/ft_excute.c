@@ -50,6 +50,13 @@ void	ft_join_cmd(t_shell *_shell)
 			i++;
 		}
 	}
+	else
+	{
+		free_split(_shell->path);
+		_shell->path[0] = ft_strdup(_shell->cmd_split[0]);
+		_shell->path[1] = 0;
+
+	}
 }
 
 int	ft_init(t_shell *_shell)
@@ -80,6 +87,7 @@ void	ft_exe(t_shell *_shell)
 		return ;
 	ft_join_cmd(_shell);
 	ft_exe_command(_shell);
+
 	free_split(_shell->path);
 	free_split(_shell->cmd_split);
 	free(_shell->first_part_cmd_l);

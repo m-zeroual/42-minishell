@@ -29,7 +29,7 @@ int	edit_var(char **str, char *var, char *value, int check)
 	return (0);
 }
 
-char	**add_var(char **env, char *var, char *value)
+char	**add_var(char **env, char *var, char *value, int new)
 {
 	char	**add_line_env;
 	char	*join_equal;
@@ -44,7 +44,7 @@ char	**add_var(char **env, char *var, char *value)
 	while (env[++i])
 		add_line_env[i] = ft_strdup(env[i]);
 	join_equal = ft_strjoin(var, "=");
-	if (value)
+	if (value || new)
 		add_line_env[i] = ft_strjoin(join_equal, value);
 	else
 		add_line_env[i] = ft_strdup(var);
