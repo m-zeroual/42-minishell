@@ -4,25 +4,14 @@ int	ft_getvar_and_value(char *command, char **env, char **var, char **value)
 {
 	char	*s;
 	char	*s1;
+	(void)env;
 
 	s = 0;
 	s1 = 0;
 	*var = ft_getvar(command);
-	if (ft_check_var_exist(env, *var) != -1 && **var == '$')
-	{
-		s = ft_getenv(env, *var);
-		free(*var);
-		*var = s;
-	}
-	if (command[1] != '\0' && ft_strchr(command, '='))
+	if (command[1] != '\0' && command[0] != '=' && ft_strchr(command, '='))
 	{
 		*value = ft_strdup((ft_strchr(command, '=') + 1));
-		if (ft_check_var_exist(env, *value) != -1 && **value == '$')
-		{
-			s1 = ft_getenv(env, *value);
-			free(*value);
-			*value = s1;
-		}
 		return (1);
 	}
 	return (0);
