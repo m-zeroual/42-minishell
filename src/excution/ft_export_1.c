@@ -8,11 +8,18 @@ int	ft_getvar_and_value(char *command, char **env, char **var, char **value)
 
 	s = 0;
 	s1 = 0;
+
 	*var = ft_getvar(command);
-	if (command[1] != '\0' && command[0] != '=' && ft_strchr(command, '='))
+		
+	if (*var[0] == '$' && ft_check_var_exist(env, *var) != -1)
+		*var = ft_getenv(env, *var);
+	if (ft_strchr(command, '='))
 	{
 		*value = ft_strdup((ft_strchr(command, '=') + 1));
-		return (1);
+		printf("value |%s|\n", *value);
+
+		if (*value && *value[0] == '$' && ft_check_var_exist(env, *value) != -1)
+			*value = ft_getenv(env, *value);
 	}
 	return (0);
 }
@@ -26,6 +33,10 @@ char	*ft_getvar(char *str)
 	if (!str)
 		return (0);
 	i = 0;
+	if (!str)
+		return (0);
+	if (str[0] == '=')
+		return (ft_strdup(str));
 	while (str[i] && str[i] != '=')
 		i++;
 	s = ft_calloc(sizeof(char) , (i + 1));

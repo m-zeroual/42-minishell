@@ -22,7 +22,7 @@ int	main(int ac, char *av[], char *ev[])
 	_shell.ac = ac;
 	_shell.av = av;
 	_shell.ev = ev;
-	_shell.export = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
+	// _shell.export = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
 	_shell.env = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
 
 	while (1)

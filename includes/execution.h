@@ -29,7 +29,7 @@ typedef struct s_shell
 	int		ac;
 	char 	**av;
 	char 	**ev;
-	char 	**export;
+	// char 	**export;
 	char 	**env;
 	char	*cmd;
 	char	*first_part_cmd_l;
@@ -87,8 +87,8 @@ int	ft_check_var_exist(char **env, char *var);
 int ft_var_error(t_shell _shell, char *var);
 
 //		======> ft_export2.c <=======
-int edit_var(char **str, char *var, char *value, int check);
-char **add_var(char **env, char *var, char *value, int mew);
+int	edit_var(char **str, char *var, char *value);
+char	**add_var(char **env, char *var, char *value, int equal);
 char **ft_fill_env(char **env, int lines);
 int ft_count_env(char **env);
 

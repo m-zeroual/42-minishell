@@ -59,6 +59,21 @@ void	ft_join_cmd(t_shell *_shell)
 	}
 }
 
+
+int all_speace(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] && str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_init(t_shell *_shell)
 {
 	_shell->path = ft_split(getenv("PATH"), ':');
@@ -66,8 +81,9 @@ int	ft_init(t_shell *_shell)
 	char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
 	free(cwd);
 	_shell->cmd = readline(s);
+	printf("cmd->|%s|\n", _shell->cmd);
 	free(s);
-	if (*_shell->cmd == 0)
+	if (*_shell->cmd == 0 || all_speace(_shell->cmd))
 		return (0);
 	if (_shell->cmd == 0)
 		exit (1);
@@ -75,6 +91,10 @@ int	ft_init(t_shell *_shell)
 	t_list *pipe = main_parsing(_shell->cmd);
 	t_content *content = pipe->content;
 	_shell->cmd_split = content->commands;
+	int i = -1;
+	while (_shell->cmd_split[++i])
+		printf("part_%d->|%s|\n", i + 1, _shell->cmd_split[i]);
+	printf("==========================\n");
 	free(content);
 	free(pipe);
 	_shell->first_part_cmd_l = ft_str_tolower(_shell->cmd_split[0]);

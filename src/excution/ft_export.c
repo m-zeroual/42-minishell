@@ -44,28 +44,25 @@ int	ft_add_var(t_shell *_shell)
 	char	*var;
 	char	*value;
 	int		i;
-	// int		new;
+	int		equal;
 
 	i = 1;
-	var = 0;
-	value = 0;
 	while (_shell->cmd_split[i])
 	{
+		var = 0;
+		value = 0;
 		ft_getvar_and_value(_shell->cmd_split[i], _shell->env, &var, &value);
 		printf("var   #%s#\n", var);
 		printf("value #%s#\n", value);
 		printf("-------------\n");
-		// if (ft_strchr(_shell->cmd_split[i], '='))
-		// 	new = 0;
-		// else
-		// 	new = 1;
-		// if (ft_var_error(*_shell, var))
-		// {
-		// 	if (!edit_var(_shell->export, var, value, EXP))
-		// 		_shell->export = add_var(_shell->export, var, value, new);
-		// 	if (!edit_var(_shell->env, var, value, ENV) && value)
-		// 		_shell->env = add_var(_shell->env, var, value, new);
-		// }
+
+		if (ft_strchr(_shell->cmd_split[i], '='))
+			equal = 1;
+		else
+			equal = 0;
+		if (ft_var_error(*_shell, var))
+			if (!edit_var(_shell->env, var, value))
+				_shell->env = add_var(_shell->env, var, value, equal);
 		i++;
 	}
 	return (1);
@@ -77,6 +74,6 @@ void	ft_exe_export(t_shell *_shell)
 		ft_add_var(_shell);
 	else
 	{
-		ft_display_export(_shell->export);
+		ft_display_export(_shell->env);
 	}
 }

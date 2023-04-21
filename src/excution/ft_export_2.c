@@ -1,27 +1,21 @@
 #include "../../includes/minishell.h"
 
-int	edit_var(char **str, char *var, char *value, int check)
+int	edit_var(char **env, char *var, char *value)
 {
 	int		index_var;
 	char	*free_var;
 	char	*join_equal;
 
-	index_var = ft_check_var_exist(str, var);
+	index_var = ft_check_var_exist(env, var);
 	if (index_var != -1 && *var)
 	{
 		join_equal = ft_strjoin(var, "=");
-		free_var = str[index_var];
+		free_var = env[index_var];
+
 		if (value)
-			str[index_var] = ft_strjoin(join_equal, value);
+			env[index_var] = ft_strjoin(join_equal, value);
 		else
-		{
-			if (check == ENV)
-				str[index_var] = ft_strdup(join_equal);
-			if (check == EXP && ft_strchr(str[index_var], '='))
-				str[index_var] = ft_strdup(join_equal);
-			else
-				str[index_var] = ft_strdup(var);
-		}
+			env[index_var] = ft_strdup(join_equal);
 		free(free_var);
 		free(join_equal);
 		return (1);
@@ -29,7 +23,7 @@ int	edit_var(char **str, char *var, char *value, int check)
 	return (0);
 }
 
-char	**add_var(char **env, char *var, char *value, int new)
+char	**add_var(char **env, char *var, char *value, int equal)
 {
 	char	**add_line_env;
 	char	*join_equal;
@@ -44,8 +38,10 @@ char	**add_var(char **env, char *var, char *value, int new)
 	while (env[++i])
 		add_line_env[i] = ft_strdup(env[i]);
 	join_equal = ft_strjoin(var, "=");
-	if (value || new)
+	if (value)
 		add_line_env[i] = ft_strjoin(join_equal, value);
+	else if (equal)
+		add_line_env[i] = ft_strdup(join_equal);
 	else
 		add_line_env[i] = ft_strdup(var);
 	free(join_equal);
