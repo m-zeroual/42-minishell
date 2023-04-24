@@ -12,18 +12,22 @@ int	skip_commands(char **commands, int *j)
 	return (0);
 }
 
-int	redirect_len(char **commands, int *j, char c)
+int	redirect_len(char **commands, int *j, char c, char *print_c)
 {
 	int	len;
 	int	two;
+    int max;
 
 	len = 0;
 	two = 0;
+    max = 3;
+    if (print_c && print_c[0] == '<')
+        max = 4;
 	while (commands[*j] && commands[*j][0] == c)
 	{
 		len++;
-		if (len > 3 && two < 2 && ++two)
-			p_error("<");
+		if (len > max && two < max - 1 && ++two)
+			p_error(print_c);
 		ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
 		(*j)++;
 	}
@@ -40,7 +44,7 @@ int	check_redirection_error(char **cmds, int *j, int len, int swap)
 	int	two;
 
 	two = 0;
-	while (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 && two++ < 2)
+	while (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 && cmds[*j][0] > 1 && two++ < 2)
 	{
 		if (swap && (cmds[(*j)][0] == OUTPUT_REDIRECT || cmds[(*j)][0] == 3))
 			p_error(">");
@@ -72,12 +76,16 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 	output_len = 0;
 	if (skip_commands(commands, j))
 		return (2);
-	input_len = redirect_len(commands, j, INPUT_REDIRECT);
+	input_len = redirect_len(commands, j, INPUT_REDIRECT, "<");
 	if (input_len > 3 || check_redirection_error(commands, j, input_len, 1))
 		return (p_error("'\n"), 0);
+	if (input_len < 4 && commands[*j] && commands[*j][0] == 1)
+		return (print_error("", ": No such file or directory\n"), 0);
 	if (input_len != 0 && commands[*j] && commands[*j][0] != OUTPUT_REDIRECT)
 		set_redirections(&redirection[(*i)++], commands[(*j)++], 1, input_len);
-	output_len = redirect_len(commands, j, OUTPUT_REDIRECT);
+	output_len = redirect_len(commands, j, OUTPUT_REDIRECT, ">");
+	if (output_len < 3 && commands[*j] && commands[*j][0] == 1)
+		return (print_error("", ": No such file or directory\n"), 0);
 	if (output_len > 2 || check_redirection_error(commands, j, output_len, 0))
 		return (p_error("'\n"), 0);
 	if (output_len != 0 && commands[*j] && commands[*j][0] != INPUT_REDIRECT)
