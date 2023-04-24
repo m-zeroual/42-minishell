@@ -8,19 +8,27 @@ void    child_process(t_content *content, int has_next, int i, int *pipe_fds)
     int         fd_here_doc[2];
 
     str_here_doc = NULL;
-    pipe(fd_here_doc);
     output = create_output_files(content->output_redirections);
     input = get_input_file(content->input_redirections);
     if (!setup_output_redirections(output, pipe_fds, has_next, i) \
             || !setup_input_redirections(input, &str_here_doc, pipe_fds, i))
+    {
+        free_double_pointer(content->commands);
+        free(content);
         exit(1);
+    }
     if (str_here_doc)
+    {
+        pipe(fd_here_doc);
         setup_here_doc(str_here_doc, fd_here_doc);
+    }
     free_t_redirect(input);
     free_t_redirect(output);
     if (execve(content->commands[0], content->commands, NULL) == -1)
     {
         printf("Execve error\n");
+        free_double_pointer(content->commands);
+        free(content);
         exit(1);
     }
 }
