@@ -3,9 +3,20 @@
 /**
  *  just checking the conditions
  */
-int	check_conditions(char **dest, char **line, int *a, int j)
+int	check_conditions(char **dest, char **line, int *a, int j, char separator, char *variable)
 {
-	if (!*a && **line == '|' && (*line)++)
+    if (**line == '$' && ((*a && *((*line) - 1) == '"' && separator == '"') || !*a) && ft_isalnum(*((*line) + 1)))
+    {
+        (*line)++;
+        if (!ft_isdigit(**line))
+        {
+            *variable = 1;
+            (*dest)[j++] = '*';
+        }
+        else
+            (*line)++;
+    }
+    else if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
@@ -38,26 +49,32 @@ int	set_dest(char **dest, char **line, int *a, int j)
 {
 	int		separ_index;
 	char	separator;
+    char    var;
 
+    var = 0;
 	separ_index = get_separator(*line, &separator);
 	while (separ_index-- > 0 && **line)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
-		j = check_conditions(dest, line, a, j);
+		j = check_conditions(dest, line, a, j, separator, &var);
 		if (!*a && *(*line - 1) == ' ' && **line != ' ')
 			(*dest)[j++] = SEPARATOR;
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
+    if (**line && **line == separator && (*((*line) - 1)) == separator && ((*((*line) - 2)) == ' ' || (*((*line) - 2)) == '<' || (*((*line) - 2)) == '>'))
+        (*dest)[j++] = 1;
 	while (**line && **line != separator)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
-		j = check_conditions(dest, line, a, j);
+		j = check_conditions(dest, line, a, j,separator, &var);
 		if (!*a && **(line - 1) == ' ' && **line != ' ')
             (*dest)[j++] = SEPARATOR;
 	}
+    if (var == 1)
+        (*dest)[j++] = SEPARATOR;
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
 	return (j);
