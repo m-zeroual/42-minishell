@@ -10,4 +10,8 @@
 #include "errors.h"
 #include <fcntl.h>
 
+int **get_pipes(int size);
+int **create_pipes(int size);
+void    close_all_pipes(int **pipes, int size);
+
 #endif

@@ -63,7 +63,10 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
-    if (**line && **line == separator && (*((*line) - 1)) == separator && ((*((*line) - 2)) == ' ' || (*((*line) - 2)) == '<' || (*((*line) - 2)) == '>'))
+    if (**line && **line == separator && (*((*line) - 1)) == separator \
+		&& ((*((*line) + 1)) == separator || !(*((*line) + 1))) \
+		&& ((*((*line) - 2)) == ' ' \
+		|| (*((*line) - 2)) == '<' || (*((*line) - 2)) == '>'))
         (*dest)[j++] = 1;
 	while (**line && **line != separator)
 	{

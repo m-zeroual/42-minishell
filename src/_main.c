@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   _main.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/25 18:15:25 by esalim            #+#    #+#             */
+/*   Updated: 2023/04/29 12:37:00 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 char    *get_command_path(char *command, char *full_path)
@@ -33,7 +45,8 @@ char    *get_command_path(char *command, char *full_path)
     return (0);
 }
 
-void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
+
+void    setup_all(t_content *content, int has_next, int i, int **pipe_fds)
 {
     t_redirect  *output;
     t_redirect  *input;
@@ -53,55 +66,7 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
         setup_here_doc(str_here_doc);
     free_t_redirect(input);
     free_t_redirect(output);
-    content->commands[0] = get_command_path(content->commands[0], getenv("PATH"));
-    if (execve(content->commands[0], content->commands, NULL) == -1)
-    {
-        printf("Execve error\n");
-        free_double_pointer(content->commands);
-        free(content);
-        exit(1);
-    }
 }
 
-int main()
-{
-    t_content   *content;
-    int         pid;
-    t_list      *pipes;
-    t_list      *tmp;
-    int         **pipes_fds;
-    int         i;
 
-    while (1)
-    {
-        pipes = main_parsing(readline("minishell $> "));
-        if (!pipes)
-            continue ;
-        int size = ft_lstsize(pipes);
-		pipes_fds = create_pipes(size);
-		if (!pipes_fds)
-		{
-			print_error(NULL, ": Pipes Error\n");
-			continue ;
-		}
-        i = 0;
-        close(pipes_fds[0][0]);
-        while (pipes && ++i)
-        {
-            content = pipes->content;
-            if (!content)
-                break ;
-        	pid = fork();
-        	if (!pid)
-                child_process(content, (pipes->next != NULL), i, pipes_fds);
-            wait(NULL);
-            close(pipes_fds[i - 1][0]);
-            tmp = pipes;
-            pipes = pipes->next;
-            free_double_pointer(content->commands);
-            free(content);
-            free(tmp);
-       	}
-		close_all_pipes(pipes_fds, size);
-    }
-}
+

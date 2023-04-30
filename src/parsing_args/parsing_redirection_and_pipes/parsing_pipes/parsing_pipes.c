@@ -16,6 +16,8 @@ char	**set_pipes(char **commands, int *j)
 		str[s++] = ft_strdup(commands[*j]);
 		free(commands[(*j)++]);
 	}
+	if (!str[0])
+		return (print_error("", "Syntax Error\n"), free(str), NULL);
 	return (str);
 }
 

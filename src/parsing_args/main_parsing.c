@@ -1,13 +1,13 @@
 # include "../../includes/minishell.h"
 
-int setup_input_redirections(t_redirect *input, char **str, int *pipe_fds, int has_prev)
+int setup_input_redirections(t_redirect *input, char **str, int **pipe_fds, int has_prev)
 {
     int     fd;
     int     i;
 
     if (!input || !input[0].file)
     {
-        if (has_prev && dup2(pipe_fds[(has_prev - 1) * 2], 0))
+        if (has_prev && dup2(pipe_fds[has_prev - 1][0], 0))
             return (0);
         return (1);
     }
@@ -33,13 +33,13 @@ int setup_input_redirections(t_redirect *input, char **str, int *pipe_fds, int h
     return (1);
 }
 
-int setup_output_redirections(t_redirect *output, int *pipe_fds, int has_next, int has_prev)
+int setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, int has_prev)
 {
     int fd;
 
     if (!output || !output[0].file)
     {
-        if (has_next && dup2(pipe_fds[(has_prev * 2) + 1], 1))
+        if (has_next && dup2(pipe_fds[has_prev + 1][1], 1))
             return (0);
         return (1);
     }
@@ -61,8 +61,11 @@ int setup_output_redirections(t_redirect *output, int *pipe_fds, int has_next, i
     return (1);
 }
 
-void    setup_here_doc(char *string, int fds[2])
+void    setup_here_doc(char *string)
 {
+    int fds[2];
+
+    pipe(fds);
     ft_putstr_fd(string, fds[1]);
     ft_putstr_fd("\n", fds[1]);
     close(fds[1]);

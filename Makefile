@@ -21,6 +21,7 @@ SRCS	=	src/main.c \
 			src/excution/ft_excute.c	\
 			src/excution/ft_unset.c	\
 			src/excution/ft_env.c \
+			src/pipes/pipes.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
