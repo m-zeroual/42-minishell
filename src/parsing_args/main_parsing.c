@@ -1,15 +1,19 @@
 # include "../../includes/minishell.h"
 
-int setup_input_redirections(t_redirect *input, char **str, int pipe_fds[2], int has_prev)
+int setup_input_redirections(t_redirect *input, char **str, int **pipe_fds, int has_prev)
 {
     int     fd;
     int     i;
-    (void)pipe_fds;
-    (void)has_prev;
+
     if (!input || !input[0].file)
     {
         if (has_prev)
-            dup2(pipe_fds[0], 0);
+        {
+            close(pipe_fds[has_prev - 1][1]);
+            dup2(pipe_fds[has_prev - 1][0], 0);
+            close(pipe_fds[has_prev - 1][0]);
+            // return (0);
+        }
         return (1);
     }
     i = -1;
@@ -34,15 +38,18 @@ int setup_input_redirections(t_redirect *input, char **str, int pipe_fds[2], int
     return (1);
 }
 
-int setup_output_redirections(t_redirect *output, int pipe_fds[2], int has_next)
+int setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, int has_prev)
 {
     int fd;
-    (void)pipe_fds;
-    (void)has_next;
+
     if (!output || !output[0].file)
     {
         if (has_next)
-            dup2(pipe_fds[1], 1);
+        {
+            close(pipe_fds[has_prev][0]);
+            dup2(pipe_fds[has_prev][1], 1);
+            close(pipe_fds[has_prev][1]);
+        }
         return (1);
     }
     if (output[0].is_append)
@@ -63,30 +70,16 @@ int setup_output_redirections(t_redirect *output, int pipe_fds[2], int has_next)
     return (1);
 }
 
-char    *get_random_name(int len)
+void    setup_here_doc(char *string)
 {
-    char *str;
-    int i = 0;
+    int fds[2];
 
-    str = malloc(len + 1);
-    str[i] = '.';
-    while (++i < len)
-        str[i] = (len + i) % 29 + 2;
-    str[i] = 0;
-    return (str);
-}
-
-void    setup_here_doc(char *filename, char *string)
-{
-    int fd;
-
-    fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-    ft_putstr_fd(string, fd);
-    ft_putstr_fd("\n", fd);
-    close(fd);
-    fd = open(filename, O_RDONLY);
-    dup2(fd, 0);
-    close(fd);
+    pipe(fds);
+    ft_putstr_fd(string, fds[1]);
+    ft_putstr_fd("\n", fds[1]);
+    close(fds[1]);
+    dup2(fds[0], 0);
+    close(fds[0]);
     free(string);
 }
 
@@ -97,6 +90,11 @@ t_list  *main_parsing(char   *getLine)
 
     if (!getLine || !*getLine)
         return (NULL);
+    if (!ft_strncmp(getLine, "exit\0", 5))
+    {
+        free(getLine);
+        exit(0);
+    }
     commands = parsing_single_double_quotes(getLine);
     if (!commands)
         return (NULL);

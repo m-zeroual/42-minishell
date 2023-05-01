@@ -24,17 +24,17 @@ char        *get_here_doc_content(char  *eol);
 
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/parsing_redirection_tools.c
 int     skip_commands(char **commands, int *j);
-int     redirect_len(char **commands, int *j, char c);
+int     redirect_len(char **commands, int *j, char c, char *print_c);
 int     check_redirection_error(char **cmds, int *j, int len, int swap);
 int     for_each_command(t_redirect *redirection, char **commands, int *i, int *j);
 void    init_t_redirect(t_redirect *dest, t_redirect *src);
 
 //PATH: src/parsing_args/main_parsing.c
 t_list  *main_parsing(char   *getLine);
-void    setup_here_doc(char *filename, char *string);
+void    setup_here_doc(char *string);
 char    *get_random_name(int len);
-int     setup_output_redirections(t_redirect *output, int pipe_fds[2], int has_next);
-int     setup_input_redirections(t_redirect *input, char **str, int pipe_fds[2], int has_next);
+int     setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, int has_prev);
+int     setup_input_redirections(t_redirect *input, char **str, int **pipe_fds, int has_next);
 
 
 t_list      *parsing_pipes(char  **commands);

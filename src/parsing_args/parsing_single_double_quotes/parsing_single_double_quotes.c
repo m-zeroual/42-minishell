@@ -1,11 +1,55 @@
 #include "../../../includes/parsing_single_double_quotes.h"
 
-/**
- *  just checking the conditions
- */
-int	check_conditions(char **dest, char **line, int *a, int j)
+char *get_variable_name(char **line)
 {
-	if (!*a && **line == '|' && (*line)++)
+	// int i = 0;
+	int j;
+	char *var;
+	char *tmp;
+
+	j = 0;
+	while ((*line)[j] && (ft_isalnum((*line)[j]) || (*line)[j] == '_'))
+		j++;
+	var = ft_calloc(j + 1, sizeof(*var));
+	if (!var)
+		return (0);
+	j = 0;
+	while (**line && (ft_isalnum(**line) || **line == '_'))
+		var[j++] = *((*line)++);
+	if (!*var)
+		return (free(var), NULL);
+	tmp = ft_strdup(var);
+	free(var);
+	return (tmp);
+}
+
+void	expanding_variables(char **dest, char **line, int *a, int *j, char separator)
+{
+	char	*var;
+	char	*str;
+	int		i;
+
+	if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
+	{
+		var = get_variable_name(line);
+		if (!var)
+			return ;
+		str = getenv(var);
+		if (!str)
+			return ;
+		i = 0;
+		while (str[i])
+			(*dest)[(*j)++] = str[i++];
+		return ;
+	}
+	// (*line)++;
+}
+
+int	check_conditions(char **dest, char **line, int *a, int j, char separator)
+{
+	if (**line == '$' && (*line)++)
+		expanding_variables(dest, line, a, &j, separator);
+    else if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
@@ -30,46 +74,41 @@ int	check_conditions(char **dest, char **line, int *a, int j)
 	return (j);
 }
 
-/**
- *  this function takes dest and line as argemments and fill if using line 
- *  return j index of dest.
- */
 int	set_dest(char **dest, char **line, int *a, int j)
 {
 	int		separ_index;
 	char	separator;
 
 	separ_index = get_separator(*line, &separator);
-	while (separ_index-- > 0 && **line)
+	while (separ_index-- > 0 && **line && **line != separator)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
-		j = check_conditions(dest, line, a, j);
+		j = check_conditions(dest, line, a, j, 0);
 		if (!*a && *(*line - 1) == ' ' && **line != ' ')
 			(*dest)[j++] = SEPARATOR;
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
+    if (!ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4)
+		|| !ft_strncmp((*line) - 2, " \"\"", 4) || !ft_strncmp((*line) - 2, " ''", 4))
+        (*dest)[j++] = 1;
 	while (**line && **line != separator)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
-		j = check_conditions(dest, line, a, j);
+		j = check_conditions(dest, line, a, j, separator);
 		if (!*a && **(line - 1) == ' ' && **line != ' ')
             (*dest)[j++] = SEPARATOR;
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
+    if (!ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4)
+		|| !ft_strncmp((*line) - 2, " \"\"\0", 4) || !ft_strncmp((*line) - 2, " ''\0", 4))
+        (*dest)[j++] = 1;
 	return (j);
 }
 
-/**
- *  handling the line by removing double and single quotes and return string
- *  separed by 3 ascii characher using set_dest() function. 
- *  EXAMPLE:
- *      "p""w"'d'  ==> "`pwd`"
- *      ""l's' "-a" '-l' ""-R  =>  "`ls` `-a` `-l` `-R`"
- */
 char	*handle_line(char *line)
 {
 	char	*dest;
@@ -79,7 +118,7 @@ char	*handle_line(char *line)
 
 	if (!line || !*line)
 		return (0);
-	dest = ft_calloc((ft_strlen(line) * 2) + 1, sizeof(*dest));
+	dest = ft_calloc((ft_strlen(line) * 100) + 1, sizeof(*dest));
 	if (!dest)
 		return (NULL);
 	tmp = line;
@@ -99,15 +138,6 @@ char	*handle_line(char *line)
 	return (tmp);
 }
 
-/**
- *  split the string returned by handle_line() function using 3 ascii character
- *  and trim all space in right and left side of each string and retun double
- *  pointer that pointing to the first string.
- *  ft_split(str, 3);
- *  ft_strtrim(str, " \t\n");
- *  EXAMPLE:
- *      "`ls` `-a` `-l` `-R`"  =>  {"ls", "-a", "-l", "-R"}
- */
 char	**split_line(char *line)
 {
 	char	*line_after_handling;
@@ -123,12 +153,6 @@ char	**split_line(char *line)
 	return (str);
 }
 
-/**
- *  the function will remove all extra space in left and right of args and
- *  after that spliting him by using split_line() function, and return the
- *  result of last funtion.
- *  `   "ls" "-a" "-l" -R   ` ==> `"ls" "-a" "-l" -R`
- */
 char	**parsing_single_double_quotes(char *args)
 {
 	char	*line;

@@ -21,19 +21,20 @@ SRCS	=	src/main.c \
 			src/excution/ft_command.c	\
 			src/excution/ft_excute.c	\
 			src/excution/ft_unset.c	\
-			src/excution/ft_env.c 
+			src/excution/ft_env.c \
+			src/pipes/pipes.c \
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
 RM		=	rm -f
 
 all	:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 	@make -C libft
-	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline #-fsanitize=address
+	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@

@@ -16,6 +16,8 @@ char	**set_pipes(char **commands, int *j)
 		str[s++] = ft_strdup(commands[*j]);
 		free(commands[(*j)++]);
 	}
+	if (!str[0])
+		return (print_error("", "Syntax Error\n"), free(str), NULL);
 	return (str);
 }
 
@@ -43,6 +45,16 @@ static char	***split_into_pipes(char **commands)
 	return (pipes);
 }
 
+void    set_one_to_null_pointer(char **commands)
+{
+    int i;
+
+    i = -1;
+    while (commands[++i])
+        if (commands[i][0] == 1)
+            commands[i][0] = 0;
+}
+
 t_list	*parsing_pipes(char **commands)
 {
 	t_list		*pipes;
@@ -63,9 +75,11 @@ t_list	*parsing_pipes(char **commands)
 		content = ft_calloc(1, sizeof(*content));
 		if (!content)
 			return (NULL);
-		parsing_redirection(content, p[i]);
+		if (!parsing_redirection(content, p[i]))
+            return (NULL);
 		len = get_lenght_of_list_without_three(p[i]);
 		content->commands = get_list_without_three(p[i], len);
+        set_one_to_null_pointer(content->commands);
 		ft_lstadd_back(&pipes, ft_lstnew(content));
 		i++;
 	}
