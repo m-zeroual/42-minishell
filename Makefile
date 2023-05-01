@@ -11,6 +11,7 @@ SRCS	=	src/main.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
 			src/excution/ft_utils.c	\
+			src/excution/ft_echo.c	\
 			src/excution/ft_pwd.c	\
 			src/excution/ft_cd.c	\
 			src/excution/ft_export_1.c	\
@@ -20,7 +21,7 @@ SRCS	=	src/main.c \
 			src/excution/ft_command.c	\
 			src/excution/ft_excute.c	\
 			src/excution/ft_unset.c	\
-			src/excution/ft_env.c \
+			src/excution/ft_env.c 
 
 OBJS	=	$(SRCS:%.c=%.o)
 
@@ -32,7 +33,7 @@ all	:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 	@make -C libft
-	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline # -fsanitize=address
+	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline #-fsanitize=address
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@

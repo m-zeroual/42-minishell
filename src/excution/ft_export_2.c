@@ -1,13 +1,14 @@
 #include "../../includes/minishell.h"
 
-int	edit_var(char **env, char *var, char *value)
+int	edit_var(char **env, char *var, char *value, int equal)
 {
 	int		index_var;
 	char	*free_var;
 	char	*join_equal;
 
 	index_var = ft_check_var_exist(env, var);
-	if (index_var != -1 && *var)
+	// printf("N =>%d\n", index_var);
+	if (index_var != -1 && *var && equal)
 	{
 		join_equal = ft_strjoin(var, "=");
 		free_var = env[index_var];
@@ -18,8 +19,9 @@ int	edit_var(char **env, char *var, char *value)
 			env[index_var] = ft_strdup(join_equal);
 		free(free_var);
 		free(join_equal);
-		return (1);
 	}
+	if (index_var != -1)
+		return (1);
 	return (0);
 }
 

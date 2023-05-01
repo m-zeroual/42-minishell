@@ -5,14 +5,14 @@ int	check_permissions(char *filename, char *permissions)
 	if (permissions[0] == '1' && access(filename, F_OK))
 	{
 		print_error(filename, ": No such file or directory\n");
-		exit(1);
+		return (0);
 	}
 	if ((permissions[1] == '1' && access(filename, R_OK)) \
 			|| (permissions[2] == '1' && access(filename, W_OK)) \
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
 		print_error(filename, ": Permission denied\n");
-		exit(1);
+		return 0;
 	}
 	return (1);
 }

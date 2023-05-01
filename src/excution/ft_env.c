@@ -2,27 +2,18 @@
 
 void	ft_exe_env(t_shell _shell)
 {
-	int	i;
+	// int	i;
 	int	j;
 	char **str;
 
-	i = 0;
-	while (_shell.path[i])
+	j = 0;
+	while (_shell.env[j])
 	{
-		if (access(_shell.path[i], F_OK) == 0)
-		{
-			j = 0;
-			while (_shell.env[j])
-			{
-				str = ft_split(_shell.env[j], '=');
-				if (ft_strchr(_shell.env[j], '='))
-					printf("%s\n", _shell.env[j]);
-				free_split(str);
-				j++;
-			}
-			return ;
-		}
-		i++;
+		str = ft_split(_shell.env[j], '=');
+		if (ft_strchr(_shell.env[j], '='))
+			printf("%s\n", _shell.env[j]);
+		free_split(str);
+		j++;
 	}
-	printf("minishell: %s: %s\n", _shell.cmd, strerror(errno));
 }
+
