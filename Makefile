@@ -23,11 +23,12 @@ SRCS	=	src/main.c \
 			src/excution/ft_unset.c	\
 			src/excution/ft_env.c \
 			src/pipes/pipes.c \
+			src/extra_functions.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror 
 RM		=	rm -f
 
 all	:	$(NAME)

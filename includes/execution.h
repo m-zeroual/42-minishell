@@ -25,15 +25,12 @@
 typedef struct s_shell
 {
 	int		status;
-	int		ac;
-	char 	**av;
-	char 	**ev;
 	char 	**env;
-	char	*cmd;
 	char	*command;
-	char	*first_part_cmd_l;
 	char 	**cmd_split;
-
+	t_list 	*pipes;
+	int     **pipes_fds;
+	int		i;
 }	t_shell;
 
 
@@ -76,7 +73,7 @@ void ft_exec_cmd(t_shell *_shell);
 
 
 // 		======> ft_excute.c <=======
-int ft_exe_command(t_shell *_shell);
+void ft_exe_command(t_shell *_shell);
 char *ft_join_cmd(char *cmd);
 int ft_init(t_shell *_shell);
 int	ft_exe(t_shell *_shell);

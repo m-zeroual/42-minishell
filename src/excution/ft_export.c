@@ -47,12 +47,12 @@ int	ft_add_var(t_shell *_shell)
 	int		equal;
 
 	i = 1;
-	while (_shell->cmd_split[i])
+	while (_shell->pipes->content->commands[i])
 	{
 		var = 0;
 		value = 0;
-		ft_getvar_and_value(_shell->cmd_split[i], _shell->env, &var, &value);
-		if (ft_strchr(_shell->cmd_split[i], '='))
+		ft_getvar_and_value(_shell->pipes->content->commands[i], _shell->env, &var, &value);
+		if (ft_strchr(_shell->pipes->content->commands[i], '='))
 			equal = 1;
 		else
 			equal = 0;
@@ -68,7 +68,7 @@ int	ft_add_var(t_shell *_shell)
 
 void	ft_exe_export(t_shell *_shell)
 {
-	if (_shell->cmd_split[1])
+	if (_shell->pipes->content->commands[1])
 		ft_add_var(_shell);
 	else
 	{

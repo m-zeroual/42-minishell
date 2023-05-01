@@ -15,17 +15,13 @@ int	main(int ac, char *av[], char *ev[])
 {
 	t_shell	_shell;
 	
-	// (void)ac;
-	// (void)av;
+	(void)ac;
+	(void)av;
 	// (void)ev;
 	signal(SIGINT, sig_handler);
-	_shell.ac = ac;
-	_shell.av = av;
-	_shell.ev = ev;
-	_shell.env = ft_fill_env(_shell.ev, ft_count_env(_shell.ev));
+	_shell.env = ft_fill_env(ev, ft_count_env(ev));
 
 	while (1)
-		if (!ft_exe(&_shell))
-			return (0);
+		ft_exe(&_shell);	
 	return (0);
 }

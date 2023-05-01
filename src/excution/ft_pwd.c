@@ -38,14 +38,14 @@ void	ft_exe_pwd(t_shell _shell)
 		else
 			printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
 	}
-	else if (!ft_strncmp(_shell.first_part_cmd_l, PWD, 3))
+	else
 	{
 		str = curr_path(_shell);
 		printf("%s\n", str);
 		free(str);
 	}
-	else
-		printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
+	// else
+	// 	printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
 }
 
 void	ch_pwd(t_shell *_shell)

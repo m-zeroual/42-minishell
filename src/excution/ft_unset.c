@@ -41,9 +41,9 @@ void ft_exe_unset(t_shell *_shell)
 	int		i;
 
 	i = 1;
-	while (_shell->cmd_split[i])
+	while (_shell->pipes->content->commands[i])
 	{
-		ft_getvar_and_value(_shell->cmd_split[i], _shell->env, &var, &value);
+		ft_getvar_and_value(_shell->pipes->content->commands[i], _shell->env, &var, &value);
 		index_var = ft_check_var_exist(_shell->env, var);
 		if (index_var != -1)
 			_shell->env = ft_remove_var(_shell->env, var);

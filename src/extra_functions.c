@@ -45,21 +45,20 @@ char    *get_command_path(char *command, char *full_path)
     return (0);
 }
 
-
-void    setup_all(t_content *content, int has_next, int i, int **pipe_fds)
+void    setup_all(t_shell *_shell)
 {
     t_redirect  *output;
     t_redirect  *input;
     char        *str_here_doc;
 
     str_here_doc = NULL;
-    output = create_output_files(content->output_redirections);
-    input = get_input_file(content->input_redirections);
-    if (!setup_output_redirections(output, pipe_fds, has_next, i) \
-            || !setup_input_redirections(input, &str_here_doc, pipe_fds, i))
+    output = create_output_files(_shell->pipes->content->output_redirections);
+    input = get_input_file(_shell->pipes->content->input_redirections);
+    if (!setup_output_redirections(output, _shell->pipes_fds, (_shell->pipes->next != NULL), _shell->i) \
+            || !setup_input_redirections(input, &str_here_doc, _shell->pipes_fds, _shell->i))
     {
-        free_double_pointer(content->commands);
-        free(content);
+        free_double_pointer(_shell->pipes->content->commands);
+        free(_shell->pipes->content);
         exit(1);
     }
     if (str_here_doc)

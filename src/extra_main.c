@@ -1,39 +1,5 @@
 #include "../includes/minishell.h"
 
-char    *get_command_path(char *command, char *full_path)
-{
-    char *path;
-    char    **splited_path;
-    int     i;
-    char    *tmp;
-
-    if (!command || !*command || !full_path)
-        return (0);
-    if (ft_strchr(command, '/') && !access(command, F_OK) )
-        return (ft_strdup(command));
-    splited_path = ft_split(full_path, ':');
-    if (!splited_path)
-        return (0);
-    i = -1;
-    while (splited_path[++i])
-    {
-        tmp = ft_strjoin(splited_path[i], "/");
-        path = ft_strjoin(tmp, command);
-        if (!path)
-            continue ;
-        free(tmp);
-        if (!access(path, F_OK) && !access(path, X_OK))
-        {
-            free_double_pointer(splited_path);
-            return (path);
-        }
-        free(path);
-    }
-    free_double_pointer(splited_path);
-
-    return (0);
-}
-
 void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
 {
     t_redirect  *output;
@@ -55,21 +21,14 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
         setup_here_doc(str_here_doc);
     free_t_redirect(input);
     free_t_redirect(output);
-    path = get_command_path(content->commands[0], getenv("PATH"));
-    if (!path)
-    {
-        print_error(content->commands[0], ": Command not found\n");
-        free_double_pointer(content->commands);
-        free(content);
-        exit(1);
-    }
-    if (execve(path, content->commands, NULL) == -1)
-    {
-        printf("Execve error\n");
-        free_double_pointer(content->commands);
-        free(content);
-        exit(1);
-    }
+    // path = get_command_path(content->commands[0], getenv("PATH"));
+    // if (!path)
+    // {
+    //     print_error(content->commands[0], ": Command not found\n");
+    //     free_double_pointer(content->commands);
+    //     free(content);
+    //     exit(1);
+    // }
 }
 
 int main()
