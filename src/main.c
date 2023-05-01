@@ -80,7 +80,6 @@ int main()
     t_list      *tmp;
     int         **pipes_fds;
     int         i;
-    int         j;
 
     while (1)
     {
@@ -101,9 +100,6 @@ int main()
             content = pipes->content;
             if (!content)
                 break ;
-            j = -1;
-            while (content->commands[++j])
-                printf("|%s|\n", content->commands[j]);
         	pid = fork();
         	if (!pid)
                 child_process(content, (pipes->next != NULL), i, pipes_fds);

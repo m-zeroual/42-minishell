@@ -34,7 +34,6 @@ void	expanding_variables(char **dest, char **line, int *a, int *j, char separato
 		var = get_variable_name(line);
 		if (!var)
 			return ;
-		printf("|hello|\n");
 		str = getenv(var);
 		if (!str)
 			return ;
@@ -43,7 +42,7 @@ void	expanding_variables(char **dest, char **line, int *a, int *j, char separato
 			(*dest)[(*j)++] = str[i++];
 		return ;
 	}
-	return ;
+	// (*line)++;
 }
 
 int	check_conditions(char **dest, char **line, int *a, int j, char separator)
@@ -81,7 +80,7 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	char	separator;
 
 	separ_index = get_separator(*line, &separator);
-	while (separ_index-- > 0 && **line)
+	while (separ_index-- > 0 && **line && **line != separator)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
@@ -91,9 +90,8 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
-    if (**line && **line == separator && (*((*line) - 1)) == separator \
-		&& ((*((*line) + 1)) == separator || !(*((*line) + 1))) \
-		&& ((*((*line) - 2)) == ' ' || ((*((*line) - 2)) == 0)))
+    if (!ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4)
+		|| !ft_strncmp((*line) - 2, " \"\"", 4) || !ft_strncmp((*line) - 2, " ''", 4))
         (*dest)[j++] = 1;
 	while (**line && **line != separator)
 	{
@@ -105,6 +103,9 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
+    if (!ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4)
+		|| !ft_strncmp((*line) - 2, " \"\"\0", 4) || !ft_strncmp((*line) - 2, " ''\0", 4))
+        (*dest)[j++] = 1;
 	return (j);
 }
 

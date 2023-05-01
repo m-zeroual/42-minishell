@@ -49,7 +49,6 @@ int setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, 
             close(pipe_fds[has_prev][0]);
             dup2(pipe_fds[has_prev][1], 1);
             close(pipe_fds[has_prev][1]);
-            // return (0);
         }
         return (1);
     }
