@@ -7,8 +7,13 @@ int setup_input_redirections(t_redirect *input, char **str, int **pipe_fds, int 
 
     if (!input || !input[0].file)
     {
-        if (has_prev && dup2(pipe_fds[has_prev - 1][0], 0))
-            return (0);
+        if (has_prev)
+        {
+            close(pipe_fds[has_prev - 1][1]);
+            dup2(pipe_fds[has_prev - 1][0], 0);
+            close(pipe_fds[has_prev - 1][0]);
+            // return (0);
+        }
         return (1);
     }
     i = -1;
@@ -39,8 +44,13 @@ int setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, 
 
     if (!output || !output[0].file)
     {
-        if (has_next && dup2(pipe_fds[has_prev + 1][1], 1))
-            return (0);
+        if (has_next)
+        {
+            close(pipe_fds[has_prev][0]);
+            dup2(pipe_fds[has_prev][1], 1);
+            close(pipe_fds[has_prev][1]);
+            // return (0);
+        }
         return (1);
     }
     if (output[0].is_append)

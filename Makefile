@@ -26,14 +26,14 @@ SRCS	=	src/main.c \
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
 RM		=	rm -f
 
 all	:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 	@make -C libft
-	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline # -fsanitize=address
+	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@

@@ -8,6 +8,7 @@
         "string.h": "c",
         "signal.h": "c",
         "minishell.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "parsing_single_double_quotes.h": "c"
     }
 }

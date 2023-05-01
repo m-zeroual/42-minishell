@@ -7,7 +7,7 @@ char    *get_command_path(char *command, char *full_path)
     int     i;
     char    *tmp;
 
-    if (!command || !full_path)
+    if (!command || !*command || !full_path)
         return (0);
     if (ft_strchr(command, '/') && !access(command, F_OK) )
         return (ft_strdup(command));
@@ -30,6 +30,7 @@ char    *get_command_path(char *command, char *full_path)
         free(path);
     }
     free_double_pointer(splited_path);
+
     return (0);
 }
 
@@ -38,6 +39,7 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
     t_redirect  *output;
     t_redirect  *input;
     char        *str_here_doc;
+    char        *path;
 
     str_here_doc = NULL;
     output = create_output_files(content->output_redirections);
@@ -53,8 +55,15 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
         setup_here_doc(str_here_doc);
     free_t_redirect(input);
     free_t_redirect(output);
-    content->commands[0] = get_command_path(content->commands[0], getenv("PATH"));
-    if (execve(content->commands[0], content->commands, NULL) == -1)
+    path = get_command_path(content->commands[0], getenv("PATH"));
+    if (!path)
+    {
+        print_error(content->commands[0], ": Command not found\n");
+        free_double_pointer(content->commands);
+        free(content);
+        exit(1);
+    }
+    if (execve(path, content->commands, NULL) == -1)
     {
         printf("Execve error\n");
         free_double_pointer(content->commands);
@@ -71,6 +80,7 @@ int main()
     t_list      *tmp;
     int         **pipes_fds;
     int         i;
+    int         j;
 
     while (1)
     {
@@ -91,6 +101,9 @@ int main()
             content = pipes->content;
             if (!content)
                 break ;
+            j = -1;
+            while (content->commands[++j])
+                printf("|%s|\n", content->commands[j]);
         	pid = fork();
         	if (!pid)
                 child_process(content, (pipes->next != NULL), i, pipes_fds);
