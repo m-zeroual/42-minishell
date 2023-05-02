@@ -15,7 +15,7 @@
 #define CD   "cd"
 #define EN  "env"
 #define EX  "export"
-#define UNS  "unset"
+#define UNSET  "unset"
 #define EXIT  "exit"
 
 
@@ -35,7 +35,7 @@ typedef struct s_shell
 
 
 // 		======> ft_echo.c.c <=======
-void    ft_exe_echo(t_shell _shell);
+void    ft_exe_echo(t_shell *_shell);
 
 
 //		======> ft_utils.c <=======
@@ -48,12 +48,12 @@ int		ft_get_index_reverse(char *str, char c, int count);
 
 // 		======> ft_pwd.c <=======
 char	*curr_path(t_shell _shell);
-void	ft_exe_pwd(t_shell _shell);
+void	ft_exe_pwd(t_shell *_shell);
 void	ch_pwd(t_shell *_shell);
 
 
 // 		======> env.c <=======
-void	ft_exe_env(t_shell _shell);
+void	ft_exe_env(t_shell *_shell);
 
 
 // 		======> ft_cd.c <=======
@@ -74,7 +74,7 @@ void ft_exec_cmd(t_shell *_shell);
 
 // 		======> ft_excute.c <=======
 void ft_exe_command(t_shell *_shell);
-char *ft_join_cmd(char *cmd);
+char *ft_join_cmd(t_shell *_shell);
 int ft_init(t_shell *_shell);
 int	ft_exe(t_shell *_shell);
 

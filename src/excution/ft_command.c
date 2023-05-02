@@ -25,7 +25,7 @@ void	ft_exec_cmd(t_shell *_shell)
 	if (p == 0)
 	{
 		setup_all(_shell);
-		if (execve(_shell->command, _shell->pipes->content->commands, _shell->env) == -1)
+		if (_shell->command && execve(_shell->command, _shell->pipes->content->commands, _shell->env) == -1)
 		{
 			printf("Error in execve\n");
 			exit(1);

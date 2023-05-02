@@ -11,15 +11,15 @@ int	ft_getvar_and_value(char *command, char **env, char **var, char **value)
 
 	*var = ft_getvar(command);
 		
-	if (*var[0] == '$' && ft_check_var_exist(env, *var) != -1)
-		*var = ft_getenv(env, *var);
+	// if (*var[0] == '$' && ft_check_var_exist(env, *var) != -1)
+	// 	*var = ft_getenv(env, *var);
 	if (ft_strchr(command, '='))
 	{
 		*value = ft_strdup((ft_strchr(command, '=') + 1));
-		printf("value |%s|\n", *value);
+		// printf("value |%s|\n", *value);
 
-		if (*value && *value[0] == '$' && ft_check_var_exist(env, *value) != -1)
-			*value = ft_getenv(env, *value);
+		// if (*value && *value[0] == '$' && ft_check_var_exist(env, *value) != -1)
+		// 	*value = ft_getenv(env, *value);
 	}
 	return (0);
 }
@@ -76,15 +76,20 @@ int	ft_check_var_exist(char **env, char *var)
 
 char	*ft_getenv(char **env, char *var)
 {
-	int		index;
-	char	**str;
-	char	*s;
+	int			index;
+	char		**str;
+	char		*s;
+	static char	**tmp_env;
 
+	if (env)
+		tmp_env = env;
+	if (!var)
+		return (0);
 	s = 0;
-	index = ft_check_var_exist(env, var);
+	index = ft_check_var_exist(tmp_env, var);
 	if (index != -1)
 	{
-		str = ft_split(env[index], '=');
+		str = ft_split(tmp_env[index], '=');
 		s = ft_strdup(str[1]);
 		free_split(str);
 	}
@@ -93,16 +98,16 @@ char	*ft_getenv(char **env, char *var)
 
 int	ft_var_error(t_shell _shell, char *var)
 {
-	if (*var == 0)
-	{
-		printf("bash: %s: `%s\': not a valid identifier\n", \
-			_shell.cmd_split[0], "=");
-		return (0);
-	}
+	// if (*var == 0)
+	// {
+	// 	printf("bash: %s: `%s\': not a valid identifier\n", \
+	// 		_shell.cmd_split[0], "=");
+	// 	return (0);
+	// }
 	if (!check_var_error(var))
 	{
-		printf("bash: %s: `%s\': not a valid identifier\n", \
-			_shell.cmd_split[0], var);
+		printf("minishel: %s: `%s\': not a valid identifier\n", \
+			_shell.pipes->content->commands[0], var);
 		return (0);
 	}
 	return (1);

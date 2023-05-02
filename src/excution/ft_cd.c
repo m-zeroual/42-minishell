@@ -12,14 +12,26 @@ static void	ft_chdir(t_shell *_shell, char *str)
 void	ft_exe_cd(t_shell *_shell)
 {
 	char	*str;
+	int		status;
+	int		pid;
 
-	if (_shell->pipes->content->commands[1] == NULL
-		|| !ft_strncmp(_shell->pipes->content->commands[1], "~", 1))
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
 	{
-		str = ft_getenv(_shell->env, "HOME");
-		ft_chdir(_shell, str);
-		free(str);
-	}	
-	else
-		ft_chdir(_shell, _shell->pipes->content->commands[1]);
+		if (_shell->pipes->content->commands[1] == NULL
+			|| !ft_strncmp(_shell->pipes->content->commands[1], "~", 1))
+		{
+			str = ft_getenv(_shell->env, "HOME");
+			ft_chdir(_shell, str);
+			free(str);
+		}	
+		else
+			ft_chdir(_shell, _shell->pipes->content->commands[1]);
+		exit (0);
+	}
+	wait(&status);
+	if (WIFEXITED(status))
+        _shell->status = WEXITSTATUS(status);
 }

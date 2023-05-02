@@ -20,7 +20,7 @@ int	main(int ac, char *av[], char *ev[])
 	// (void)ev;
 	signal(SIGINT, sig_handler);
 	_shell.env = ft_fill_env(ev, ft_count_env(ev));
-
+	_shell.status = 0;
 	while (1)
 		ft_exe(&_shell);	
 	return (0);

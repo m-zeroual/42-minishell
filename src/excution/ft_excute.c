@@ -1,51 +1,59 @@
 #include "../../includes/minishell.h"
 
-char *ft(char *str)
+int ft(char *str)
 {
-	if (ft_strchr(str, '/'))
-		str = ft_strdup(str + (ft_get_index_reverse(str, '/', 1) + 1));
-	else
-		return (str);
-	return (ft_strdup(str));
+	if (!ft_strncmp(str, EX, ft_strlen(EX) + 1) \
+		|| !ft_strncmp(str, UNSET, ft_strlen(UNSET) + 1) \
+		|| !ft_strncmp(str, EXIT, ft_strlen(EXIT) + 1))
+		return (1);
+	return (0);
 }
 
 void	ft_exe_command(t_shell *_shell)
 {
 	char *cmd;
 	char *cmd_lower;
+	char *tmp;
+	char *tmp2;
+
 	
-	cmd = ft(_shell->pipes->content->commands[0]);
+	cmd = _shell->pipes->content->commands[0];
 	cmd_lower = ft_str_tolower(_shell->pipes->content->commands[0]);
-	if (!ft_strncmp(cmd_lower, ECHO, 5))
-		ft_exe_echo(*_shell);
-	else if (!ft_strncmp(cmd_lower, PWD, 4))
-		ft_exe_pwd(*_shell);
-	else if (!ft_strncmp(cmd_lower, EN, 4))
-		ft_exe_env(*_shell);
-	else if (!ft_strncmp(cmd, CD, 3))      // just lowercase
+	tmp = cmd_lower + ft_strlen(cmd_lower);
+	tmp2 = cmd + ft_strlen(cmd);
+	if (!ft_strncmp(tmp - ft_strlen(ECHO), ECHO, ft_strlen(ECHO)))
+		ft_exe_echo(_shell);
+	else if (!ft_strncmp(tmp - ft_strlen(PWD), PWD, ft_strlen(PWD)))
+		ft_exe_pwd(_shell);
+	else if (!ft_strncmp(tmp - ft_strlen(EN), EN, ft_strlen(EN)))
+		ft_exe_env(_shell);
+	else if (!ft_strncmp(tmp2 - ft_strlen(CD), CD, ft_strlen(CD)))      // just lowercas
 		ft_exe_cd(_shell);
-	else if (!ft_strncmp(cmd, EX, 7))     // just lowercase
+	else if (!ft_strncmp(tmp2 - ft_strlen(EX), EX, ft_strlen(EX)))     // just lowercase
 		ft_exe_export(_shell);
-	else if (!ft_strncmp(cmd, UNS, 5))   // just lowercase
+	else if (!ft_strncmp(tmp2 - ft_strlen(UNSET), UNSET, ft_strlen(UNSET)))   // just lowercase
 		ft_exe_unset(_shell);
-	else if (!ft_strncmp(cmd, EXIT, 6))  // just lowercase
+	else if (!ft_strncmp(tmp2 - ft_strlen(EXIT), EXIT, ft_strlen(EXIT)))  // just lowercase
 		exit(0);
 	else
 		ft_exec_cmd(_shell);
 	free(cmd_lower);
 }
 
-char	*ft_join_cmd(char *cmd)
+char	*ft_join_cmd(t_shell *_shell)
 {
 	int		i;
 	char	*help_for_free;
 	char	*path_cmd;
 	char	**path;
+	char	*cmd;
 
 	path = ft_split(getenv("PATH"), ':');
-
-
+	cmd = _shell->pipes->content->commands[0];
 	i = 0;
+	
+	if (ft(cmd))
+		return (ft_strdup(cmd));
 	if (!ft_strchr(cmd, '/'))
 	{
 		while (path[i])
@@ -53,7 +61,7 @@ char	*ft_join_cmd(char *cmd)
 			help_for_free = ft_strjoin(path[i], "/");
 			path_cmd = ft_strjoin(help_for_free, cmd);
 			free(help_for_free);
-			if (!access(path_cmd, F_OK))
+			if (!access(path_cmd, F_OK) && !access(path_cmd, X_OK))
 			{
 				free_split(path);
 				return (path_cmd);
@@ -61,12 +69,20 @@ char	*ft_join_cmd(char *cmd)
 			free(path_cmd);
 			i++;
 		}
+		printf("minshell: %s: %s\n", cmd, "command not found");
+		_shell->status = 127;
 	}
+	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
+	{
+		printf("minshell: %s: %s\n", cmd, "is a directory");
+		_shell->status = 126;
+	}
+	else if (!access(cmd, F_OK) && !access(cmd, X_OK))
+		return (free_split(path), ft_strdup(cmd));
 	else
 	{
-		free_split(path);
-		return (ft_strdup(cmd));
-
+		printf("minshell: %s: %s\n", cmd, strerror(errno));
+		_shell->status = 126;
 	}
 	free_split(path);
 	return (0);
@@ -94,6 +110,7 @@ int	ft_init(t_shell *_shell)
 	// char *cwd = curr_path(*_shell);
 	// char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
 	// free(cwd);
+	// cmd = readline(s);
 	cmd = readline("minishell -> ");
 	// printf("|%s|\n", _shell->cmd);
 	// free(s);
@@ -107,9 +124,10 @@ int	ft_init(t_shell *_shell)
 	// t_content *content = _shell->pipes->content;
 
 	// _shell->pipes->content->commands = content->commands;
-	// // int i = -1;
-	// // while (_shell->pipes->content->commands[++i])
-	// // 	printf("|%s|\n", _shell->pipes->content->commands[i]);
+	int i = -1;
+	while (_shell->pipes->content->commands[++i])
+		printf("\"%s\"\n", _shell->pipes->content->commands[i]);
+	printf("\n");
 	// // free(content);
 	// // free(_shell->pipes);
 	return (1);
@@ -136,21 +154,21 @@ int	ft_exe(t_shell *_shell)
     {
         if (!_shell->pipes->content)
             break ;
-		_shell->command = ft_join_cmd(_shell->pipes->content->commands[0]);
+		_shell->command = ft_join_cmd(_shell);
+		if (!_shell->command)
+			return (0);
 		ft_exe_command(_shell);
 
         // wait(NULL);
-        // close(_shell->pipes_fds[_shell->i - 1][0]);
+        close(_shell->pipes_fds[_shell->i - 1][0]);
 
         tmp = _shell->pipes;
-        _shell->pipes = _shell->pipes->next;
 		free(_shell->command);
-		// free_split(_shell->pipes->content->commands);
-        free_double_pointer(_shell->pipes->content->commands);
-		// free(_shell->pipes->content);
-        // free(tmp);
-		// free(_shell->first_part_cmd_l);
+        _shell->pipes = _shell->pipes->next;
+        free_double_pointer(tmp->content->commands);
+		free(tmp->content);
+        free(tmp);
 	}
-	// close_all_pipes(_shell->pipes_fds, size);
+	close_all_pipes(_shell->pipes_fds, size);
 	return (1);
 }

@@ -5,11 +5,13 @@ int	check_var_error(char *var)
 	int	i;
 
 	i = 0;
+	if (!var)
+		return (0);
 	if (!ft_isalpha(var[i]) && var[i] != '_')
 		return (0);
 	while (var[i])
 	{
-		if (!ft_isalpha(var[i]) && !ft_isalnum(var[i]) && var[i] != '_')
+		if (!ft_isalnum(var[i]) && var[i] != '_')
 			return (0);
 		i++;
 	}
@@ -47,6 +49,7 @@ int	ft_add_var(t_shell *_shell)
 	int		equal;
 
 	i = 1;
+	
 	while (_shell->pipes->content->commands[i])
 	{
 		var = 0;
@@ -68,10 +71,26 @@ int	ft_add_var(t_shell *_shell)
 
 void	ft_exe_export(t_shell *_shell)
 {
-	if (_shell->pipes->content->commands[1])
-		ft_add_var(_shell);
-	else
-	{
-		ft_display_export(_shell->env);
-	}
+	// int pid;
+	// int status;
+
+	// pid = fork();
+	// if (pid == -1)
+	// 	return ;
+	// if (pid == 0)
+	// {
+		if (_shell->pipes->content->commands[1])
+		{
+			ft_add_var(_shell);
+			// exit(0);
+		}
+		else
+		{
+			ft_display_export(_shell->env);
+			// exit(0);
+		}
+	// }
+	// wait(&status);
+	// if (WIFEXITED(status))
+    //     _shell->status = WEXITSTATUS(status);
 }
