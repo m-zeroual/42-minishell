@@ -86,22 +86,22 @@ void    setup_here_doc(char *string)
 t_list  *main_parsing(char   *getLine)
 {
     char    **commands;
+    char    *tmp;
     t_list      *pipes;
 
     if (!getLine || !*getLine)
-        return (NULL);
-    if (!ft_strncmp(getLine, "exit\0", 5))
     {
         free(getLine);
-        exit(0);
+        return (NULL);
     }
+    tmp = getLine;
     commands = parsing_single_double_quotes(getLine);
+    free(tmp);
     if (!commands)
         return (NULL);
     pipes = parsing_pipes(commands);
     if (!pipes)
         return (NULL);
     free(commands);
-    free(getLine);
     return (pipes);
 }

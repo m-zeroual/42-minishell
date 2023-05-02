@@ -2,7 +2,6 @@
 
 char *get_variable_name(char **line)
 {
-	// int i = 0;
 	int j;
 	char *var;
 	char *tmp;
@@ -29,20 +28,23 @@ void	expanding_variables(char **dest, char **line, int *a, int *j, char separato
 	char	*str;
 	int		i;
 
-	if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
+	if (((separator == '"' && *a) || (!separator && !*a)) \
+			&& (ft_isalpha(**line) || **line == '_'))
 	{
 		var = get_variable_name(line);
 		if (!var)
 			return ;
 		str = getenv(var);
+		// str = ft_getenv(NULL, var);
+		free(var);
 		if (!str)
 			return ;
 		i = 0;
 		while (str[i])
 			(*dest)[(*j)++] = str[i++];
-		return ;
 	}
-	// (*line)++;
+	else if ((!ft_isalpha(**line) && **line != '_'))
+		(*line)++;
 }
 
 int	check_conditions(char **dest, char **line, int *a, int j, char separator)
@@ -90,7 +92,9 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
-    if (!ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4)
+	if ((j == 1 && ((!ft_strncmp((*line) - 1, "\"\"\0", 3) || !ft_strncmp((*line) - 1, "''", 3)) \
+		||	(!ft_strncmp((*line) - 1, "\"\" ", 3) || !ft_strncmp((*line) - 1, "'' ", 3)))) \
+		|| !ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4) \
 		|| !ft_strncmp((*line) - 2, " \"\"", 4) || !ft_strncmp((*line) - 2, " ''", 4))
         (*dest)[j++] = 1;
 	while (**line && **line != separator)
@@ -103,9 +107,6 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	}
 	if (**line && **line == separator && (*line)++)
 		*a = !*a;
-    if (!ft_strncmp((*line) - 2, " \"\" ", 4) || !ft_strncmp((*line) - 2, " '' ", 4)
-		|| !ft_strncmp((*line) - 2, " \"\"\0", 4) || !ft_strncmp((*line) - 2, " ''\0", 4))
-        (*dest)[j++] = 1;
 	return (j);
 }
 
@@ -130,7 +131,11 @@ char	*handle_line(char *line)
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)
-		ft_putstr_fd("Error : you messing a separator\n", 2);
+	{
+		ft_putstr_fd("minishell: you messing a separator\n", 2);
+		free(dest);
+		return (0);
+	}
 	dest[j] = 0;
 	free(tmp);
 	tmp = ft_strdup(dest);
