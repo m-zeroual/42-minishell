@@ -56,7 +56,7 @@ int main()
         close(pipes_fds[0][0]);
         while (pipes && ++i)
         {
-            content = pipes->content;
+           content  = pipes->content;
             if (!content)
                 break ;
         	pid = fork();

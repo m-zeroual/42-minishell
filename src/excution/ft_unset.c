@@ -52,6 +52,7 @@ void ft_exe_unset(t_shell *_shell)
 		// 	_shell->export = ft_remove_var(_shell->export, var);
 		i++;
 	}
+	_shell->status = 0;
 
 	// if (index_var != -1 && *var)
 	// {

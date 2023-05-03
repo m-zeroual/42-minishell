@@ -49,7 +49,6 @@ int	ft_add_var(t_shell *_shell)
 	int		equal;
 
 	i = 1;
-	
 	while (_shell->pipes->content->commands[i])
 	{
 		var = 0;
@@ -64,6 +63,8 @@ int	ft_add_var(t_shell *_shell)
 			if (!edit_var(_shell->env, var, value, equal))
 				_shell->env = add_var(_shell->env, var, value, equal);
 		}
+		else
+			return (0);
 		i++;
 	}
 	return (1);
@@ -71,26 +72,29 @@ int	ft_add_var(t_shell *_shell)
 
 void	ft_exe_export(t_shell *_shell)
 {
-	// int pid;
-	// int status;
+	int pid;
+	int status;
 
-	// pid = fork();
-	// if (pid == -1)
-	// 	return ;
-	// if (pid == 0)
-	// {
-		if (_shell->pipes->content->commands[1])
-		{
-			ft_add_var(_shell);
-			// exit(0);
-		}
+	if (_shell->pipes->content->commands[1])
+	{
+		if (!ft_add_var(_shell))
+			_shell->status = 1;
 		else
+			_shell->status = 0;
+	}
+	else
+	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
 		{
+			setup_all(_shell);
 			ft_display_export(_shell->env);
-			// exit(0);
+			exit(0);
 		}
-	// }
-	// wait(&status);
-	// if (WIFEXITED(status))
-    //     _shell->status = WEXITSTATUS(status);
+		wait(&status);
+		if (WIFEXITED(status))
+			_shell->status = WEXITSTATUS(status);
+	}
 }

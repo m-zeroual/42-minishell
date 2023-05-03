@@ -107,11 +107,11 @@ int	ft_init(t_shell *_shell)
 {
 	char *cmd;
 
-	// char *cwd = curr_path(*_shell);
-	// char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
-	// free(cwd);
-	// cmd = readline(s);
-	cmd = readline("minishell -> ");
+	char *cwd = curr_path(*_shell);
+	char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
+	free(cwd);
+	cmd = readline(s);
+	// cmd = readline("minishell -> ");
 	// printf("|%s|\n", _shell->cmd);
 	// free(s);
 	if (!cmd)
@@ -124,10 +124,10 @@ int	ft_init(t_shell *_shell)
 	// t_content *content = _shell->pipes->content;
 
 	// _shell->pipes->content->commands = content->commands;
-	int i = -1;
-	while (_shell->pipes->content->commands[++i])
-		printf("\"%s\"\n", _shell->pipes->content->commands[i]);
-	printf("\n");
+					// int i = -1;
+					// while (_shell->pipes->content->commands[++i])
+					// 	printf("\"%s\"\n", _shell->pipes->content->commands[i]);
+					// printf("\n");
 	// // free(content);
 	// // free(_shell->pipes);
 	return (1);
@@ -149,7 +149,6 @@ int	ft_exe(t_shell *_shell)
 		return (1);
 	}
 	close(_shell->pipes_fds[0][0]);
-		
 	while (_shell->pipes && ++(_shell->i))
     {
         if (!_shell->pipes->content)

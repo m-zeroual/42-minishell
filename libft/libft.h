@@ -28,7 +28,7 @@ typedef struct  s_redirect
 typedef struct  s_content
 {
     char        **commands;
-    t_redirect  *input_redirections;
+    t_redirect  *input_redirections;     //|`` `` `` `` | - | | - | | - |\0|
     t_redirect  *output_redirections;
 }   t_content;
 
