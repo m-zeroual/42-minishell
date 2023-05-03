@@ -18,8 +18,8 @@ int parsing_redirection(t_content *content, char **redirections);
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/parsing_redirection_utils.c
 int         check_permissions(char  *filename, char *permissions);
 void        free_t_redirect(t_redirect *redirect);
-t_redirect  *create_output_files(t_redirect *output);
-t_redirect  *get_input_file(t_redirect *inputs);
+t_redirect	*create_output_files(t_redirect *output, char *error);
+t_redirect  *get_input_file(t_redirect *inputs, char *error);
 char        *get_here_doc_content(char  *eol);
 
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/parsing_redirection_tools.c
@@ -32,7 +32,6 @@ void    init_t_redirect(t_redirect *dest, t_redirect *src);
 //PATH: src/parsing_args/main_parsing.c
 t_list  *main_parsing(char   *getLine);
 void    setup_here_doc(char *string);
-char    *get_random_name(int len);
 int     setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, int has_prev);
 int     setup_input_redirections(t_redirect *input, char **str, int **pipe_fds, int has_next);
 
@@ -41,8 +40,6 @@ t_list      *parsing_pipes(char  **commands);
 t_redirect  *get_redirections(char   **commands);
 int         parsing_redirection(t_content *content, char **redirections);
 char        *get_here_doc_content(char  *eol);
-t_redirect  *get_input_file(t_redirect *inputs);
-t_redirect  *create_output_files(t_redirect *output);
 
 void    free_t_redirect(t_redirect *redirect);
 

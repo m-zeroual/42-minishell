@@ -22,34 +22,64 @@ char *get_variable_name(char **line)
 	return (tmp);
 }
 
+void	search_and_replace(char *src, char search, char replace)
+{
+	int	i;
+
+	if (!src)
+		return ;
+	i = -1;
+	while (src[++i])
+		if (src[i] == search)
+			src[i] = replace;
+}
+
+char	*get_value(char **src)
+{
+	char	*val;
+	char	*str;
+
+	val = get_variable_name(src);
+	if (!val)
+		return (0);
+	str = getenv(val);
+	// str = ft_getenv(NULL, var);
+	free(val);
+	if (!str)
+		return (0);
+	search_and_replace(str, '"', -3);
+	search_and_replace(str, '\'', -2);
+	str = handle_line(ft_strdup(str));
+	val = ft_strtrim(str, "\004\004");
+	free(str);
+	if (!val)
+		return (0);
+	search_and_replace(val, -3, '"');
+	search_and_replace(val, -2, '\'');
+	return (val);
+}
+
 void	expanding_variables(char **dest, char **line, int *a, int *j, char separator)
 {
-	char	*var;
 	char	*str;
 	int		i;
 
 	if (((separator == '"' && *a) || (!separator && !*a)) \
 			&& (ft_isalpha(**line) || **line == '_'))
 	{
-		var = get_variable_name(line);
-		if (!var)
-			return ;
-		str = getenv(var);
-		// str = ft_getenv(NULL, var);
-		free(var);
+		i = 0;
+		str = get_value(line);
 		if (!str)
 			return ;
-		i = 0;
 		while (str[i])
 			(*dest)[(*j)++] = str[i++];
+		free(str);
 	}
-	else if ((!ft_isalpha(**line) && **line != '_'))
-		(*line)++;
 }
 
 int	check_conditions(char **dest, char **line, int *a, int j, char separator)
 {
-	if (**line == '$' && (*line)++)
+	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?'  && (*line)++)
 		expanding_variables(dest, line, a, &j, separator);
     else if (!*a && **line == '|' && (*line)++)
     {
@@ -137,7 +167,7 @@ char	*handle_line(char *line)
 		return (0);
 	}
 	dest[j] = 0;
-	free(tmp);
+	// free(tmp);
 	tmp = ft_strdup(dest);
 	free(dest);
 	return (tmp);

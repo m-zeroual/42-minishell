@@ -58,7 +58,7 @@ int setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, 
         fd = open(output[0].file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     if (fd == -1)
     {
-        print_error(output[0].file, ": Not such file or directory\n");
+        // print_error(output[0].file, ": Not such file or directory\n");
         exit(1);
     }
     if (dup2(fd, 1) == -1)

@@ -36,16 +36,12 @@ char    *get_command_path(char *command, char *full_path)
 
 void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
 {
-    t_redirect  *output;
-    t_redirect  *input;
     char        *str_here_doc;
     char        *path;
 
     str_here_doc = NULL;
-    output = create_output_files(content->output_redirections);
-    input = get_input_file(content->input_redirections);
-    if (!setup_output_redirections(output, pipe_fds, has_next, i) \
-            || !setup_input_redirections(input, &str_here_doc, pipe_fds, i))
+    if (!setup_output_redirections(content->output_redirections, pipe_fds, has_next, i) \
+            || !setup_input_redirections(content->input_redirections, &str_here_doc, pipe_fds, i))
     {
         free_double_pointer(content->commands);
         free(content);
@@ -53,8 +49,6 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
     }
     if (str_here_doc)
         setup_here_doc(str_here_doc);
-    free_t_redirect(input);
-    free_t_redirect(output);
     path = get_command_path(content->commands[0], getenv("PATH"));
     if (!path)
     {
@@ -80,6 +74,7 @@ int main()
     t_list      *tmp;
     int         **pipes_fds;
     int         i;
+    char        error;
 
     while (1)
     {
@@ -100,6 +95,13 @@ int main()
             content = pipes->content;
             if (!content)
                 break ;
+            error = 0;
+            content->output_redirections = create_output_files(content->output_redirections, &error);
+            if (error == 1)
+                break ;
+            content->input_redirections = get_input_file(content->input_redirections, &error);
+            if (error == 1)
+                break ;
         	pid = fork();
         	if (!pid)
                 child_process(content, (pipes->next != NULL), i, pipes_fds);
@@ -108,6 +110,8 @@ int main()
             tmp = pipes;
             pipes = pipes->next;
             free_double_pointer(content->commands);
+            free_t_redirect(content->output_redirections);
+            free_t_redirect(content->input_redirections);
             free(content);
             free(tmp);
        	}
