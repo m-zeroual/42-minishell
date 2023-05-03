@@ -5,11 +5,13 @@ int	check_var_error(char *var)
 	int	i;
 
 	i = 0;
+	if (!var)
+		return (0);
 	if (!ft_isalpha(var[i]) && var[i] != '_')
 		return (0);
 	while (var[i])
 	{
-		if (!ft_isalpha(var[i]) && !ft_isalnum(var[i]) && var[i] != '_')
+		if (!ft_isalnum(var[i]) && var[i] != '_')
 			return (0);
 		i++;
 	}
@@ -44,20 +46,25 @@ int	ft_add_var(t_shell *_shell)
 	char	*var;
 	char	*value;
 	int		i;
+	int		equal;
 
 	i = 1;
-	var = 0;
-	value = 0;
-	while (_shell->cmd_split[i])
+	while (_shell->pipes->content->commands[i])
 	{
-		ft_getvar_and_value(_shell->cmd_split[i], _shell->env, &var, &value);
+		var = 0;
+		value = 0;
+		ft_getvar_and_value(_shell->pipes->content->commands[i], _shell->env, &var, &value);
+		if (ft_strchr(_shell->pipes->content->commands[i], '='))
+			equal = 1;
+		else
+			equal = 0;
 		if (ft_var_error(*_shell, var))
 		{
-			if (!edit_var(_shell->export, var, value, EXP))
-				_shell->export = add_var(_shell->export, var, value);
-			if (!edit_var(_shell->env, var, value, ENV) && value)
-				_shell->env = add_var(_shell->env, var, value);
+			if (!edit_var(_shell->env, var, value, equal))
+				_shell->env = add_var(_shell->env, var, value, equal);
 		}
+		else
+			return (0);
 		i++;
 	}
 	return (1);
@@ -65,10 +72,29 @@ int	ft_add_var(t_shell *_shell)
 
 void	ft_exe_export(t_shell *_shell)
 {
-	if (_shell->cmd_split[1])
-		ft_add_var(_shell);
+	int pid;
+	int status;
+
+	if (_shell->pipes->content->commands[1])
+	{
+		if (!ft_add_var(_shell))
+			_shell->status = 1;
+		else
+			_shell->status = 0;
+	}
 	else
 	{
-		ft_display_export(_shell->export);
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			setup_all(_shell);
+			ft_display_export(_shell->env);
+			exit(0);
+		}
+		wait(&status);
+		if (WIFEXITED(status))
+			_shell->status = WEXITSTATUS(status);
 	}
 }

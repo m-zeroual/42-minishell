@@ -4,4 +4,3 @@ minishell
 *.o
 ./src/**/*.o
 testing/*
-

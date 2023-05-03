@@ -112,6 +112,9 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	char	separator;
 
 	separ_index = get_separator(*line, &separator);
+	// printf("|%s|\n", (*line) + separ_index);
+	// printf("|%c|\n", separator);
+
 	while (separ_index-- > 0 && **line && **line != separator)
 	{
 		if (!*a && **line == ' ')

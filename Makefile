@@ -11,6 +11,7 @@ SRCS	=	src/main.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
 			src/excution/ft_utils.c	\
+			src/excution/ft_echo.c	\
 			src/excution/ft_pwd.c	\
 			src/excution/ft_cd.c	\
 			src/excution/ft_export_1.c	\
@@ -21,12 +22,13 @@ SRCS	=	src/main.c \
 			src/excution/ft_excute.c	\
 			src/excution/ft_unset.c	\
 			src/excution/ft_env.c \
-			src/pipes/pipes.c
+			src/pipes/pipes.c \
+			src/extra_functions.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror 
 RM		=	rm -f
 
 all	:	$(NAME)

@@ -14,4 +14,9 @@ int     **get_pipes(int size);
 void    create_pipes(t_list    *pipes);
 void    close_all_pipes(t_content *content);
 
+
+
+// 
+void    setup_all(t_shell *_shell);
+
 #endif

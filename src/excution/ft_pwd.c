@@ -22,30 +22,43 @@ char	*curr_path(t_shell _shell)
 	return (0);
 }
 
-void	ft_exe_pwd(t_shell _shell)
+void	ft_exe_pwd(t_shell *_shell)
 {
 	char	*str;
+	int 	pid;
+	int 	status;
 
 	str = 0;
-	if (ft_strchr(_shell.cmd_split[0], '/'))
+	pid = fork ();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
 	{
-		if (access(_shell.cmd_split[0], F_OK) == 0)
+		if (ft_strchr(_shell->pipes->content->commands[0], '/'))
 		{
-			str = curr_path(_shell);
+			if (access(_shell->pipes->content->commands[0], F_OK) == 0)
+			{
+				str = curr_path(*_shell);
+				printf("%s\n", str);
+				free(str);
+			}
+			else
+				printf("minishell: %s: %s\n", _shell->pipes->content->commands[0], strerror(errno));
+		}
+		else
+		{
+			str = curr_path(*_shell);
 			printf("%s\n", str);
 			free(str);
 		}
-		else
-			printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
+		exit (0);
 	}
-	else if (!ft_strncmp(_shell.first_part_cmd_l, PWD, 3))
-	{
-		str = curr_path(_shell);
-		printf("%s\n", str);
-		free(str);
-	}
-	else
-		printf("minishell: %s: %s\n", _shell.cmd_split[0], strerror(errno));
+	wait(&status);
+	if (WIFEXITED(status))
+        _shell->status = WEXITSTATUS(status);
+
+	// else
+	// 	printf("minishell: %s: %s\n", _shell->pipes->content->commands[0], strerror(errno));
 }
 
 void	ch_pwd(t_shell *_shell)

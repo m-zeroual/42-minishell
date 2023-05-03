@@ -30,7 +30,7 @@ typedef struct  s_content
     int         pipe_fds[2];
     int         *prev_pipe_fds;
     char        **commands;
-    t_redirect  *input_redirections;
+    t_redirect  *input_redirections;     //|`` `` `` `` | - | | - | | - |\0|
     t_redirect  *output_redirections;
 }   t_content;
 

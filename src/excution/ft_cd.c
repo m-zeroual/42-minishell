@@ -1,31 +1,38 @@
 #include "../../includes/minishell.h"
 
-void	cd_path(t_shell *_shell)
+static void	ft_chdir(t_shell *_shell, char *str)
 {
-	if (!chdir(_shell->cmd_split[1]))
-		ch_pwd(_shell);
-	else
-		printf("bash: %s: %s: %s\n", _shell->cmd_split[0], \
-			_shell->cmd_split[1], strerror(errno));
-}
-
-void	cd_home(t_shell *_shell)
-{
-	char	*str;
-
-	str = ft_getenv(_shell->env, "HOME");
 	if (!chdir(str))
 		ch_pwd(_shell);
 	else
-		printf("bash: %s: %s: %s\n", _shell->cmd_split[0], \
-			_shell->cmd_split[1], strerror(errno));
-	free(str);
+		printf("bash: %s: %s: %s\n", _shell->pipes->content->commands[0], \
+			_shell->pipes->content->commands[1], strerror(errno));
 }
 
 void	ft_exe_cd(t_shell *_shell)
 {
-	if (_shell->cmd_split[1] == NULL || !ft_strncmp(_shell->cmd_split[1], "~", 1))
-		cd_home(_shell);
-	else
-		cd_path(_shell);
+	char	*str;
+	// int		status;
+	// int		pid;
+
+	// pid = fork();
+	// if (pid == -1)
+	// 	return ;
+	// if (pid == 0)
+	// {
+		if (_shell->pipes->content->commands[1] == NULL
+			|| !ft_strncmp(_shell->pipes->content->commands[1], "~", 1))
+		{
+			str = ft_getenv(_shell->env, "HOME");
+			ft_chdir(_shell, str);
+			free(str);
+		}
+		else
+			ft_chdir(_shell, _shell->pipes->content->commands[1]);
+		_shell->status = 0;
+		// exit (0);
+	// }
+	// wait(&status);
+	// if (WIFEXITED(status))
+    //     _shell->status = WEXITSTATUS(status);
 }
