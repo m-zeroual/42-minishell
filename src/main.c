@@ -34,34 +34,33 @@ char    *get_command_path(char *command, char *full_path)
     return (0);
 }
 
-void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
+void    child_process(t_list *pipe)
 {
     char        *str_here_doc;
     char        *path;
 
     str_here_doc = NULL;
-    if (!setup_output_redirections(content->output_redirections, pipe_fds, has_next, i) \
-            || !setup_input_redirections(content->input_redirections, &str_here_doc, pipe_fds, i))
+    if (!setup_output_redirections(pipe) || !setup_input_redirections(pipe, &str_here_doc))
     {
-        free_double_pointer(content->commands);
-        free(content);
+        free_double_pointer(pipe->content->commands);
+        free(pipe->content);
         exit(1);
     }
     if (str_here_doc)
         setup_here_doc(str_here_doc);
-    path = get_command_path(content->commands[0], getenv("PATH"));
+    path = get_command_path(pipe->content->commands[0], getenv("PATH"));
     if (!path)
     {
-        print_error(content->commands[0], ": Command not found\n");
-        free_double_pointer(content->commands);
-        free(content);
+        print_error(pipe->content->commands[0], ": Command not found\n");
+        free_double_pointer(pipe->content->commands);
+        free(pipe->content);
         exit(1);
     }
-    if (execve(path, content->commands, NULL) == -1)
+    if (execve(path, pipe->content->commands, NULL) == -1)
     {
         printf("Execve error\n");
-        free_double_pointer(content->commands);
-        free(content);
+        free_double_pointer(pipe->content->commands);
+        free(pipe->content);
         exit(1);
     }
 }
@@ -72,7 +71,6 @@ int main()
     int         pid;
     t_list      *pipes;
     t_list      *tmp;
-    int         **pipes_fds;
     int         i;
     char        error;
 
@@ -81,15 +79,9 @@ int main()
         pipes = main_parsing(readline("minishell $> "));
         if (!pipes)
             continue ;
-        int size = ft_lstsize(pipes);
-		pipes_fds = create_pipes(size);
-		if (!pipes_fds)
-		{
-			print_error(NULL, ": Pipes Error\n");
-			continue ;
-		}
+        create_pipes(pipes);
         i = 0;
-        close(pipes_fds[0][0]);
+        close(pipes->content->pipe_fds[0]);
         while (pipes && ++i)
         {
             content = pipes->content;
@@ -104,9 +96,9 @@ int main()
                 break ;
         	pid = fork();
         	if (!pid)
-                child_process(content, (pipes->next != NULL), i, pipes_fds);
+                child_process(pipes);
             wait(NULL);
-            close(pipes_fds[i - 1][0]);
+
             tmp = pipes;
             pipes = pipes->next;
             free_double_pointer(content->commands);
@@ -115,6 +107,5 @@ int main()
             free(content);
             free(tmp);
        	}
-		close_all_pipes(pipes_fds, size);
     }
 }
