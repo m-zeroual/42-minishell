@@ -28,7 +28,7 @@ SRCS	=	src/main.c \
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror 
+CFLAGS	=	-Wall -Wextra -Werror -fsanitize=address
 RM		=	rm -f
 
 all	:	$(NAME)

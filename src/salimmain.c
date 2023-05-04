@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-<<<<<<< HEAD:src/salimmain.c
 char    *get_command_path(char *command, char *full_path)
 {
     char *path;
@@ -36,9 +35,6 @@ char    *get_command_path(char *command, char *full_path)
 }
 
 void    child_process(t_list *pipe)
-=======
-void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
->>>>>>> v1.2.0E:src/extra_main.c
 {
     char        *str_here_doc;
     char        *path;
@@ -52,7 +48,6 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
     }
     if (str_here_doc)
         setup_here_doc(str_here_doc);
-<<<<<<< HEAD:src/salimmain.c
     path = get_command_path(pipe->content->commands[0], getenv("PATH"));
     if (!path)
     {
@@ -68,18 +63,6 @@ void    child_process(t_content *content, int has_next, int i, int **pipe_fds)
         free(pipe->content);
         exit(1);
     }
-=======
-    free_t_redirect(input);
-    free_t_redirect(output);
-    // path = get_command_path(content->commands[0], getenv("PATH"));
-    // if (!path)
-    // {
-    //     print_error(content->commands[0], ": Command not found\n");
-    //     free_double_pointer(content->commands);
-    //     free(content);
-    //     exit(1);
-    // }
->>>>>>> v1.2.0E:src/extra_main.c
 }
 
 int main()

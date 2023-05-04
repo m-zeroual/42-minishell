@@ -34,7 +34,7 @@ void	search_and_replace(char *src, char search, char replace)
 			src[i] = replace;
 }
 
-char	*get_value(char **src)
+char	*get_value(t_shell *shell, char **src)
 {
 	char	*val;
 	char	*str;
@@ -42,24 +42,21 @@ char	*get_value(char **src)
 	val = get_variable_name(src);
 	if (!val)
 		return (0);
-	str = getenv(val);
-	// str = ft_getenv(NULL, var);
+	str = ft_getenv(shell->env, val);
 	free(val);
 	if (!str)
 		return (0);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
-	str = handle_line(ft_strdup(str));
+	str = handle_line(shell, ft_strdup(str));
 	val = ft_strtrim(str, "\004\004");
 	free(str);
 	if (!val)
 		return (0);
-	search_and_replace(val, -3, '"');
-	search_and_replace(val, -2, '\'');
 	return (val);
 }
 
-void	expanding_variables(char **dest, char **line, int *a, int *j, char separator)
+void	expanding_variables(t_shell *shell, char **dest, char **line, int *a, int *j, char separator)
 {
 	char	*str;
 	int		i;
@@ -68,7 +65,7 @@ void	expanding_variables(char **dest, char **line, int *a, int *j, char separato
 			&& (ft_isalpha(**line) || **line == '_'))
 	{
 		i = 0;
-		str = get_value(line);
+		str = get_value(shell, line);
 		if (!str)
 			return ;
 		while (str[i])
@@ -77,10 +74,10 @@ void	expanding_variables(char **dest, char **line, int *a, int *j, char separato
 	}
 }
 
-int	check_conditions(char **dest, char **line, int *a, int j, char separator)
+int	check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?'  && (*line)++)
-		expanding_variables(dest, line, a, &j, separator);
+		expanding_variables(shell, dest, line, a, &j, separator);
     else if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
@@ -106,20 +103,17 @@ int	check_conditions(char **dest, char **line, int *a, int j, char separator)
 	return (j);
 }
 
-int	set_dest(char **dest, char **line, int *a, int j)
+int	set_dest(t_shell *shell, char **dest, char **line, int *a, int j)
 {
 	int		separ_index;
 	char	separator;
 
 	separ_index = get_separator(*line, &separator);
-	// printf("|%s|\n", (*line) + separ_index);
-	// printf("|%c|\n", separator);
-
 	while (separ_index-- > 0 && **line && **line != separator)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
-		j = check_conditions(dest, line, a, j, 0);
+		j = check_conditions(shell, dest, line, a, j, 0);
 		if (!*a && *(*line - 1) == ' ' && **line != ' ')
 			(*dest)[j++] = SEPARATOR;
 	}
@@ -134,7 +128,7 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	{
 		if (!*a && **line == ' ')
 			(*dest)[j++] = SEPARATOR;
-		j = check_conditions(dest, line, a, j, separator);
+		j = check_conditions(shell, dest, line, a, j, separator);
 		if (!*a && **(line - 1) == ' ' && **line != ' ')
             (*dest)[j++] = SEPARATOR;
 	}
@@ -143,7 +137,7 @@ int	set_dest(char **dest, char **line, int *a, int j)
 	return (j);
 }
 
-char	*handle_line(char *line)
+char	*handle_line(t_shell *shell, char *line)
 {
 	char	*dest;
 	int		j;
@@ -160,7 +154,7 @@ char	*handle_line(char *line)
 	a = 0;
 	dest[j++] = SEPARATOR;
 	while (*line)
-		j = set_dest(&dest, &line, &a, j);
+		j = set_dest(shell, &dest, &line, &a, j);
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)
@@ -176,12 +170,14 @@ char	*handle_line(char *line)
 	return (tmp);
 }
 
-char	**split_line(char *line)
+char	**split_line(t_shell *shell, char *line)
 {
 	char	*line_after_handling;
 	char	**str;
 
-	line_after_handling = handle_line(line);
+	line_after_handling = handle_line(shell, line);
+	search_and_replace(line_after_handling, -3, '"');
+	search_and_replace(line_after_handling, -2, '\'');
 	if (!line_after_handling)
 		return (0);
 	str = ft_split(line_after_handling, SEPARATOR);
@@ -191,7 +187,7 @@ char	**split_line(char *line)
 	return (str);
 }
 
-char	**parsing_single_double_quotes(char *args)
+char	**parsing_single_double_quotes(t_shell *shell, char *args)
 {
 	char	*line;
 
@@ -200,5 +196,5 @@ char	**parsing_single_double_quotes(char *args)
 	line = ft_strtrim(args, " \t\n");
 	if (!line)
 		return (0);
-	return (split_line(line));
+	return (split_line(shell, line));
 }

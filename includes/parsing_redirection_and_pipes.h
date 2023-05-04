@@ -1,6 +1,9 @@
 #ifndef PARSING_REDIRECTION_AND_PIPES_H
 # define PARSING_REDIRECTION_AND_PIPES_H
 
+#include "minishell.h"
+#include "execution.h"
+
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_pipes/parsing_pipes_utils.c
 int         get_number_of_commands(char **commands, int j);
 int         get_number_of_pipe(char **commands);
@@ -30,9 +33,9 @@ int     for_each_command(t_redirect *redirection, char **commands, int *i, int *
 void    init_t_redirect(t_redirect *dest, t_redirect *src);
 
 //PATH: src/parsing_args/main_parsing.c
-t_list  *main_parsing(char   *getLine);
+t_list  *main_parsing(t_shell *shell, char   *getLine);
 void    setup_here_doc(char *string);
-int     setup_input_redirections(t_list *pipe, char **str);
+int     setup_input_redirections(t_list *pipe, char **str, int i);
 int     setup_output_redirections(t_list *pipe);
 
 

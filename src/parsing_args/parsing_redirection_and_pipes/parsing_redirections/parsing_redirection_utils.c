@@ -96,6 +96,7 @@ t_redirect	*get_input_file(t_redirect *inputs, char *error)
 	len = 0;
 	if (!inputs)
 		return (NULL);
+	// update 
 	while (inputs[len].file)
 		len++;
 	last_file = ft_calloc(len + 1, sizeof(*last_file));

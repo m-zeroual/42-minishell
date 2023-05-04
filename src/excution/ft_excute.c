@@ -49,6 +49,8 @@ char	*ft_join_cmd(t_shell *_shell)
 	char	*cmd;
 
 	path = ft_split(getenv("PATH"), ':');
+	if (!path)
+		return (0);
 	cmd = _shell->pipes->content->commands[0];
 	i = 0;
 	
@@ -117,7 +119,7 @@ int	ft_init(t_shell *_shell)
 	if (!cmd)
 		exit (0);
 	add_history(cmd);
-	_shell->pipes = main_parsing(cmd);
+	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
 		return (0);
 	_shell->i = 0;
@@ -135,39 +137,43 @@ int	ft_init(t_shell *_shell)
 
 int	ft_exe(t_shell *_shell)
 {
-	t_list	*tmp;
-	int		size;
+	t_list		*tmp;
+    t_content   *content;
+    char        error;
 
 	ft_init(_shell);
 	if (!_shell)
 		return 1;
-	size = ft_lstsize(_shell->pipes);
-	_shell->pipes_fds = create_pipes(size);
-	if (!_shell->pipes_fds)
-	{
-		print_error(NULL, ": Pipes Error\n");
-		return (1);
-	}
-	close(_shell->pipes_fds[0][0]);
+	create_pipes(_shell->pipes);
+	// close(_shell->pipes->content->pipe_fds[0]);
 	while (_shell->pipes && ++(_shell->i))
     {
-        if (!_shell->pipes->content)
+        content  = _shell->pipes->content;
+        if (!content)
             break ;
 		_shell->command = ft_join_cmd(_shell);
 		if (!_shell->command)
 			return (0);
+        error = 0;
+        content->output_redirections = create_output_files(content->output_redirections, &error);
+        if (error == 1)
+            break ;
+        content->input_redirections = get_input_file(content->input_redirections, &error);
+        if (error == 1)
+            break ;
+		
 		ft_exe_command(_shell);
 
         // wait(NULL);
-        close(_shell->pipes_fds[_shell->i - 1][0]);
+        // close(_shell->pipes_fds[_shell->i - 1][0]);
 
         tmp = _shell->pipes;
-		free(_shell->command);
         _shell->pipes = _shell->pipes->next;
+		free(_shell->command);
         free_double_pointer(tmp->content->commands);
 		free(tmp->content);
         free(tmp);
 	}
-	close_all_pipes(_shell->pipes_fds, size);
+	// close_all_pipes(_shell->pipes_fds, size);
 	return (1);
 }

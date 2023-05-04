@@ -1,19 +1,18 @@
 # include "../../includes/minishell.h"
 
-int setup_input_redirections(t_list *pipe, char **str)
+int setup_input_redirections(t_list *pipe, char **str, int s)
 {
     int     fd;
     int     i;
     t_content *content = pipe->content;
 
-    if (!content->input_redirections || !content->input_redirections[0].file)
+    if (!content->input_redirections)
     {
-        if (pipe->next)
+        if (pipe->next && s)
         {
             close(pipe->content->prev_pipe_fds[1]);
             dup2(pipe->content->prev_pipe_fds[0], 0);
             close(pipe->content->prev_pipe_fds[0]);
-            // return (0);
         }
         return (1);
     }
@@ -32,7 +31,7 @@ int setup_input_redirections(t_list *pipe, char **str)
                 return (0);
             close(fd);
             return (1);
-       }
+        }
         if (content->input_redirections[i].is_here_doc)
            free(get_here_doc_content(content->input_redirections[i].file));
     }
@@ -44,7 +43,7 @@ int setup_output_redirections(t_list *pipe)
     int fd;
     t_content   *content = pipe->content;
 
-    if (!content->output_redirections || !content->output_redirections[0].file)
+    if (!content->output_redirections)
     {
         if (pipe->next)
         {
@@ -60,8 +59,8 @@ int setup_output_redirections(t_list *pipe)
         fd = open(content->output_redirections[0].file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     if (fd == -1)
     {
-        print_error(content->output_redirections[0].file, ": Not such file or directory\n");
-        exit(1);
+        // print_error(content->output_redirections[0].file, ": Not such file or directory\n");
+        exit (1);
     }
     if (dup2(fd, 1) == -1)
     {
@@ -85,7 +84,7 @@ void    setup_here_doc(char *string)
     free(string);
 }
 
-t_list  *main_parsing(char   *getLine)
+t_list  *main_parsing(t_shell *shell, char   *getLine)
 {
     char    **commands;
     char    *tmp;
@@ -97,7 +96,7 @@ t_list  *main_parsing(char   *getLine)
         return (NULL);
     }
     tmp = getLine;
-    commands = parsing_single_double_quotes(getLine);
+    commands = parsing_single_double_quotes(shell, getLine);
     free(tmp);
     if (!commands)
         return (NULL);

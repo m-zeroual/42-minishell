@@ -14,14 +14,15 @@ void sig_handler(int sig)
 int	main(int ac, char *av[], char *ev[])
 {
 	t_shell	_shell;
+
 	
 	(void)ac;
 	(void)av;
-	// (void)ev;
 	signal(SIGINT, sig_handler);
 	_shell.env = ft_fill_env(ev, ft_count_env(ev));
+	ft_getenv(_shell.env, NULL);
 	_shell.status = 0;
 	while (1)
-		ft_exe(&_shell);	
+		ft_exe(&_shell);
 	return (0);
 }
