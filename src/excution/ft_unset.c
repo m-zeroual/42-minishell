@@ -1,7 +1,7 @@
 #include "../../includes/minishell.h"
 
 
-char **ft_remove_var(char **env, char *var)
+char **ft_remove_var(char **env, int index_to_remove)
 {
 	int	i;
 	int	j;
@@ -10,21 +10,23 @@ char **ft_remove_var(char **env, char *var)
 	char **s;
 	// (void)var;
 	// (void)env;
-	char **str;
+	// char **str;
 
 	i = 0;
 	j = 0;
 	count = ft_count_env(env);
-	s = ft_calloc(count + 1, sizeof(char *));
+	s = ft_calloc(count, sizeof(char *));
 	if (!s)
 		return (0);
 	while (env[i])
 	{
-		str = ft_split(env[i], '=');
-		if (ft_strncmp(str[0], var, ft_strlen(var) + 1))
-			s[j++] = ft_strdup(env[i]);
-		free_split(str);
-		i++;
+		if (i == index_to_remove)
+			i++;
+		// str = ft_split(env[i], '=');
+		// if (ft_strncmp(str[0], var, ft_strlen(var) + 1))
+			s[j++] = ft_strdup(env[i++]);
+		// free_split(str);
+		// i++;
 	}
 	free_split(env);
 	return (s);
@@ -35,7 +37,7 @@ void ft_exe_unset(t_shell *_shell)
 {
 
 	char	*var;
-	char	*value;
+	// char	*value;
     int		index_var;
     // int		index_export;
 	int		i;
@@ -43,10 +45,13 @@ void ft_exe_unset(t_shell *_shell)
 	i = 1;
 	while (_shell->pipes->content->commands[i])
 	{
-		ft_getvar_and_value(_shell->pipes->content->commands[i], _shell->env, &var, &value);
+		// ft_getvar_and_value(_shell->pipes->content->commands[i], _shell->env, &var, &value);
+		var = _shell->pipes->content->commands[i];
 		index_var = ft_check_var_exist(_shell->env, var);
 		if (index_var != -1)
-			_shell->env = ft_remove_var(_shell->env, var);
+			_shell->env = ft_remove_var(_shell->env, index_var);
+		else
+			ft_var_error(*_shell, var);
 		// index_export = ft_check_var_exist(_shell->export, var);
 		// if (index_export != -1)
 		// 	_shell->export = ft_remove_var(_shell->export, var);

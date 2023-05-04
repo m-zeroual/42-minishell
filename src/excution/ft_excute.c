@@ -107,11 +107,13 @@ int	ft_init(t_shell *_shell)
 {
 	char *cmd;
 
-	char *cwd = curr_path(*_shell);
-	char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
-	free(cwd);
-	cmd = readline(s);
-	// cmd = readline("minishell -> ");
+	// char *cwd = curr_path(*_shell);
+	// printf("#%s#\n", cwd);
+	// char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
+	// printf("#%s#\n", s);
+	// free(cwd);
+	// cmd = readline(s);
+	cmd = readline("minishell -> ");
 	// printf("|%s|\n", _shell->cmd);
 	// free(s);
 	if (!cmd)
@@ -148,7 +150,8 @@ int	ft_exe(t_shell *_shell)
 		print_error(NULL, ": Pipes Error\n");
 		return (1);
 	}
-	close(_shell->pipes_fds[0][0]);
+	// close(_shell->pipes_fds[0][0]);
+
 	while (_shell->pipes && ++(_shell->i))
     {
         if (!_shell->pipes->content)

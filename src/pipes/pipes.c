@@ -28,7 +28,7 @@ int **create_pipes(int size)
     if (!pipes_fds)
         return (0);
     i = -1;
-    while (++i <= size)
+    while (++i < size)
     {
         pipes_fds[i] = ft_calloc(3, sizeof(int));
         if (!pipes_fds[i])
