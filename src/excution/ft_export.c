@@ -63,10 +63,11 @@ int	ft_add_var(t_shell *_shell)
 			if (!edit_var(_shell->env, var, value, equal))
 				_shell->env = add_var(_shell->env, var, value, equal);
 		}
-		else
-			return (0);
+		free(var);
+		free(value);
 		i++;
 	}
+
 	return (1);
 }
 
@@ -74,6 +75,13 @@ void	ft_exe_export(t_shell *_shell)
 {
 	int pid;
 	int status;
+
+	// pid = -1;
+	// while (_shell->pipes->content->commands[++pid])
+	// 	printf("|%s|\n", _shell->pipes->content->commands[pid]);
+
+
+
 
 	if (_shell->pipes->content->commands[1])
 	{

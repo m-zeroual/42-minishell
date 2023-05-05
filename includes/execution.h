@@ -10,13 +10,13 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#define ECHO  "echo"
-#define PWD  "pwd"
-#define CD   "cd"
-#define EN  "env"
-#define EX  "export"
-#define UNSET  "unset"
-#define EXIT  "exit"
+#define ECHO  "echo\0"
+#define PWD  "pwd\0"
+#define CD   "cd\0"
+#define EN  "env\0"
+#define EX  "export\0"
+#define UNSET  "unset\0"
+#define EXIT  "exit\0"
 
 
 #define EXP 1
@@ -26,8 +26,7 @@ typedef struct s_shell
 {
 	int		status;
 	char 	**env;
-	char	*command;
-	char 	**cmd_split;
+	char	*command_with_path;
 	t_list 	*pipes;
 	// int     **pipes_fds;
 	int		i;

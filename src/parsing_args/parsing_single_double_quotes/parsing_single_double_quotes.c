@@ -1,6 +1,6 @@
 #include "../../../includes/parsing_single_double_quotes.h"
 
-char *get_variable_name(char **line)
+char	*get_variable_name(char **line)
 {
 	int j;
 	char *var;
@@ -34,12 +34,12 @@ void	search_and_replace(char *src, char search, char replace)
 			src[i] = replace;
 }
 
-char	*get_value(t_shell *shell, char **src)
+char	*get_value(t_shell *shell, char **line)
 {
 	char	*val;
 	char	*str;
 
-	val = get_variable_name(src);
+	val = get_variable_name(line);
 	if (!val)
 		return (0);
 	str = ft_getenv(shell->env, val);
@@ -48,12 +48,13 @@ char	*get_value(t_shell *shell, char **src)
 		return (0);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
-	str = handle_line(shell, ft_strdup(str));
-	val = ft_strtrim(str, "\004\004");
+	val = handle_line(shell, str);
 	free(str);
-	if (!val)
+	str = ft_strtrim(val, "\004\004");
+	free(val);
+	if (!str)
 		return (0);
-	return (val);
+	return (str);
 }
 
 void	expanding_variables(t_shell *shell, char **dest, char **line, int *a, int *j, char separator)
@@ -72,9 +73,11 @@ void	expanding_variables(t_shell *shell, char **dest, char **line, int *a, int *
 			(*dest)[(*j)++] = str[i++];
 		free(str);
 	}
+	else if (ft_isdigit(**line) || ft_strchr("$@*#-", **line))
+		(*line)++;
 }
 
-int	check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
+int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?'  && (*line)++)
 		expanding_variables(shell, dest, line, a, &j, separator);
@@ -103,7 +106,7 @@ int	check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, ch
 	return (j);
 }
 
-int	set_dest(t_shell *shell, char **dest, char **line, int *a, int j)
+int		set_dest(t_shell *shell, char **dest, char **line, int *a, int j)
 {
 	int		separ_index;
 	char	separator;
@@ -146,10 +149,10 @@ char	*handle_line(t_shell *shell, char *line)
 
 	if (!line || !*line)
 		return (0);
+	// expected error
 	dest = ft_calloc((ft_strlen(line) * 100) + 1, sizeof(*dest));
 	if (!dest)
 		return (NULL);
-	tmp = line;
 	j = 0;
 	a = 0;
 	dest[j++] = SEPARATOR;
@@ -159,12 +162,11 @@ char	*handle_line(t_shell *shell, char *line)
 		dest[j++] = SEPARATOR;
 	if (a)
 	{
-		ft_putstr_fd("minishell: you messing a separator\n", 2);
+		printf("minishell: you messing a separator\n");
 		free(dest);
+		shell->status = 1;
 		return (0);
 	}
-	dest[j] = 0;
-	// free(tmp);
 	tmp = ft_strdup(dest);
 	free(dest);
 	return (tmp);
@@ -174,12 +176,15 @@ char	**split_line(t_shell *shell, char *line)
 {
 	char	*line_after_handling;
 	char	**str;
+	char	*tmp_line;
 
+	tmp_line = line;
 	line_after_handling = handle_line(shell, line);
-	search_and_replace(line_after_handling, -3, '"');
-	search_and_replace(line_after_handling, -2, '\'');
+	free(tmp_line);
 	if (!line_after_handling)
 		return (0);
+	search_and_replace(line_after_handling, -3, '"');
+	search_and_replace(line_after_handling, -2, '\'');
 	str = ft_split(line_after_handling, SEPARATOR);
 	free(line_after_handling);
 	if (!str)

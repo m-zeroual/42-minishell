@@ -25,13 +25,11 @@ void	ft_exec_cmd(t_shell *_shell)
 	if (p == 0)
 	{
 		setup_all(_shell);
-		if (_shell->command && execve(_shell->command, _shell->pipes->content->commands, _shell->env) == -1)
+		if (execve(_shell->command_with_path, _shell->pipes->content->commands, _shell->env) == -1)
 		{
 			printf("Error in execve\n");
 			exit(1);
 		}
-		printf("minishell: %s: command not found\n", _shell->pipes->content->commands[0]);
-		exit(127);
 	}
 	// exit status of child
 	wait(&status);

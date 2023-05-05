@@ -31,11 +31,15 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+
+void ft()
+{
+	char *str = malloc(1);
+   str = 0;	
+}
 int main(int argc, char const *argv[], char **env)
 {
-	char **str = malloc(2 * 8);
-	*str = strdup("env");
-	*str = NULL;
-	execve("/usr/bin/env", str, NULL);
+	ft();
+	while (1);
 	return 0;
 }

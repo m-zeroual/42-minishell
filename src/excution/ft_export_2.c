@@ -33,7 +33,7 @@ char	**add_var(char **env, char *var, char *value, int equal)
 	int		lines;
 
 	lines = ft_count_env(env);
-	add_line_env = malloc((lines + 2) * sizeof(char *));
+	add_line_env = ft_calloc((lines + 2), sizeof(char *));
 	if (!add_line_env)
 		return (0);
 	i = -1;
@@ -48,6 +48,6 @@ char	**add_var(char **env, char *var, char *value, int equal)
 		add_line_env[i] = ft_strdup(var);
 	free(join_equal);
 	free_split(env);
-	add_line_env[i + 1] = 0;
+	// add_line_env[i + 1] = 0;
 	return (add_line_env);
 }

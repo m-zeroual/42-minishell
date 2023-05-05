@@ -4,6 +4,7 @@
         "string.h": "c",
         "minishell.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "__locale": "c"
     }
 }

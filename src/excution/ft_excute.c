@@ -14,29 +14,24 @@ void	ft_exe_command(t_shell *_shell)
 {
 	char *cmd;
 	char *cmd_lower;
-	// char *tmp;
-	// char *tmp2;
 
-	
 	cmd = _shell->pipes->content->commands[0];
-	printf("!%s!\n", cmd);
 	cmd_lower = ft_str_tolower(cmd);
-	// tmp = cmd_lower + ft_strlen(cmd_lower);
-	// tmp2 = cmd + ft_strlen(cmd);
-	if (!ft_strncmp(cmd, EX, ft_strlen(EX)))     // just lowercase
-		ft_exe_export(_shell);
-	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET)))   // just lowercase
-		ft_exe_unset(_shell);
-	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT)))  // just lowercase
-		exit(0);
-	else if (!ft_strncmp(cmd, CD, ft_strlen(CD)))      // just lowercas
-		ft_exe_cd(_shell);
 
-	else if (!ft_strncmp(cmd_lower, ECHO, ft_strlen(ECHO)))
+	if (!ft_strncmp(cmd, EX, ft_strlen(EX) + 1))     // just lowercase
+		ft_exe_export(_shell);
+	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET) + 1))   // just lowercase
+		ft_exe_unset(_shell);
+	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT) + 1))  // just lowercase
+		exit(0);
+	else if (!ft_strncmp(cmd, CD, ft_strlen(CD) + 1))      // just lowercas
+		ft_exe_cd(_shell);
+// --------------------------------------------------------------------
+	else if (!ft_strncmp(cmd_lower, ECHO, ft_strlen(ECHO) + 1))
 		ft_exe_echo(_shell);
-	else if (!ft_strncmp(cmd_lower, PWD, ft_strlen(PWD)))
+	else if (!ft_strncmp(cmd_lower, PWD, ft_strlen(PWD) + 1))
 		ft_exe_pwd(_shell);
-	else if (!ft_strncmp(cmd_lower, EN, ft_strlen(EN)))
+	else if (!ft_strncmp(cmd_lower, EN, ft_strlen(EN) + 1))
 		ft_exe_env(_shell);
 	else
 		ft_exec_cmd(_shell);
@@ -54,18 +49,16 @@ char	*ft_join_cmd(t_shell *_shell)
 	if (!_shell->pipes->content->commands)
 		return (NULL);
 	if (ft(_shell->pipes->content->commands[0]))
-		return (ft_strdup(cmd));
-	path = ft_split(ft_getenv(_shell->env, "PATH"), ':');
+		return (ft_strdup(_shell->pipes->content->commands[0]));
+	cmd = ft_getenv(_shell->env, "PATH");
+	path = ft_split(cmd, ':');
 	if (!path)
 	{
-		printf("minshell: %s: %s\n", cmd, "No such file or directory");
+		printf("minshell: %s: %s\n", _shell->pipes->content->commands[0], "No such file or directory");
 		_shell->status = 126;
 		return (0);
 	}
-// expexted error 
-	path = ft_split(getenv("PATH"), ':');
-	if (!path || !_shell->pipes->content->commands)
-		return (0);
+	free(cmd);
 	cmd = _shell->pipes->content->commands[0];
 	i = 0;
 	
@@ -76,10 +69,17 @@ char	*ft_join_cmd(t_shell *_shell)
 			help_for_free = ft_strjoin(path[i], "/");
 			path_cmd = ft_strjoin(help_for_free, cmd);
 			free(help_for_free);
-			if (!access(path_cmd, F_OK) && !access(path_cmd, X_OK))
+			if (!access(path_cmd, F_OK))
 			{
+				if (!access(path_cmd, X_OK))
+				{
+					free_split(path);
+					return (path_cmd);
+				}
+				printf("minshell: %s%s: %s\n", path[i], cmd, "Permission denied");
 				free_split(path);
-				return (path_cmd);
+				_shell->status = 126;
+				return (NULL);
 			}
 			free(path_cmd);
 			i++;
@@ -103,7 +103,6 @@ char	*ft_join_cmd(t_shell *_shell)
 	return (0);
 }
 
-
 int all_speace(char *str)
 {
 	int i;
@@ -122,32 +121,38 @@ int	ft_init(t_shell *_shell)
 {
 	char *cmd;
 
-	// char *cwd = curr_path(*_shell);
-	// printf("#%s#\n", cwd);
-	// char *s = ft_strjoin(ft_strrchr(cwd, '/') + 1, "\033[0;32m →\033[0m ");
-	// printf("#%s#\n", s);
-	// free(cwd);
-	// cmd = readline(s);
 	cmd = readline("minishell -> ");
-	// printf("|%s|\n", _shell->cmd);
-	// free(s);
 	if (!cmd)
-		exit (0);
+		exit(0);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
 		return (0);
 	_shell->i = 0;
-	// t_content *content = _shell->pipes->content;
-
-	// _shell->pipes->content->commands = content->commands;
-					// int i = -1;
-					// while (_shell->pipes->content->commands[++i])
-					// 	printf("\"%s\"\n", _shell->pipes->content->commands[i]);
-					// printf("\n");
-	// // free(content);
-	// // free(_shell->pipes);
 	return (1);
+}
+
+void	free_struct(t_shell *_shell, t_list *tmp)
+{
+	if (_shell->command_with_path)
+		free(_shell->command_with_path);
+	if (!tmp)
+		return ;
+    free_double_pointer(tmp->content->commands);
+	free_t_redirect(tmp->content->output_redirections);
+	free_t_redirect(tmp->content->input_redirections);
+	free(tmp->content);
+    free(tmp);
+}
+
+void	del_content(void *cont)
+{
+	t_content *content = (t_content *)cont;
+	free_double_pointer(content->commands);
+	free_t_redirect(content->output_redirections);
+	free_t_redirect(content->input_redirections);
+	free(content);
+	return ;
 }
 
 int	minishel(t_shell *_shell)
@@ -156,38 +161,36 @@ int	minishel(t_shell *_shell)
     t_content   *content;
     char        error;
 
-	ft_init(_shell);
-	if (!_shell)
-		return 1;
-	create_pipes(_shell->pipes);
-	// close(_shell->pipes->content->pipe_fds[0]);
+	if (!ft_init(_shell))
+		return (0);
+//	no LEAKS
+	// create_pipes(_shell->pipes);
 	while (_shell->pipes && ++(_shell->i))
     {
+        error = 0;
         content  = _shell->pipes->content;
         if (!content)
-            break ;
+			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
         content->output_redirections = create_output_files(content->output_redirections, &error);
         if (error == 1)
-            break ;
+			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+			
         content->input_redirections = get_input_file(content->input_redirections, &error);
         if (error == 1)
-            break ;
-		_shell->command = ft_join_cmd(_shell);
-		if (!_shell->command)
-			return (0);
-        error = 0;
-		
+            return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+
+		_shell->command_with_path = ft_join_cmd(_shell);
+		if (!_shell->command_with_path)
+			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+
 		ft_exe_command(_shell);
 
         // wait(NULL);
-        close(_shell->pipes->content->pipe_fds[1]);
+        // close(_shell->pipes->content->pipe_fds[1]);
 
         tmp = _shell->pipes;
         _shell->pipes = _shell->pipes->next;
-		free(_shell->command);
-        free_double_pointer(tmp->content->commands);
-		free(tmp->content);
-        free(tmp);
+		free_struct(_shell, tmp);
 	}
 	// close_all_pipes(_shell->pipes_fds, size);
 	return (1);

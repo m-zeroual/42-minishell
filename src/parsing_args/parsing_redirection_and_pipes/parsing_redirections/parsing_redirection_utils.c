@@ -58,13 +58,13 @@ t_redirect	*create_output_files(t_redirect *output, char *error)
 	t_redirect	*last_file;
 	int			i;
 
-	i = 0;
+	i = -1;
 	if (!output)
 		return (NULL);
 	last_file = ft_calloc(2, sizeof(*last_file));
-	if (!last_file || !create_file(&output[0]))
+	if (!last_file)
 	{
-		*error = 1;
+		free_t_redirect(output);
 		return (NULL);
 	}
 	while (output[++i].file)
@@ -72,6 +72,8 @@ t_redirect	*create_output_files(t_redirect *output, char *error)
 		if (!create_file(&output[i]))
 		{
 			*error = 1;
+			free_t_redirect(output);
+			free(last_file);
 			return (NULL);
 		}
 	}
@@ -107,6 +109,8 @@ t_redirect	*get_input_file(t_redirect *inputs, char *error)
 		if (!inputs[i].is_here_doc && !check_permissions(inputs[i].file, "1100"))
 		{
 			*error = 1;
+			free_t_redirect(inputs);
+			free(last_file);
 			return (NULL);
 		}
 		if (!inputs[i].is_here_doc && i < len - 1)
