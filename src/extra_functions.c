@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:15:25 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/04 17:20:43 by esalim           ###   ########.fr       */
+/*   Updated: 2023/05/05 16:19:54 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void    setup_all(t_shell *_shell)
 
     str_here_doc = NULL;
     if (!setup_output_redirections(_shell->pipes) \
-        || !setup_input_redirections(_shell->pipes, &str_here_doc, _shell->i))
+        || !setup_input_redirections(_shell, _shell->pipes, &str_here_doc, _shell->i))
     {
         free_double_pointer(_shell->pipes->content->commands);
         free(_shell->pipes->content);

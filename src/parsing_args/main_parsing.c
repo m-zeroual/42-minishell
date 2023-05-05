@@ -1,6 +1,6 @@
 # include "../../includes/minishell.h"
 
-int setup_input_redirections(t_list *pipe, char **str, int s)
+int setup_input_redirections(t_shell *_shell, t_list *pipe, char **str, int s)
 {
     int     fd;
     int     i;
@@ -21,7 +21,7 @@ int setup_input_redirections(t_list *pipe, char **str, int s)
     {
         if (!content->input_redirections[i + 1].file && content->input_redirections[i].is_here_doc)
         {
-            *str = get_here_doc_content(content->input_redirections[i].file);
+            *str = get_here_doc_content(_shell, content->input_redirections[i].file);
             return (1);
         }
         else if (!content->input_redirections[i + 1].file && !content->input_redirections[i].is_here_doc)
@@ -33,7 +33,7 @@ int setup_input_redirections(t_list *pipe, char **str, int s)
             return (1);
         }
         if (content->input_redirections[i].is_here_doc)
-           free(get_here_doc_content(content->input_redirections[i].file));
+           free(get_here_doc_content(_shell, content->input_redirections[i].file));
     }
     return (1);
 }

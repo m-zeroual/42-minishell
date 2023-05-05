@@ -49,6 +49,8 @@ void    set_one_to_null_pointer(char **commands)
 {
     int i;
 
+	if (!commands)
+		return ;
     i = -1;
     while (commands[++i])
         if (commands[i][0] == 1)

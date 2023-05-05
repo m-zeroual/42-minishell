@@ -49,7 +49,7 @@ char	*ft_join_cmd(t_shell *_shell)
 	char	*cmd;
 
 	path = ft_split(getenv("PATH"), ':');
-	if (!path)
+	if (!path || !_shell->pipes->content->commands)
 		return (0);
 	cmd = _shell->pipes->content->commands[0];
 	i = 0;
@@ -151,21 +151,21 @@ int	ft_exe(t_shell *_shell)
         content  = _shell->pipes->content;
         if (!content)
             break ;
-		_shell->command = ft_join_cmd(_shell);
-		if (!_shell->command)
-			return (0);
-        error = 0;
         content->output_redirections = create_output_files(content->output_redirections, &error);
         if (error == 1)
             break ;
         content->input_redirections = get_input_file(content->input_redirections, &error);
         if (error == 1)
             break ;
+		_shell->command = ft_join_cmd(_shell);
+		if (!_shell->command)
+			return (0);
+        error = 0;
 		
 		ft_exe_command(_shell);
 
         // wait(NULL);
-        // close(_shell->pipes_fds[_shell->i - 1][0]);
+        close(_shell->pipes->content->pipe_fds[1]);
 
         tmp = _shell->pipes;
         _shell->pipes = _shell->pipes->next;

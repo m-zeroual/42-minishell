@@ -122,7 +122,7 @@ t_redirect	*get_input_file(t_redirect *inputs, char *error)
 	return (last_file);
 }
 
-char	*get_here_doc_content(char	*eol)
+char	*get_here_doc_content(t_shell *_shell, char	*eol)
 {
 	int		len;
 	char	*string;
@@ -153,5 +153,11 @@ char	*get_here_doc_content(char	*eol)
 		free(tmp);
 		free(line);
 	}
-	return (string);
+	search_and_replace(string, '"', -3);
+	search_and_replace(string, '\'', -2);
+	tmp = handle_line(_shell, string);
+	free(string);
+	search_and_replace(tmp, -3, '"');
+	search_and_replace(tmp, -2, '\'');
+	return (tmp);
 }
