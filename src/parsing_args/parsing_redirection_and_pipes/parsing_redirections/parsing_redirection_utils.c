@@ -28,7 +28,7 @@ void	free_t_redirect(t_redirect *redirect)
 	i = 0;
 	while (redirect[i].file)
 		free(redirect[i++].file);
-	ft_bzero(redirect, sizeof(*redirect));
+	// ft_bzero(redirect, sizeof(*redirect));
 	free(redirect);
 }
 

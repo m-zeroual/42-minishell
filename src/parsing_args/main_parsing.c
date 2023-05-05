@@ -100,9 +100,9 @@ t_list  *main_parsing(t_shell *shell, char   *getLine)
     free(tmp);
     if (!commands)
         return (NULL);
-    pipes = parsing_pipes(commands);
+    pipes = parsing_pipes(shell, commands);
+    free(commands);
     if (!pipes)
         return (NULL);
-    free(commands);
     return (pipes);
 }

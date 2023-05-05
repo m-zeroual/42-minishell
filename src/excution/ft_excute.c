@@ -163,21 +163,22 @@ int	minishel(t_shell *_shell)
 
 	if (!ft_init(_shell))
 		return (0);
-//	no LEAKS
+
+	// no LEAKS
 	// create_pipes(_shell->pipes);
 	while (_shell->pipes && ++(_shell->i))
     {
         error = 0;
         content  = _shell->pipes->content;
         if (!content)
-			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+			return (ft_lstclear(&_shell->pipes, del_content), 0);
         content->output_redirections = create_output_files(content->output_redirections, &error);
         if (error == 1)
-			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+			return (ft_lstclear(&_shell->pipes, del_content), 0);
 			
         content->input_redirections = get_input_file(content->input_redirections, &error);
         if (error == 1)
-            return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+            return (ft_lstclear(&_shell->pipes, del_content), 0);
 
 		_shell->command_with_path = ft_join_cmd(_shell);
 		if (!_shell->command_with_path)

@@ -79,7 +79,8 @@ void	expanding_variables(t_shell *shell, char **dest, char **line, int *a, int *
 
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
-	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?'  && (*line)++)
+	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?' \
+		&& (ft_isalpha(*(*line) + 1) || *(*line) + 1 == '_')  && (*line)++)
 		expanding_variables(shell, dest, line, a, &j, separator);
     else if (!*a && **line == '|' && (*line)++)
     {

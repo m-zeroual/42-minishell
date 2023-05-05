@@ -19,5 +19,6 @@ void    close_all_pipes(t_content *content);
 // 
 void    setup_all(t_shell *_shell);
 char    **duplicate_dpointer(char **src);
+void	del_content(void *cont);
 
 #endif
