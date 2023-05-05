@@ -79,17 +79,14 @@ char	*ft_getenv(char **env, char *var)
 	int			index;
 	char		**str;
 	char		*s;
-	static char	**tmp_env;
 
-	if (env)
-		tmp_env = env;
 	if (!var)
 		return (0);
 	s = 0;
-	index = ft_check_var_exist(tmp_env, var);
+	index = ft_check_var_exist(env, var);
 	if (index != -1)
 	{
-		str = ft_split(tmp_env[index], '=');
+		str = ft_split(env[index], '=');
 		s = ft_strdup(str[1]);
 		free_split(str);
 	}

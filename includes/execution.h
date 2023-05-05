@@ -76,7 +76,7 @@ void ft_exec_cmd(t_shell *_shell);
 void ft_exe_command(t_shell *_shell);
 char *ft_join_cmd(t_shell *_shell);
 int ft_init(t_shell *_shell);
-int	ft_exe(t_shell *_shell);
+int	minishel(t_shell *_shell);
 
 //		======> ft_export1.c <=======
 int ft_getvar_and_value(char *command, char **env, char **var, char **value);

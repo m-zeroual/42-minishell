@@ -35,7 +35,7 @@ char **ft_remove_var(char **env, int index_to_remove)
 
 void ft_exe_unset(t_shell *_shell)
 {
-
+	printf("i'm in unset\n");
 	char	*var;
 	// char	*value;
     int		index_var;

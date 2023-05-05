@@ -2,6 +2,7 @@
 
 int ft(char *str)
 {
+	
 	if (!ft_strncmp(str, EX, ft_strlen(EX) + 1) \
 		|| !ft_strncmp(str, UNSET, ft_strlen(UNSET) + 1) \
 		|| !ft_strncmp(str, EXIT, ft_strlen(EXIT) + 1))
@@ -13,28 +14,30 @@ void	ft_exe_command(t_shell *_shell)
 {
 	char *cmd;
 	char *cmd_lower;
-	char *tmp;
-	char *tmp2;
+	// char *tmp;
+	// char *tmp2;
 
 	
 	cmd = _shell->pipes->content->commands[0];
-	cmd_lower = ft_str_tolower(_shell->pipes->content->commands[0]);
-	tmp = cmd_lower + ft_strlen(cmd_lower);
-	tmp2 = cmd + ft_strlen(cmd);
-	if (!ft_strncmp(tmp - ft_strlen(ECHO), ECHO, ft_strlen(ECHO)))
-		ft_exe_echo(_shell);
-	else if (!ft_strncmp(tmp - ft_strlen(PWD), PWD, ft_strlen(PWD)))
-		ft_exe_pwd(_shell);
-	else if (!ft_strncmp(tmp - ft_strlen(EN), EN, ft_strlen(EN)))
-		ft_exe_env(_shell);
-	else if (!ft_strncmp(tmp2 - ft_strlen(CD), CD, ft_strlen(CD)))      // just lowercas
-		ft_exe_cd(_shell);
-	else if (!ft_strncmp(tmp2 - ft_strlen(EX), EX, ft_strlen(EX)))     // just lowercase
+	printf("!%s!\n", cmd);
+	cmd_lower = ft_str_tolower(cmd);
+	// tmp = cmd_lower + ft_strlen(cmd_lower);
+	// tmp2 = cmd + ft_strlen(cmd);
+	if (!ft_strncmp(cmd, EX, ft_strlen(EX)))     // just lowercase
 		ft_exe_export(_shell);
-	else if (!ft_strncmp(tmp2 - ft_strlen(UNSET), UNSET, ft_strlen(UNSET)))   // just lowercase
+	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET)))   // just lowercase
 		ft_exe_unset(_shell);
-	else if (!ft_strncmp(tmp2 - ft_strlen(EXIT), EXIT, ft_strlen(EXIT)))  // just lowercase
+	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT)))  // just lowercase
 		exit(0);
+	else if (!ft_strncmp(cmd, CD, ft_strlen(CD)))      // just lowercas
+		ft_exe_cd(_shell);
+
+	else if (!ft_strncmp(cmd_lower, ECHO, ft_strlen(ECHO)))
+		ft_exe_echo(_shell);
+	else if (!ft_strncmp(cmd_lower, PWD, ft_strlen(PWD)))
+		ft_exe_pwd(_shell);
+	else if (!ft_strncmp(cmd_lower, EN, ft_strlen(EN)))
+		ft_exe_env(_shell);
 	else
 		ft_exec_cmd(_shell);
 	free(cmd_lower);
@@ -46,14 +49,21 @@ char	*ft_join_cmd(t_shell *_shell)
 	char	*help_for_free;
 	char	*path_cmd;
 	char	**path;
-	char	*cmd;
+	char	*cmd = 0;
 
-	path = ft_split(getenv("PATH"), ':');
+	if (ft(_shell->pipes->content->commands[0]))
+		return (ft_strdup(cmd));
+	path = ft_split(ft_getenv(_shell->env, "PATH"), ':');
+	if (!path)
+	{
+		printf("minshell: %s: %s\n", cmd, "No such file or directory");
+		_shell->status = 126;
+		return (0);
+	}
+
 	cmd = _shell->pipes->content->commands[0];
 	i = 0;
 	
-	if (ft(cmd))
-		return (ft_strdup(cmd));
 	if (!ft_strchr(cmd, '/'))
 	{
 		while (path[i])
@@ -135,7 +145,7 @@ int	ft_init(t_shell *_shell)
 	return (1);
 }
 
-int	ft_exe(t_shell *_shell)
+int	minishel(t_shell *_shell)
 {
 	t_list	*tmp;
 	int		size;
