@@ -5,6 +5,7 @@ int	check_permissions(char *filename, char *permissions)
 	if (permissions[0] == '1' && access(filename, F_OK))
 	{
 		print_error(filename, ": No such file or directory\n");
+		// exit status
 		return (0);
 	}
 	if ((permissions[1] == '1' && access(filename, R_OK)) \
@@ -12,7 +13,8 @@ int	check_permissions(char *filename, char *permissions)
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
 		print_error(filename, ": Permission denied\n");
-		return 0;
+		// exit status
+		return (0);
 	}
 	return (1);
 }
@@ -34,32 +36,45 @@ int		create_file(t_redirect *file)
 {
 	int	fd;
 
-	if (file->is_append \
-			&& !access(file->file, F_OK) \
-			&& check_permissions(file->file, "0010"))
+	if (file->is_append && !access(file->file, F_OK))
+	{
+		if (!check_permissions(file->file, "0010"))
+			return (0);
 		fd = open(file->file, O_CREAT | O_APPEND, 0644);
-	else
+		close(fd);
+		return (1);
+	}
+	else if (access(file->file, F_OK) || (!access(file->file, F_OK) && check_permissions(file->file, "0010")))
+	{
 		fd = open(file->file, O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (0);
-	close(fd);
-	return (1);
+		close(fd);
+		return (1);
+	}
+	return (0);
 }
 
-t_redirect	*create_output_files(t_redirect *output)
+t_redirect	*create_output_files(t_redirect *output, char *error)
 {
 	t_redirect	*last_file;
 	int			i;
 
 	i = 0;
-	if (!output || !output[i].file)
+	if (!output)
 		return (NULL);
 	last_file = ft_calloc(2, sizeof(*last_file));
 	if (!last_file || !create_file(&output[0]))
+	{
+		*error = 1;
 		return (NULL);
+	}
 	while (output[++i].file)
+	{
 		if (!create_file(&output[i]))
+		{
+			*error = 1;
 			return (NULL);
+		}
+	}
 	last_file->file = ft_strdup(output[i - 1].file);
 	last_file->is_append = output[i - 1].is_append;
 	last_file->is_output = output[i - 1].is_output;
@@ -69,7 +84,7 @@ t_redirect	*create_output_files(t_redirect *output)
 	return (last_file);
 }
 
-t_redirect	*get_input_file(t_redirect *inputs)
+t_redirect	*get_input_file(t_redirect *inputs, char *error)
 {
 	t_redirect	*last_file;
 	int			index;
@@ -79,8 +94,9 @@ t_redirect	*get_input_file(t_redirect *inputs)
 	i = -1;
 	index = 0;
 	len = 0;
-	if (!inputs || !inputs[0].file)
+	if (!inputs)
 		return (NULL);
+	// update 
 	while (inputs[len].file)
 		len++;
 	last_file = ft_calloc(len + 1, sizeof(*last_file));
@@ -88,9 +104,11 @@ t_redirect	*get_input_file(t_redirect *inputs)
 		return (NULL);
 	while (++i < len && inputs[i].file)
 	{
-		if (!inputs[i].is_here_doc \
-			&& !check_permissions(inputs[i].file, "1100"))
+		if (!inputs[i].is_here_doc && !check_permissions(inputs[i].file, "1100"))
+		{
+			*error = 1;
 			return (NULL);
+		}
 		if (!inputs[i].is_here_doc && i < len - 1)
 			continue ;
 		last_file[index].file = ft_strdup(inputs[i].file);
@@ -104,7 +122,7 @@ t_redirect	*get_input_file(t_redirect *inputs)
 	return (last_file);
 }
 
-char	*get_here_doc_content(char	*eol)
+char	*get_here_doc_content(t_shell *_shell, char	*eol)
 {
 	int		len;
 	char	*string;
@@ -135,5 +153,11 @@ char	*get_here_doc_content(char	*eol)
 		free(tmp);
 		free(line);
 	}
-	return (string);
+	search_and_replace(string, '"', -3);
+	search_and_replace(string, '\'', -2);
+	tmp = handle_line(_shell, string);
+	free(string);
+	search_and_replace(tmp, -3, '"');
+	search_and_replace(tmp, -2, '\'');
+	return (tmp);
 }

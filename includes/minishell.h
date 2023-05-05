@@ -10,13 +10,14 @@
 #include "errors.h"
 #include <fcntl.h>
 
-int **get_pipes(int size);
-int **create_pipes(int size);
-void    close_all_pipes(int **pipes, int size);
+int     **get_pipes(int size);
+void    create_pipes(t_list    *pipes);
+void    close_all_pipes(t_content *content);
 
 
 
 // 
 void    setup_all(t_shell *_shell);
+char    **duplicate_dpointer(char **src);
 
 #endif

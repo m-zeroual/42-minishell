@@ -29,7 +29,7 @@ typedef struct s_shell
 	char	*command;
 	char 	**cmd_split;
 	t_list 	*pipes;
-	int     **pipes_fds;
+	// int     **pipes_fds;
 	int		i;
 }	t_shell;
 

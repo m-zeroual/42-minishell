@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2023/04/18 23:05:31 by mzeroual         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:53:28 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct  s_redirect
 
 typedef struct  s_content
 {
+    int         pipe_fds[2];
+    int         *prev_pipe_fds;
     char        **commands;
     t_redirect  *input_redirections;     //|`` `` `` `` | - | | - | | - |\0|
     t_redirect  *output_redirections;

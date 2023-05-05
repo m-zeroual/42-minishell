@@ -1,65 +1,66 @@
 # include "../../includes/minishell.h"
 
-int setup_input_redirections(t_redirect *input, char **str, int **pipe_fds, int has_prev)
+int setup_input_redirections(t_shell *_shell, t_list *pipe, char **str, int s)
 {
     int     fd;
     int     i;
+    t_content *content = pipe->content;
 
-    if (!input || !input[0].file)
+    if (!content->input_redirections)
     {
-        if (has_prev)
+        if (pipe->next && s)
         {
-            close(pipe_fds[has_prev - 1][1]);
-            dup2(pipe_fds[has_prev - 1][0], 0);
-            close(pipe_fds[has_prev - 1][0]);
-            // return (0);
+            close(pipe->content->prev_pipe_fds[1]);
+            dup2(pipe->content->prev_pipe_fds[0], 0);
+            close(pipe->content->prev_pipe_fds[0]);
         }
         return (1);
     }
     i = -1;
-    while (input[++i].file)
+    while (content->input_redirections[++i].file)
     {
-        if (!input[i + 1].file && input[i].is_here_doc)
+        if (!content->input_redirections[i + 1].file && content->input_redirections[i].is_here_doc)
         {
-            *str = get_here_doc_content(input[i].file);
+            *str = get_here_doc_content(_shell, content->input_redirections[i].file);
             return (1);
         }
-        else if (!input[i + 1].file && !input[i].is_here_doc)
+        else if (!content->input_redirections[i + 1].file && !content->input_redirections[i].is_here_doc)
         {
-            fd = open(input[i].file, O_RDONLY, 0644);
+            fd = open(content->input_redirections[i].file, O_RDONLY, 0644);
             if (fd == -1 || dup2(fd, 0) == -1)
                 return (0);
             close(fd);
             return (1);
-       }
-        if (input[i].is_here_doc)
-           free(get_here_doc_content(input[i].file));
+        }
+        if (content->input_redirections[i].is_here_doc)
+           free(get_here_doc_content(_shell, content->input_redirections[i].file));
     }
     return (1);
 }
 
-int setup_output_redirections(t_redirect *output, int **pipe_fds, int has_next, int has_prev)
+int setup_output_redirections(t_list *pipe)
 {
     int fd;
+    t_content   *content = pipe->content;
 
-    if (!output || !output[0].file)
+    if (!content->output_redirections)
     {
-        if (has_next)
+        if (pipe->next)
         {
-            close(pipe_fds[has_prev][0]);
-            dup2(pipe_fds[has_prev][1], 1);
-            close(pipe_fds[has_prev][1]);
+            close(pipe->next->content->pipe_fds[0]);
+            dup2(pipe->next->content->pipe_fds[1], 1);
+            close(pipe->next->content->pipe_fds[1]);
         }
         return (1);
     }
-    if (output[0].is_append)
-        fd = open(output[0].file, O_CREAT | O_APPEND | O_WRONLY, 0644);
+    if (content->output_redirections[0].is_append)
+        fd = open(content->output_redirections[0].file, O_CREAT | O_APPEND | O_WRONLY, 0644);
     else
-        fd = open(output[0].file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+        fd = open(content->output_redirections[0].file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     if (fd == -1)
     {
-        print_error(output[0].file, ": Not such file or directory\n");
-        exit(1);
+        // print_error(content->output_redirections[0].file, ": Not such file or directory\n");
+        exit (1);
     }
     if (dup2(fd, 1) == -1)
     {
@@ -83,25 +84,25 @@ void    setup_here_doc(char *string)
     free(string);
 }
 
-t_list  *main_parsing(char   *getLine)
+t_list  *main_parsing(t_shell *shell, char   *getLine)
 {
     char    **commands;
+    char    *tmp;
     t_list      *pipes;
 
     if (!getLine || !*getLine)
-        return (NULL);
-    if (!ft_strncmp(getLine, "exit\0", 5))
     {
         free(getLine);
-        exit(0);
+        return (NULL);
     }
-    commands = parsing_single_double_quotes(getLine);
+    tmp = getLine;
+    commands = parsing_single_double_quotes(shell, getLine);
+    free(tmp);
     if (!commands)
         return (NULL);
     pipes = parsing_pipes(commands);
     if (!pipes)
         return (NULL);
     free(commands);
-    free(getLine);
     return (pipes);
 }

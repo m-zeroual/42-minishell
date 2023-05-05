@@ -19,35 +19,20 @@
 //     return (pipes);
 // }
 
-int **create_pipes(int size)
+void    create_pipes(t_list *pipes)
 {
-    int i;
-    int **pipes_fds;
-
-    pipes_fds = ft_calloc(size + 1, sizeof(int*));
-    if (!pipes_fds)
-        return (0);
-    i = -1;
-    while (++i < size)
+    while (pipes)
     {
-        pipes_fds[i] = ft_calloc(3, sizeof(int));
-        if (!pipes_fds[i])
-            return (0);
-        pipe(pipes_fds[i]);
+        pipe(pipes->content->pipe_fds);
+        if (pipes->next)
+            pipes->content->prev_pipe_fds = pipes->content->pipe_fds;
+        pipes = pipes->next;
     }
-    return (pipes_fds);
 }
 
-void    close_all_pipes(int **pipes, int size)
+void    close_all_pipes(t_content *content)
 {
-    int i;
-
-    i = -1;
-    while (++i < size)
-    {
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-        free(pipes[i]);
-    }
-    free(pipes);
+    close(content->pipe_fds[0]);
+    close(content->pipe_fds[1]);
+    free(content->pipe_fds);
 }
