@@ -26,7 +26,7 @@ void	ft_exe_command(t_shell *_shell)
 	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET) + 1))   // just lowercase
 		ft_exe_unset(_shell);
 	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT) + 1))  // just lowercase
-		exit (printf("exit\n") - 5);
+		exit(ft_exit(_shell));
 	else if (!ft_strncmp(cmd, CD, ft_strlen(CD) + 1))      // just lowercas
 		ft_exe_cd(_shell);
 // --------------------------------------------------------------------

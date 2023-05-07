@@ -100,6 +100,9 @@ void ft_exe_export(t_shell *_shell);
 //		======> ft_unset.c <=======
 void ft_exe_unset(t_shell *_shell);
 
+//		======> ft_exit.c <=======
+int ft_exit(t_shell *_shell);
+
 
 
 #endif

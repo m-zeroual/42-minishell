@@ -22,6 +22,7 @@ SRCS	=	src/main.c \
 			src/excution/ft_excute.c	\
 			src/excution/ft_unset.c	\
 			src/excution/ft_env.c \
+			src/excution/ft_exit.c \
 			src/pipes/pipes.c \
 			src/extra_functions.c
 

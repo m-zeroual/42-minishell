@@ -5,6 +5,8 @@
         "minishell.h": "c",
         "stdlib.h": "c",
         "unistd.h": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "limits.h": "c",
+        "inttypes.h": "c"
     }
 }
