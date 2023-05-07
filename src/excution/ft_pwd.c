@@ -43,7 +43,7 @@ void	ft_exe_pwd(t_shell *_shell)
 				free(str);
 			}
 			else
-				printf("minishell: %s: %s\n", _shell->pipes->content->commands[0], strerror(errno));
+				ft_printf("minishell: %s: %s\n", _shell->pipes->content->commands[0], strerror(errno));
 		}
 		else
 		{

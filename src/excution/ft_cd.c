@@ -5,7 +5,7 @@ static void	ft_chdir(t_shell *_shell, char *str)
 	if (!chdir(str))
 		ch_pwd(_shell);
 	else
-		printf("bash: %s: %s: %s\n", _shell->pipes->content->commands[0], \
+		ft_printf("bash: %s: %s: %s\n", _shell->pipes->content->commands[0], \
 			_shell->pipes->content->commands[1], strerror(errno));
 }
 
