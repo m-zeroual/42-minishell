@@ -57,31 +57,31 @@ char	*get_value(t_shell *shell, char **line)
 	return (str);
 }
 
-void	expanding_variables(t_shell *shell, char **dest, char **line, int *a, int *j, char separator)
+void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 {
 	char	*str;
 	int		i;
 
-	if (((separator == '"' && *a) || (!separator && !*a)) \
-			&& (ft_isalpha(**line) || **line == '_'))
-	{
-		i = 0;
-		str = get_value(shell, line);
-		if (!str)
-			return ;
-		while (str[i])
-			(*dest)[(*j)++] = str[i++];
-		free(str);
-	}
-	else if (ft_isdigit(**line) || ft_strchr("$@*#-", **line))
-		(*line)++;
+	i = 0;
+	str = get_value(shell, line);
+	if (!str)
+		return ;
+	while (str[i])
+		(*dest)[(*j)++] = str[i++];
+	free(str);
 }
 
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
-	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?' \
-		&& (ft_isalpha(*(*line) + 1) || *(*line) + 1 == '_')  && (*line)++)
-		expanding_variables(shell, dest, line, a, &j, separator);
+	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?' && (*line)++)
+	{
+		if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
+			expanding_variables(shell, dest, line, &j);
+		else if (ft_isdigit(**line) || ft_strchr("@*#-", **line))
+			(*line)++;
+		else
+			(*dest)[j++] = '$';
+	}
     else if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;

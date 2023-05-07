@@ -27,19 +27,38 @@
 // 	}
 // }
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <unistd.h>
+// #include <stdlib.h>
+// #include <string.h>
 
-void ft()
+// int main()
+// {
+// 	char	**s = malloc(16);
+// 	s[0] = "./script.sh";
+// 	s[1] = NULL;
+// 	if (execve("./", s, NULL) == -1)
+// 		printf("dsgsfg\n");
+// 	return 0;
+// }
+
+
+//execDemo.c
+ 
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+int main()
 {
-	char *str = malloc(1);
-   str = 0;	
-}
-int main(int argc, char const *argv[], char **env)
-{
-	ft();
-	while (1);
-	return 0;
+        //A null terminated array of character
+        //pointers
+        char *str[]={"script", 0};
+        execve("./script.sh",str, 0);
+     
+        /*All statements are ignored after execvp() call as this whole
+        process(execDemo.c) is replaced by another process (EXEC.c)
+        */
+        printf("Ending-----");
+     
+    return 0;
 }

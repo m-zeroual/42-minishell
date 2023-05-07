@@ -155,44 +155,68 @@ void	del_content(void *cont)
 	return ;
 }
 
+
+
+
+
+
+int	init_pipe(t_shell *_shell)
+{
+	t_content   *content;
+    char        error;
+
+	error = 0;
+    content  = _shell->pipes->content;
+    if (!content || !content->commands || !content->commands[0] || !content->commands[0][0])
+	{
+		if (!content->commands[0][0])
+			printf("minishell: : command not found\n");
+		return (ft_lstclear(&_shell->pipes, del_content), 0);
+	}
+    content->output_redirections = create_output_files(_shell, content->output_redirections, &error);
+    if (error == 1)
+		return (ft_lstclear(&_shell->pipes, del_content), 0);
+		
+    content->input_redirections = get_input_file(_shell, content->input_redirections, &error);
+    if (error == 1)
+        return (ft_lstclear(&_shell->pipes, del_content), 0);
+
+	_shell->command_with_path = ft_join_cmd(_shell);
+	if (!_shell->command_with_path)
+		return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+	return (1);
+}
+
+
+
+
 int	minishel(t_shell *_shell)
 {
 	t_list		*tmp;
-    t_content   *content;
-    char        error;
 
 	if (!ft_init(_shell))
 		return (0);
 
 	// no LEAKS
-	// create_pipes(_shell->pipes);
+	create_pipes(_shell->pipes);
+	close(_shell->pipes->content->pipe_fds[0]);
 	while (_shell->pipes && ++(_shell->i))
     {
-        error = 0;
-        content  = _shell->pipes->content;
-        if (!content)
-			return (ft_lstclear(&_shell->pipes, del_content), 0);
-        content->output_redirections = create_output_files(content->output_redirections, &error);
-        if (error == 1)
-			return (ft_lstclear(&_shell->pipes, del_content), 0);
-			
-        content->input_redirections = get_input_file(content->input_redirections, &error);
-        if (error == 1)
-            return (ft_lstclear(&_shell->pipes, del_content), 0);
-
-		_shell->command_with_path = ft_join_cmd(_shell);
-		if (!_shell->command_with_path)
-			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
-
+		if (!init_pipe(_shell))
+			return (0);
+		
 		ft_exe_command(_shell);
 
-        // wait(NULL);
-        // close(_shell->pipes->content->pipe_fds[1]);
+		if (_shell->pipes->next)
+		{
+			close(_shell->pipes->content->pipe_fds[0]);
+			close(_shell->pipes->content->pipe_fds[1]);
+			close(_shell->pipes->next->content->pipe_fds[1]);
+		}
 
         tmp = _shell->pipes;
         _shell->pipes = _shell->pipes->next;
 		free_struct(_shell, tmp);
 	}
-	// close_all_pipes(_shell->pipes_fds, size);
 	return (1);
 }

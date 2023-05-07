@@ -1,18 +1,18 @@
 # include "../../includes/minishell.h"
 
-int setup_input_redirections(t_shell *_shell, t_list *pipe, char **str, int s)
+int setup_input_redirections(t_shell *_shell, char **str)
 {
     int     fd;
     int     i;
-    t_content *content = pipe->content;
+    t_content *content = _shell->pipes->content;
 
     if (!content->input_redirections)
     {
-        if (pipe->next && s)
+        if (_shell->i)
         {
-            close(pipe->content->prev_pipe_fds[1]);
-            dup2(pipe->content->prev_pipe_fds[0], 0);
-            close(pipe->content->prev_pipe_fds[0]);
+            // close(_shell->pipes->content->pipe_fds[1]);
+            dup2(_shell->pipes->content->pipe_fds[0], 0);
+            // close(_shell->pipes->content->pipe_fds[0]);
         }
         return (1);
     }
@@ -28,7 +28,7 @@ int setup_input_redirections(t_shell *_shell, t_list *pipe, char **str, int s)
         {
             fd = open(content->input_redirections[i].file, O_RDONLY, 0644);
             if (fd == -1 || dup2(fd, 0) == -1)
-                return (0);
+                return (close(fd), 0);
             close(fd);
             return (1);
         }
@@ -47,9 +47,8 @@ int setup_output_redirections(t_list *pipe)
     {
         if (pipe->next)
         {
-            close(pipe->next->content->pipe_fds[0]);
             dup2(pipe->next->content->pipe_fds[1], 1);
-            close(pipe->next->content->pipe_fds[1]);
+            // close(pipe->next->content->pipe_fds[1]);
         }
         return (1);
     }
@@ -57,16 +56,8 @@ int setup_output_redirections(t_list *pipe)
         fd = open(content->output_redirections[0].file, O_CREAT | O_APPEND | O_WRONLY, 0644);
     else
         fd = open(content->output_redirections[0].file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-    if (fd == -1)
-    {
-        // print_error(content->output_redirections[0].file, ": Not such file or directory\n");
-        exit (1);
-    }
-    if (dup2(fd, 1) == -1)
-    {
-        close(fd);
-        return (0);
-    }
+    if (fd == -1 || dup2(fd, 1) == -1)
+        return (close(fd), 0);
     close(fd);
     return (1);
 }

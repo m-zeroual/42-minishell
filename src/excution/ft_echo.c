@@ -60,6 +60,7 @@ void    ft_exe_echo(t_shell *_shell)
 		return ;
 	if (pid == 0)
 	{
+		setup_all(_shell);
 		while (_shell->pipes->content->commands[i] && !ft_strncmp(_shell->pipes->content->commands[i], "-n", 2) && all_n(_shell->pipes->content->commands[i]) && n++)
 			i++;
 		if (n != 1)

@@ -25,9 +25,10 @@ void	ft_exec_cmd(t_shell *_shell)
 	if (p == 0)
 	{
 		setup_all(_shell);
+
 		if (execve(_shell->command_with_path, _shell->pipes->content->commands, _shell->env) == -1)
 		{
-			printf("Error in execve\n");
+			perror("minishell: ");
 			exit(1);
 		}
 	}

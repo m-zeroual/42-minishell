@@ -24,8 +24,6 @@ void    create_pipes(t_list *pipes)
     while (pipes)
     {
         pipe(pipes->content->pipe_fds);
-        if (pipes->next)
-            pipes->content->prev_pipe_fds = pipes->content->pipe_fds;
         pipes = pipes->next;
     }
 }

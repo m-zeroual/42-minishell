@@ -28,7 +28,7 @@ SRCS	=	src/main.c \
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror -fsanitize=address
 RM		=	rm -f
 
 all	:	$(NAME)
@@ -39,6 +39,9 @@ $(NAME)	:	$(OBJS)
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
+
+run		: all
+	./minishell
 
 clean	:
 	@make clean -C libft
