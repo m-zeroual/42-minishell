@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/30 16:02:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/05 23:07:36 by esalim           ###   ########.fr       */
+/*   Created: 2022/09/29 18:53:18 by esalim            #+#    #+#             */
+/*   Updated: 2022/10/18 12:47:59 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdio.h"
+#include "ft_printf.h"
 
-void	*ft_calloc(size_t count, size_t size)
+char	*ft_strchr(const char *str, int c)
 {
-	char	*dest;
+	int	i;
+	int	len;
 
-	dest = (char *)malloc(count * size);
-	if (!dest)
-		return (0);
-	ft_bzero(dest, count * size);
-	return (dest);
+	i = 0;
+	len = 0;
+	while (str[len])
+		len++;
+	while (i <= len)
+	{
+		if (str[i] == (unsigned char)c)
+			return ((char *)str + i);
+		i++;
+	}
+	return (0);
 }

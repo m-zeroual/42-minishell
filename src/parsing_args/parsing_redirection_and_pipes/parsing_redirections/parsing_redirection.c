@@ -24,14 +24,17 @@ void	set_redirections(t_redirect *red, char *str, char is_input, int len)
 	}
 }
 
-t_redirect	*get_redirections(char **commands)
+t_redirect	*get_redirections(t_shell *shell, char **commands)
 {
 	t_redirect	*redirection;
 	int			i;
 	int			j;
 	int			res;
 
-	redirection = ft_calloc(100, sizeof(*redirection));
+	i = -1;
+	while (commands[++i])
+		;
+	redirection = ft_calloc(i + 1, sizeof(*redirection));
 	if (!redirection)
 		return (NULL);
 	i = 0;
@@ -40,7 +43,11 @@ t_redirect	*get_redirections(char **commands)
 	{
 		res = for_each_command(redirection, commands, &i, &j);
 		if (!res)
+		{
+			free(redirection);
+			shell->status = 258;
 			return (NULL);
+		}
 		if (res == 2)
 			break ;
 	}
@@ -99,13 +106,13 @@ t_redirect	*get_output_redirections(t_redirect *redirections)
 	return (output);
 }
 
-int	parsing_redirection(t_content *content, char **redirections)
+int	parsing_redirection(t_shell *shell, t_content *content, char **redirections)
 {
 	t_redirect	*redirect;
 
-	if (!redirections || !*redirections)
+	if (!redirections)
 		return (0);
-	redirect = get_redirections(redirections);
+	redirect = get_redirections(shell, redirections);
 	if (!redirect)
 		return (0);
 	content->output_redirections = get_output_redirections(redirect);

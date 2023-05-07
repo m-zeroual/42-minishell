@@ -1,6 +1,6 @@
 #include "../../../../includes/minishell.h"
 
-char	**set_pipes(char **commands, int *j)
+char	**set_pipes(t_shell *shell, char **commands, int *j)
 {
 	char	**str;
 	int		s;
@@ -17,11 +17,16 @@ char	**set_pipes(char **commands, int *j)
 		free(commands[(*j)++]);
 	}
 	if (!str[0])
-		return (print_error("", "Syntax Error\n"), free(str), NULL);
+	{
+		print_error("", "Syntax Error\n");
+		free(str);
+		shell->status = 258;
+		return (NULL);
+	}
 	return (str);
 }
 
-static char	***split_into_pipes(char **commands)
+static char	***split_into_pipes(t_shell *shell, char **commands)
 {
 	char	***pipes;
 	int		pipes_len;
@@ -38,7 +43,7 @@ static char	***split_into_pipes(char **commands)
 	j = 0;
 	while (++i <= pipes_len)
 	{
-		pipes[i] = set_pipes(commands, &j);
+		pipes[i] = set_pipes(shell, commands, &j);
 		if (!pipes[i])
 			return (NULL);
 	}
@@ -57,7 +62,17 @@ void    set_one_to_null_pointer(char **commands)
             commands[i][0] = 0;
 }
 
-t_list	*parsing_pipes(char **commands)
+void	free_pipe(char ***p)
+{
+	int	i;
+
+	i = -1;
+	while (p[++i])
+		free_double_pointer(p[i]);
+	free(p);
+}
+
+t_list	*parsing_pipes(t_shell *shell, char **commands)
 {
 	t_list		*pipes;
 	t_content	*content;
@@ -65,20 +80,20 @@ t_list	*parsing_pipes(char **commands)
 	int			i;
 	int			len;
 
-	if (!commands || !*commands)
+	if (!commands)
 		return (NULL);
-	p = split_into_pipes(commands);
+	p = split_into_pipes(shell, commands);
 	if (!p)
 		return (NULL);
 	i = 0;
 	pipes = NULL;
 	while (p[i])
 	{
-		content = ft_calloc(1, sizeof(*content));
+		content = ft_calloc(2, sizeof(*content));
 		if (!content)
-			return (NULL);
-		if (!parsing_redirection(content, p[i]))
-            return (NULL);
+			return (free_pipe(p), NULL);
+		if (!parsing_redirection(shell, content, p[i]))
+            return (free_pipe(p), free(content), NULL);
 		len = get_lenght_of_list_without_three(p[i]);
 		content->commands = get_list_without_three(p[i], len);
         set_one_to_null_pointer(content->commands);

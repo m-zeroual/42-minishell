@@ -2,6 +2,7 @@
 #define MINISHELL_H
 
 #include "../libft/libft.h"
+#include "../ft_printf/ft_printf.h"
 #include <stdio.h>
 #include "parsing_single_double_quotes.h"
 #include "parsing_redirection_and_pipes.h"
@@ -19,5 +20,6 @@ void    close_all_pipes(t_content *content);
 // 
 void    setup_all(t_shell *_shell);
 char    **duplicate_dpointer(char **src);
+void	del_content(void *cont);
 
 #endif

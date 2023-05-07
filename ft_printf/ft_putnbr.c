@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/30 16:02:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/05 23:07:36 by esalim           ###   ########.fr       */
+/*   Created: 2022/10/06 22:42:47 by esalim            #+#    #+#             */
+/*   Updated: 2022/10/18 17:43:53 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdio.h"
+#include "ft_printf.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	ft_putnbr(long nb, int isunsigned, int *count)
 {
-	char	*dest;
+	unsigned int	ui;
 
-	dest = (char *)malloc(count * size);
-	if (!dest)
-		return (0);
-	ft_bzero(dest, count * size);
-	return (dest);
+	if (!isunsigned)
+	{
+		if (nb < 0)
+		{
+			ft_putchar('-', count);
+			nb *= -1;
+		}
+		if (nb > 9)
+			ft_putnbr(nb / 10, isunsigned, count);
+		ft_putchar(nb % 10 + 48, count);
+	}
+	else
+	{
+		ui = nb;
+		if (ui > 9)
+			ft_putnbr(ui / 10, isunsigned, count);
+		ft_putchar(ui % 10 + 48, count);
+	}
 }

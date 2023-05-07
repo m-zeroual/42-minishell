@@ -7,6 +7,7 @@
         "unistd.h": "c",
         "__locale": "c",
         "limits.h": "c",
-        "inttypes.h": "c"
+        "inttypes.h": "c",
+        "ratio": "c"
     }
 }

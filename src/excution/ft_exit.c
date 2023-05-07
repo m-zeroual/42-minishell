@@ -43,7 +43,7 @@ int ft_exit(t_shell *_shell)
 
     print_error = 0;
     if (!_shell->pipes->content->commands[1])
-        return (0);
+        return (_shell->status);
     else
     {
         if (!_shell->pipes->content->commands[2])
@@ -61,6 +61,12 @@ int ft_exit(t_shell *_shell)
                 return (num);
         }
         else
-            return (printf("minishell: %s: too many arguments\n", _shell->pipes->content->commands[0]), 1);
+        {
+            if (ft_isalpha(_shell->pipes->content->commands[1][0]))
+                return (printf("minishell: %s: %s: numeric argument required\n", \
+                _shell->pipes->content->commands[0], _shell->pipes->content->commands[1]), 255);
+            else
+                return (printf("minishell: %s: too many arguments\n", _shell->pipes->content->commands[0]), 1);
+        }
     }
 }
