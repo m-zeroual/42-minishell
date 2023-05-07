@@ -82,7 +82,7 @@ int ft_getvar_and_value(char *command, char **env, char **var, char **value);
 char *ft_getenv(char **env, char *var);
 char *ft_getvar(char *str);
 int	ft_check_var_exist(char **env, char *var);
-int ft_var_error(t_shell _shell, char *var);
+int ft_var_error(t_shell *_shell, char *var);
 
 //		======> ft_export2.c <=======
 int	edit_var(char **str, char *var, char *value, int equal);

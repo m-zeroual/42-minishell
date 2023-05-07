@@ -41,10 +41,12 @@ void ft_exe_unset(t_shell *_shell)
 		var = _shell->pipes->content->commands[i];
 		index_var = ft_check_var_exist(_shell->env, var);
 		if (index_var != -1)
+		{
 			_shell->env = ft_remove_var(_shell->env, index_var);
+			_shell->status = 0;
+		}
 		else
-			ft_var_error(*_shell, var);
+			ft_var_error(_shell, var);
 		i++;
 	}
-	_shell->status = 0;
 }

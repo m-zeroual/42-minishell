@@ -1,10 +1,13 @@
 #include "../../includes/minishell.h"
 
-int ft(char *str)
+int ft_check_builtins(char *str)
 {
 	
 	if (!ft_strncmp(str, EX, ft_strlen(EX) + 1) \
 		|| !ft_strncmp(str, UNSET, ft_strlen(UNSET) + 1) \
+		|| !ft_strncmp(str, CD, ft_strlen(CD) + 1)
+		|| !ft_strncmp(str, PWD, ft_strlen(PWD) + 1)
+		|| !ft_strncmp(str, EN, ft_strlen(EN) + 1)
 		|| !ft_strncmp(str, EXIT, ft_strlen(EXIT) + 1))
 		return (1);
 	return (0);
@@ -23,7 +26,7 @@ void	ft_exe_command(t_shell *_shell)
 	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET) + 1))   // just lowercase
 		ft_exe_unset(_shell);
 	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT) + 1))  // just lowercase
-		exit(0);
+		exit (printf("exit\n") - 5);
 	else if (!ft_strncmp(cmd, CD, ft_strlen(CD) + 1))      // just lowercas
 		ft_exe_cd(_shell);
 // --------------------------------------------------------------------
@@ -38,6 +41,45 @@ void	ft_exe_command(t_shell *_shell)
 	free(cmd_lower);
 }
 
+char *ft_fix_path(char *path)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*new_path;
+
+	i = -1;
+	j = 0;
+	len = ft_strlen(path);
+	while (path[++i])
+		if ((path[i] == ':' && (i == 0 || i == len - 1)) \
+		|| (path[i] == ':' && path[i + 1] == ':'))
+			j++;
+	new_path = ft_calloc((len + j + 1) , sizeof(char));
+	if (!new_path)
+		return (0);
+	i = 0;
+	j = 0;
+	while (path[i])
+	{
+		if ((path[i] == ':' && i == 0) || (path[i] == ':' && i == len - 1))
+		{
+			new_path[j++] = '.';
+			new_path[j++] = path[i];
+		}
+		else if (path[i] == ':' && path[i + 1] == ':' && i != 0 && i != len)
+		{
+			new_path[j++] = path[i];
+			new_path[j++] = '.';
+		}
+		else
+			new_path[j++] = path[i];
+		i++;
+	}
+	free(path);
+	return (new_path);
+}
+
 char	*ft_join_cmd(t_shell *_shell)
 {
 	int		i;
@@ -48,9 +90,15 @@ char	*ft_join_cmd(t_shell *_shell)
 
 	if (!_shell->pipes->content->commands)
 		return (NULL);
-	if (ft(_shell->pipes->content->commands[0]))
+	if (ft_check_builtins(_shell->pipes->content->commands[0]))
 		return (ft_strdup(_shell->pipes->content->commands[0]));
+
 	cmd = ft_getenv(_shell->env, "PATH");
+	if (!cmd)
+		return (0);
+	cmd = ft_fix_path(cmd);
+	if (!cmd)
+		return (0);
 	path = ft_split(cmd, ':');
 	if (!path)
 	{
@@ -170,14 +218,14 @@ int	minishel(t_shell *_shell)
         error = 0;
         content  = _shell->pipes->content;
         if (!content)
-			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+			return (ft_lstclear(&_shell->pipes, del_content), 0);
         content->output_redirections = create_output_files(content->output_redirections, &error);
         if (error == 1)
-			return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+			return (ft_lstclear(&_shell->pipes, del_content), 0);
 			
         content->input_redirections = get_input_file(content->input_redirections, &error);
         if (error == 1)
-            return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
+            return (ft_lstclear(&_shell->pipes, del_content), 0);
 
 		_shell->command_with_path = ft_join_cmd(_shell);
 		if (!_shell->command_with_path)

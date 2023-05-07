@@ -93,7 +93,7 @@ char	*ft_getenv(char **env, char *var)
 	return (s);
 }
 
-int	ft_var_error(t_shell _shell, char *var)
+int	ft_var_error(t_shell *_shell, char *var)
 {
 	// if (*var == 0)
 	// {
@@ -104,7 +104,8 @@ int	ft_var_error(t_shell _shell, char *var)
 	if (!check_var_error(var))
 	{
 		printf("minishel: %s: `%s\': not a valid identifier\n", \
-			_shell.pipes->content->commands[0], var);
+			_shell->pipes->content->commands[0], var);
+		_shell->status = 1;
 		return (0);
 	}
 	return (1);
