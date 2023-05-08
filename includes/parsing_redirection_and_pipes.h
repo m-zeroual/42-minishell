@@ -34,7 +34,7 @@ void    init_t_redirect(t_redirect *dest, t_redirect *src);
 //PATH: src/parsing_args/main_parsing.c
 t_list  *main_parsing(t_shell *shell, char   *getLine);
 void    setup_here_doc(char *string);
-int     setup_input_redirections(t_shell *_shell, char **str);
+int     setup_input_redirections(t_shell *_shell);
 int     setup_output_redirections(t_list *pipe);
 
 

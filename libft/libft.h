@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/06 20:29:28 by esalim           ###   ########.fr       */
+/*   Updated: 2023/05/08 14:01:51 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct  s_content
     char        **commands;
     t_redirect  *input_redirections;     //|`` `` `` `` | - | | - | | - |\0|
     t_redirect  *output_redirections;
+    char        *here_doc_string;
 }   t_content;
 
 typedef struct s_list
