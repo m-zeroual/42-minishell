@@ -52,8 +52,8 @@ int main()
 {
         //A null terminated array of character
         //pointers
-        char *str[]={"script", 0};
-        execve("./script.sh",str, 0);
+        char *str[]={"echo", "$$", 0};
+        execve("/bin/echo", str, 0);
      
         /*All statements are ignored after execvp() call as this whole
         process(execDemo.c) is replaced by another process (EXEC.c)

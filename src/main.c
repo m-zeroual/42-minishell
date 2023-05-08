@@ -1,5 +1,31 @@
 #include "../includes/minishell.h"
 
+
+// char	*get_pid()
+// {
+// 	int	pid;
+// 	int	fds[2];
+//     char *str[] = {"bash", "-c", "pgrep minishell", 0};
+
+// 	pipe(fds);
+// 	pid = fork();
+// 	if (!pid)
+// 	{
+
+// 		close(fds[0]);
+// 		dup2(fds[1], 1);
+// 		close(fds[1]);
+// 		if (execve("/bin/bash", str, 0) == -1)
+// 			ft_printf("hello\n");
+// 		exit(0);
+// 	}
+// 	wait(NULL);
+// 	// close(fds[1]);
+// 	char str2[50];// = ft_calloc(17, 1);
+// 	read(fds[0], str2, 7);
+// 	return (ft_strdup(str2));
+// }
+
 void sig_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -21,7 +47,11 @@ int	main(int ac, char *av[], char *ev[])
 	signal(SIGINT, sig_handler);
 	_shell.env = ft_fill_env(ev, ft_count_env(ev));
 	_shell.status = 0;
+	
 	while (1)
+	{
 		minishel(&_shell);
+		// printf("|%s|\n", get_pid());
+	}
 	return (0);
 }

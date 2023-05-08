@@ -23,7 +23,6 @@ void	ft_exe_cd(t_shell *_shell)
 	char	*str;
 	// int		status;
 	// int		pid;
-
 	if (_shell->pipes->next || _shell->i > 1)
 		return ;
 	// pid = fork();

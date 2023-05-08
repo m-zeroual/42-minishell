@@ -28,7 +28,6 @@ typedef struct s_shell
 	char 	**env;
 	char	*command_with_path;
 	t_list 	*pipes;
-	// int     **pipes_fds;
 	int		i;
 }	t_shell;
 

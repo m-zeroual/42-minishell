@@ -1,6 +1,6 @@
 #include "../../../../includes/minishell.h"
 
-char	**set_pipes(t_shell *shell, char **commands, int *j)
+char	**set_pipes(char **commands, int *j)
 {
 	char	**str;
 	int		s;
@@ -16,17 +16,17 @@ char	**set_pipes(t_shell *shell, char **commands, int *j)
 		str[s++] = ft_strdup(commands[*j]);
 		free(commands[(*j)++]);
 	}
-	if (!str[0])
-	{
-		print_error("", "Syntax Error\n");
-		free(str);
-		shell->status = 258;
-		return (NULL);
-	}
+	// if (!str[0])
+	// {
+	// 	print_error("", "Syntax Error\n");
+	// 	free(str);
+	// 	shell->status = 258;
+	// 	return (NULL);
+	// }
 	return (str);
 }
 
-static char	***split_into_pipes(t_shell *shell, char **commands)
+static char	***split_into_pipes(char **commands)
 {
 	char	***pipes;
 	int		pipes_len;
@@ -43,7 +43,7 @@ static char	***split_into_pipes(t_shell *shell, char **commands)
 	j = 0;
 	while (++i <= pipes_len)
 	{
-		pipes[i] = set_pipes(shell, commands, &j);
+		pipes[i] = set_pipes(commands, &j);
 		if (!pipes[i])
 			return (NULL);
 	}
@@ -82,7 +82,7 @@ t_list	*parsing_pipes(t_shell *shell, char **commands)
 
 	if (!commands)
 		return (NULL);
-	p = split_into_pipes(shell, commands);
+	p = split_into_pipes(commands);
 	if (!p)
 		return (NULL);
 	i = 0;

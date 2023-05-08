@@ -211,39 +211,68 @@ void	del_content(void *cont)
 int	init_pipe(t_shell *_shell)
 {
 	t_content   *content;
-    char        error;
 
-	error = 0;
     content  = _shell->pipes->content;
 	if (!content)
 		return (ft_lstclear(&_shell->pipes, del_content), 0);
-    content->output_redirections = create_output_files(_shell, content->output_redirections, &error);
-    if (error == 1)
-		return (ft_lstclear(&_shell->pipes, del_content), 0);
-		
-    content->input_redirections = get_input_file(_shell, content->input_redirections, &error);
-    if (error == 1)
-        return (ft_lstclear(&_shell->pipes, del_content), 0);
 
     if (!content->commands || !content->commands[0] || !content->commands[0][0])
 	{
+		_shell->status = 1;
 		if (content->commands && content->commands[0] && !content->commands[0][0])
+		{
 			ft_printf("minishell: : command not found\n");
+			_shell->status = 127;
+		}
 		return (ft_lstclear(&_shell->pipes, del_content), 0);
 	}
-
 	_shell->command_with_path = ft_join_cmd(_shell);
 	if (!_shell->command_with_path)
 		return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
-
 	return (1);
 }
 
 
+int	create_redirections(t_shell *shell)
+{
+	t_list	*lst;
+	t_content   *content;
+    char        error;
+	
+	lst = shell->pipes;
+	while (lst)
+	{
+		error = 0;
+		content  = lst->content;
+		if (!content)
+			return (ft_lstclear(&lst, del_content), 0);
+
+		content->output_redirections = create_output_files(shell, content->output_redirections, &error);
+		if (error == 1)
+			return (ft_lstclear(&lst, del_content), 0);
+		content->input_redirections = get_input_file(shell, content->input_redirections, &error);
+		int i = -1;
+		while (content->input_redirections && content->input_redirections[++i].file)
+		{
+        	if (!content->input_redirections[i + 1].file && content->input_redirections[i].is_here_doc)
+        	{
+        	    lst->content->here_doc_string = get_here_doc_content(shell, content->input_redirections[i].file);
+        	    return (1);
+        	}
+        	if (content->input_redirections[i].is_here_doc)
+        	   free(get_here_doc_content(shell, content->input_redirections[i].file));
+		}
+		if (error == 1)
+			return (ft_lstclear(&lst, del_content), 0);
+		lst = lst->next;
+	}
+	return (1);
+}
 
 int	minishel(t_shell *_shell)
 {
 	t_list		*tmp;
+	// int			i;
 
 	if (!ft_init(_shell))
 		return (0);
@@ -251,6 +280,10 @@ int	minishel(t_shell *_shell)
 	// no LEAKS
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
+	// tmp = _shell->pipes;
+	if (!create_redirections(_shell))
+		return (0);
+
 	while (_shell->pipes && ++(_shell->i))
     {
 		if (!init_pipe(_shell))

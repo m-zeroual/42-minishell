@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 18:15:25 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/07 15:44:27 by esalim           ###   ########.fr       */
+/*   Updated: 2023/05/08 14:03:07 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void    setup_all(t_shell *_shell)
 {
-    char        *str_here_doc;
-
-    str_here_doc = NULL;
     if (!setup_output_redirections(_shell->pipes) \
-        || !setup_input_redirections(_shell, &str_here_doc))
+        || !setup_input_redirections(_shell))
     {
         free_double_pointer(_shell->pipes->content->commands);
         free(_shell->pipes->content);
@@ -26,8 +23,8 @@ void    setup_all(t_shell *_shell)
     }
     close(_shell->pipes->content->pipe_fds[0]);
     close(_shell->pipes->content->pipe_fds[1]);
-    if (str_here_doc)
-        setup_here_doc(str_here_doc);
+    if (_shell->pipes->content->here_doc_string)
+        setup_here_doc(_shell->pipes->content->here_doc_string);
 }
 
 

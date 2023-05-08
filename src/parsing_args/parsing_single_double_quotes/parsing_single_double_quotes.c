@@ -48,6 +48,10 @@ char	*get_value(t_shell *shell, char **line)
 		return (0);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
+	search_and_replace(str, '>', -4);
+	search_and_replace(str, '<', -5);
+	search_and_replace(str, '|', -6);
+	search_and_replace(str, '$', -7);
 	val = handle_line(shell, str);
 	free(str);
 	str = ft_strtrim(val, "\004\004");
@@ -73,7 +77,7 @@ void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
-	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?' && (*line)++)
+	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?' && *((*line) + 1) && (*line)++)
 	{
 		if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
 			expanding_variables(shell, dest, line, &j);
@@ -186,6 +190,10 @@ char	**split_line(t_shell *shell, char *line)
 		return (0);
 	search_and_replace(line_after_handling, -3, '"');
 	search_and_replace(line_after_handling, -2, '\'');
+	search_and_replace(line_after_handling, -4, '>');
+	search_and_replace(line_after_handling, -5, '<');
+	search_and_replace(line_after_handling, -6, '|');
+	search_and_replace(line_after_handling, -7, '$');
 	str = ft_split(line_after_handling, SEPARATOR);
 	free(line_after_handling);
 	if (!str)
