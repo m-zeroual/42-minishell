@@ -84,19 +84,20 @@ char	*ft_join_cmd(t_shell *_shell)
 			free(path_cmd);
 			i++;
 		}
-		ft_printf("minshell: %s: %s\n", cmd, "command not found");
+		// ft_printf("minshell: %s: %s\n", cmd, "command not found");
+		ft_printf("minishell: command not found\n");
 		_shell->status = 127;
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
 	{
-		ft_printf("minshell: %s: %s\n", cmd, "is a directory");
+		ft_printf("minishell: %s: %s\n", cmd, "is a directory");
 		_shell->status = 126;
 	}
 	else if (!access(cmd, F_OK) && !access(cmd, X_OK))
 		return (free_split(path), ft_strdup(cmd));
 	else
 	{
-		ft_printf("minshell: %s: %s\n", cmd, strerror(errno));
+		ft_printf("minishell: %s: %s\n", cmd, strerror(errno));
 		_shell->status = 126;
 	}
 	free_split(path);
@@ -173,7 +174,8 @@ int	init_pipe(t_shell *_shell)
 		_shell->status = 1;
 		if (content->commands && content->commands[0] && !content->commands[0][0])
 		{
-			ft_printf("minishell: : command not found\n");
+			ft_printf("minishell: command not found\n");
+			// ft_printf("minishell: : command not found\n");
 			_shell->status = 127;
 		}
 		return (ft_lstclear(&_shell->pipes, del_content), 0);
