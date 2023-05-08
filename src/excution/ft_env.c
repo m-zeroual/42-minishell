@@ -14,6 +14,7 @@ void	ft_exe_env(t_shell *_shell)
 		return ;
 	if (pid == 0)
 	{
+		setup_all(_shell);
 		while (_shell->env[j])
 		{
 			str = ft_split(_shell->env[j], '=');

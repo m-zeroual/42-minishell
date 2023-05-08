@@ -34,6 +34,7 @@ void	ft_exe_pwd(t_shell *_shell)
 		return ;
 	if (pid == 0)
 	{
+		setup_all(_shell);
 		if (ft_strchr(_shell->pipes->content->commands[0], '/'))
 		{
 			if (access(_shell->pipes->content->commands[0], F_OK) == 0)

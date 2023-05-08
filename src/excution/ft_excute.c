@@ -123,7 +123,7 @@ int	ft_init(t_shell *_shell)
 
 	cmd = readline("minishell -> ");
 	if (!cmd)
-		exit(0);
+		exit(_shell->status);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
@@ -179,15 +179,18 @@ int	init_pipe(t_shell *_shell)
 
     if (!content->commands || !content->commands[0] || !content->commands[0][0])
 	{
+		_shell->status = 1;
 		if (content->commands && content->commands[0] && !content->commands[0][0])
+		{
 			ft_printf("minishell: : command not found\n");
+			_shell->status = 127;
+		}
 		return (ft_lstclear(&_shell->pipes, del_content), 0);
 	}
 
 	_shell->command_with_path = ft_join_cmd(_shell);
 	if (!_shell->command_with_path)
 		return (free_struct(_shell, NULL), ft_lstclear(&_shell->pipes, del_content), 0);
-
 	return (1);
 }
 
@@ -197,6 +200,7 @@ int	init_pipe(t_shell *_shell)
 int	minishel(t_shell *_shell)
 {
 	t_list		*tmp;
+	// int			i;
 
 	if (!ft_init(_shell))
 		return (0);
@@ -207,8 +211,11 @@ int	minishel(t_shell *_shell)
 	while (_shell->pipes && ++(_shell->i))
     {
 		if (!init_pipe(_shell))
-			return (0);
-		
+			return (1);
+		// i = -1;
+		// while (_shell->pipes->content->commands[++i])
+		// 	printf("|%s|\n", _shell->pipes->content->commands[++i]);
+
 		ft_exe_command(_shell);
 
 		if (_shell->pipes->next)
