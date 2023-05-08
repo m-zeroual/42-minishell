@@ -20,15 +20,9 @@ int print(char *str, int status)
 
 	(void)status;
 
-	i = 0;
- 	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] == '?' && ++i)
-			printf("%d", status);
-		else
-			printf("%c", str[i]);
-		i++;
-	}
+	i = -1;
+ 	while (str[++i])
+		printf("%c", str[i]);
 	return (0);
 }
 

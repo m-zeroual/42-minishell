@@ -46,6 +46,8 @@ static char	***split_into_pipes(char **commands)
 		pipes[i] = set_pipes(commands, &j);
 		if (!pipes[i])
 			return (NULL);
+		if (pipes[i] && !pipes[i][0])
+			return (free(pipes), NULL);
 	}
 	return (pipes);
 }
@@ -84,7 +86,11 @@ t_list	*parsing_pipes(t_shell *shell, char **commands)
 		return (NULL);
 	p = split_into_pipes(commands);
 	if (!p)
+	{
+		ft_printf("minishell: syntax error\n");
+		shell->status = 2;
 		return (NULL);
+	}
 	i = 0;
 	pipes = NULL;
 	while (p[i])

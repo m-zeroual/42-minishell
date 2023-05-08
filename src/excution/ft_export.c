@@ -21,22 +21,46 @@ int	check_var_error(char *var)
 void	ft_display_export(char **exp)
 {
 	int		i;
-	char	**str;
+	int		j;
+	// char	**str;
 
 	i = 0;
 	while (exp[i])
 	{
-		str = ft_split(exp[i], '=');
 		if (ft_strchr(exp[i], '='))
 		{
-			if (str[1] && str[1][0] != '"')
-				printf("declare -x %s=\"%s\"\n", str[0], str[1]);
-			else
-				printf("declare -x %s=\"\"\n", str[0]);
+			j = 0;
+			printf("declare -x ");
+			while (exp[i][j])
+			{
+				if (exp[i][j] != '=')
+					printf("%c", exp[i][j++]);
+				else
+					break ;
+			}
+			printf("=\"");
+			j++;
+			while (exp[i][j])
+			{
+				if (exp[i][j] == '$' || exp[i][j] == '"')
+					printf("\\");
+				printf("%c", exp[i][j++]);
+			}
+			printf("\"");
 		}
 		else
-			printf("declare -x %s\n", str[0]);
-		free_split(str);
+		{
+			j = 0;
+			printf("declare -x ");
+			while (exp[i][j])
+			{
+				if (exp[i][j] != '=')
+					printf("%c", exp[i][j++]);
+				else
+					break ;
+			}
+		}
+		printf("\n");
 		i++;
 	}
 }
@@ -58,7 +82,7 @@ int	ft_add_var(t_shell *_shell)
 			equal = 1;
 		else
 			equal = 0;
-		if (ft_var_error(*_shell, var))
+		if (ft_var_error(_shell, var))
 		{
 			if (!edit_var(_shell->env, var, value, equal))
 				_shell->env = add_var(_shell->env, var, value, equal);
@@ -67,8 +91,7 @@ int	ft_add_var(t_shell *_shell)
 		free(value);
 		i++;
 	}
-
-	return (1);
+	return (0);
 }
 
 void	ft_exe_export(t_shell *_shell)
@@ -80,16 +103,8 @@ void	ft_exe_export(t_shell *_shell)
 	// while (_shell->pipes->content->commands[++pid])
 	// 	printf("|%s|\n", _shell->pipes->content->commands[pid]);
 
-
-
-
 	if (_shell->pipes->content->commands[1])
-	{
-		if (!ft_add_var(_shell))
-			_shell->status = 1;
-		else
-			_shell->status = 0;
-	}
+		ft_add_var(_shell);
 	else
 	{
 		pid = fork();

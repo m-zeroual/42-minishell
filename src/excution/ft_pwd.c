@@ -27,7 +27,7 @@ void	ft_exe_pwd(t_shell *_shell)
 	char	*str;
 	int 	pid;
 	int 	status;
-
+	
 	str = 0;
 	pid = fork ();
 	if (pid == -1)
@@ -35,31 +35,14 @@ void	ft_exe_pwd(t_shell *_shell)
 	if (pid == 0)
 	{
 		setup_all(_shell);
-		if (ft_strchr(_shell->pipes->content->commands[0], '/'))
-		{
-			if (access(_shell->pipes->content->commands[0], F_OK) == 0)
-			{
-				str = curr_path(*_shell);
-				printf("%s\n", str);
-				free(str);
-			}
-			else
-				ft_printf("minishell: %s: %s\n", _shell->pipes->content->commands[0], strerror(errno));
-		}
-		else
-		{
-			str = curr_path(*_shell);
-			printf("%s\n", str);
-			free(str);
-		}
+		str = getcwd(NULL, 1024);
+		printf("%s\n", str);
+		free(str);
 		exit (0);
 	}
 	wait(&status);
 	if (WIFEXITED(status))
         _shell->status = WEXITSTATUS(status);
-
-	// else
-	// 	printf("minishell: %s: %s\n", _shell->pipes->content->commands[0], strerror(errno));
 }
 
 void	ch_pwd(t_shell *_shell)

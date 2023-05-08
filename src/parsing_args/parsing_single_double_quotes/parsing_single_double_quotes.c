@@ -52,6 +52,7 @@ char	*get_value(t_shell *shell, char **line)
 	search_and_replace(str, '<', -5);
 	search_and_replace(str, '|', -6);
 	search_and_replace(str, '$', -7);
+	search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
 	free(str);
 	str = ft_strtrim(val, "\004\004");
@@ -77,11 +78,20 @@ void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
-	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) != '?' && *((*line) + 1) && (*line)++)
+	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) && (*line)++)
 	{
-		if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
+		if (((separator == '"' && *a) || (!separator && !*a)) && **line && **line == '?')
+		{
+			char *str = ft_itoa(shell->status);
+			(*line)++;
+			int i = 0;
+			while (str[i])
+				(*dest)[j++] = str[i++];
+			free(str);
+		}
+		else if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
 			expanding_variables(shell, dest, line, &j);
-		else if (ft_isdigit(**line) || ft_strchr("@*#-", **line))
+		else if (ft_isdigit(**line) || ft_strchr("$@*#-", **line))
 			(*line)++;
 		else
 			(*dest)[j++] = '$';
@@ -167,9 +177,9 @@ char	*handle_line(t_shell *shell, char *line)
 		dest[j++] = SEPARATOR;
 	if (a)
 	{
-		// ft_printf("minishell: you messing a separator\n");
+		ft_printf("minishell: unexpected EOF while looking for matching\n");
 		free(dest);
-		shell->status = 1;
+		shell->status = 2;
 		return (0);
 	}
 	tmp = ft_strdup(dest);
@@ -194,6 +204,7 @@ char	**split_line(t_shell *shell, char *line)
 	search_and_replace(line_after_handling, -5, '<');
 	search_and_replace(line_after_handling, -6, '|');
 	search_and_replace(line_after_handling, -7, '$');
+	search_and_replace(line_after_handling, -9, ' ');
 	str = ft_split(line_after_handling, SEPARATOR);
 	free(line_after_handling);
 	if (!str)

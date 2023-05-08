@@ -9,16 +9,18 @@ void    print_error(char *file, char *message)
 
 void    p_error(char *str)
 {
-    static int  i;
-    char        *text;
+    (void)str;
+    ft_printf("minishell: syntax error\n");
+    // static int  i;
+    // char        *text;
 
-    text = "minishell: syntax error near unexpected token `";
-    if (!i)
-    {
-        ft_putstr_fd(text, 2);
-        i = 1;
-    }
-    ft_putstr_fd(str, 2);
-    if (str[0] == '\'')
-        i = 0;
+    // text = "minishell: syntax error near unexpected token `";
+    // if (!i)
+    // {
+    //     ft_putstr_fd(text, 2);
+    //     i = 1;
+    // }
+    // ft_putstr_fd(str, 2);
+    // if (str[0] == '\'')
+    //     i = 0;
 }

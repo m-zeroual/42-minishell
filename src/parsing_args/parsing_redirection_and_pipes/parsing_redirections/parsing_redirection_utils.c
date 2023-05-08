@@ -4,17 +4,20 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 {
 	if (permissions[0] == '1' && access(filename, F_OK))
 	{
-		print_error(filename, ": No such file or directory\n");
+		// print_error(filename, ": No such file or directory\n");
+		ft_printf("minishell: No such file or directory\n");
 		// exit status
-		shell->status = 127;
+		shell->status = 1;
 		return (0);
 	}
 	if ((permissions[1] == '1' && access(filename, R_OK)) \
 			|| (permissions[2] == '1' && access(filename, W_OK)) \
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
+		// ft_printf("minishell: Permission denied\n");
 		print_error(filename, ": Permission denied\n");
-		shell->status = 126;
+		// shell->status = 126;
+		shell->status = 1;
 		// exit status
 		return (0);
 	}

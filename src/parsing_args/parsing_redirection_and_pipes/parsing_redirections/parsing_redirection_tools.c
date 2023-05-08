@@ -47,18 +47,36 @@ int	check_redirection_error(char **cmds, int *j, int len, int swap)
 	while (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 && cmds[*j][0] > 1 && two++ < 2)
 	{
 		if (swap && (cmds[(*j)][0] == OUTPUT_REDIRECT || cmds[(*j)][0] == 3))
+		{
 			p_error(">");
+			break ;
+		}
 		else if (swap && cmds[(*j)][0] == INPUT_REDIRECT)
-			p_error("<");
+		{
+			p_error(">");
+			break ;
+		}
 		else if (!swap \
 			&& (cmds[(*j)][0] == INPUT_REDIRECT || cmds[(*j)][0] == 3))
-			p_error("<");
-		else if (!swap && cmds[(*j)][0] == OUTPUT_REDIRECT)
+		{
 			p_error(">");
+			break ;
+		}
+		else if (!swap && cmds[(*j)][0] == OUTPUT_REDIRECT)
+		{
+			p_error(">");
+			break ;
+		}
 		else if (cmds[(*j)][0] == PIPE && ++two)
-			p_error("|");
+		{
+			p_error(">");
+			break ;
+		}
 		else
-			p_error(cmds[(*j)]);
+		{
+			p_error(">");
+			break ;
+		}
 		(*j)++;
 		len = 200;
 	}
@@ -78,7 +96,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 		return (2);
 	input_len = redirect_len(commands, j, INPUT_REDIRECT, "<");
 	if (input_len > 3 || check_redirection_error(commands, j, input_len, 1))
-		return (p_error("'\n"), 0);
+		return (0);
 	if (input_len < 4 && commands[*j] && commands[*j][0] == 1)
 		return (print_error("", ": No such file or directory\n"), 0);
 	if (input_len != 0 && commands[*j] && commands[*j][0] != OUTPUT_REDIRECT)
@@ -87,7 +105,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 	if (output_len < 3 && commands[*j] && commands[*j][0] == 1)
 		return (print_error("", ": No such file or directory\n"), 0);
 	if (output_len > 2 || check_redirection_error(commands, j, output_len, 0))
-		return (p_error("'\n"), 0);
+		return (0);
 	if (output_len != 0 && commands[*j] && commands[*j][0] != INPUT_REDIRECT)
 		set_redirections(&redirection[(*i)++], commands[(*j)++], 0, output_len);
 	return (1);
