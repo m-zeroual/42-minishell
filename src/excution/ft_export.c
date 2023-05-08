@@ -21,22 +21,46 @@ int	check_var_error(char *var)
 void	ft_display_export(char **exp)
 {
 	int		i;
-	char	**str;
+	int		j;
+	// char	**str;
 
 	i = 0;
 	while (exp[i])
 	{
-		str = ft_split(exp[i], '=');
 		if (ft_strchr(exp[i], '='))
 		{
-			if (str[1] && str[1][0] != '"')
-				printf("declare -x %s=\"%s\"\n", str[0], str[1]);
-			else
-				printf("declare -x %s=\"\"\n", str[0]);
+			j = 0;
+			printf("declare -x ");
+			while (exp[i][j])
+			{
+				if (exp[i][j] != '=')
+					printf("%c", exp[i][j++]);
+				else
+					break ;
+			}
+			printf("=\"");
+			j++;
+			while (exp[i][j])
+			{
+				if (exp[i][j] == '$' || exp[i][j] == '"')
+					printf("\\");
+				printf("%c", exp[i][j++]);
+			}
+			printf("\"");
 		}
 		else
-			printf("declare -x %s\n", str[0]);
-		free_split(str);
+		{
+			j = 0;
+			printf("declare -x ");
+			while (exp[i][j])
+			{
+				if (exp[i][j] != '=')
+					printf("%c", exp[i][j++]);
+				else
+					break ;
+			}
+		}
+		printf("\n");
 		i++;
 	}
 }

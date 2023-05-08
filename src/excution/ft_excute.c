@@ -132,7 +132,7 @@ char	*ft_join_cmd(t_shell *_shell)
 			free(path_cmd);
 			i++;
 		}
-		ft_printf("minshell: %s: %s\n", cmd, "command not found");
+		ft_printf("minishell: %s: %s\n", cmd, "command not found");
 		_shell->status = 127;
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
@@ -171,7 +171,7 @@ int	ft_init(t_shell *_shell)
 
 	cmd = readline("minishell -> ");
 	if (!cmd)
-		exit(0);
+		exit(_shell->status);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
@@ -257,7 +257,6 @@ int	minishel(t_shell *_shell)
             return (0);
 
 		ft_exe_command(_shell);
-
 		if (_shell->pipes->next)
 		{
 			close(_shell->pipes->content->pipe_fds[0]);

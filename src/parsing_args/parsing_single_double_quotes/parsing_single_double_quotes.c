@@ -163,7 +163,7 @@ char	*handle_line(t_shell *shell, char *line)
 		dest[j++] = SEPARATOR;
 	if (a)
 	{
-		ft_printf("minishell: you messing a separator\n");
+		// ft_printf("minishell: you messing a separator\n");
 		free(dest);
 		shell->status = 1;
 		return (0);

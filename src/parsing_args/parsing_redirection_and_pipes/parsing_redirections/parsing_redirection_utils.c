@@ -146,7 +146,7 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 	{
 		line = readline("> ");
 		if (!line)
-			continue ;
+			break ;
 		if (!ft_strncmp(line, eol, len + 1))
 		{
 			len = ft_strlen(string);

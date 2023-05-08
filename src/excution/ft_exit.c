@@ -52,7 +52,8 @@ int ft_exit(t_shell *_shell)
             if (num == 255)
             {
                 if (print_error)
-                    printf("minishell: %s: numeric argument required\n", _shell->pipes->content->commands[0]);
+                    printf("minishell: %s: %s: numeric argument required\n", \
+                _shell->pipes->content->commands[0], _shell->pipes->content->commands[1]);
                 return (255);
             }
             else if (num >= 256 || num > 0)

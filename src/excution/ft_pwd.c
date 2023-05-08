@@ -34,6 +34,7 @@ void	ft_exe_pwd(t_shell *_shell)
 		return ;
 	if (pid == 0)
 	{
+		setup_all(_shell);
 		str = getcwd(NULL, 1024);
 		printf("%s\n", str);
 		free(str);

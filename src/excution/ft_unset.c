@@ -21,7 +21,10 @@ char **ft_remove_var(char **env, int index_to_remove)
 	while (env[i])
 	{
 		if (i == index_to_remove)
+		{
 			i++;
+			continue ;
+		}
 		s[j++] = ft_strdup(env[i++]);
 	}
 	free_split(env);
@@ -29,7 +32,7 @@ char **ft_remove_var(char **env, int index_to_remove)
 }
 
 
-void ft_exe_unset(t_shell *_shell)
+void	ft_exe_unset(t_shell *_shell)
 {
 	char	*var;
     int		index_var;
@@ -46,7 +49,14 @@ void ft_exe_unset(t_shell *_shell)
 			_shell->status = 0;
 		}
 		else
-			ft_var_error(_shell, var);
+		{
+			if (!check_var_error(var))
+			{
+				printf("minishel: %s: `%s\': not a valid identifier\n", \
+					_shell->pipes->content->commands[0], var);
+				_shell->status = 1;
+			}
+		}
 		i++;
 	}
 }
