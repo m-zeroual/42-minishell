@@ -34,6 +34,19 @@ void	search_and_replace(char *src, char search, char replace)
 			src[i] = replace;
 }
 
+char	*ft_strendtrim(char const *s1)
+{
+	size_t	i;
+
+	if (!s1)
+		return (0);
+	i = ft_strlen(s1) - 1;
+	while (i && ft_strchr("  ", s1[i]))
+		i--;
+	return (ft_substr(s1, 0, i + 1));
+}
+
+
 char	*get_value(t_shell *shell, char **line, char **dest, int j)
 {
 	char	*val;
@@ -56,6 +69,9 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 	search_and_replace(str, '<', -5);
 	search_and_replace(str, '|', -6);
 	search_and_replace(str, '$', -7);
+	// LEAKS HERE STR
+	// str = ft_strendtrim(str);
+	// printf("");
 	if (ft_isalnum((*dest)[j - 1]))
 		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
