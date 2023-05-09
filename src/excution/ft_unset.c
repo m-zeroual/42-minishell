@@ -52,7 +52,7 @@ void	ft_exe_unset(t_shell *_shell)
 		{
 			if (!check_var_error(var))
 			{
-				printf("minishel: %s: `%s\': not a valid identifier\n", \
+				ft_printf("minishel: %s: `%s\': not a valid identifier\n", \
 					_shell->pipes->content->commands[0], var);
 				_shell->status = 1;
 			}

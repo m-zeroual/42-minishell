@@ -44,8 +44,8 @@ t_redirect	*get_redirections(t_shell *shell, char **commands)
 		res = for_each_command(redirection, commands, &i, &j);
 		if (!res)
 		{
-			free(redirection);
-			shell->status = 258;
+			// free(redirection);
+			shell->status = 2;
 			return (NULL);
 		}
 		if (res == 2)
