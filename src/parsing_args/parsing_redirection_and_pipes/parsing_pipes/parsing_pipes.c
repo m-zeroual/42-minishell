@@ -5,6 +5,8 @@ char	**set_pipes(char **commands, int *j)
 	char	**str;
 	int		s;
 
+	if (!commands)
+		return (NULL);
 	str = ft_calloc(get_number_of_commands(commands, *j) + 1, sizeof(char *));
 	if (!str)
 		return (NULL);
@@ -16,6 +18,7 @@ char	**set_pipes(char **commands, int *j)
 		str[s++] = ft_strdup(commands[*j]);
 		free(commands[(*j)++]);
 	}
+	// str[s++] = 0;
 	// if (!str[0])
 	// {
 	// 	print_error("", "Syntax Error\n");

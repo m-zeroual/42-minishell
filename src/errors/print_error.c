@@ -2,6 +2,7 @@
 
 void    print_error(char *file, char *message)
 {
+    (void)file;
     ft_putstr_fd("minishell: ", 2);
     ft_putstr_fd(file, 2);
     ft_putstr_fd(message, 2);

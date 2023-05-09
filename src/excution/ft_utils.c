@@ -6,7 +6,7 @@ char	*ft_str_tolower(char *cmd)
 	char	*str;
 
 	i = 0;
-	str = malloc(ft_strlen(cmd) + 1);
+	str = ft_calloc(ft_strlen(cmd) + 1, 1);
 	if (!str)
 		return (0);
 	while (cmd[i])
@@ -14,7 +14,7 @@ char	*ft_str_tolower(char *cmd)
 		str[i] = ft_tolower(cmd[i]);
 		i++;
 	}
-	str[i] = 0;
+	// str[i] = 0;
 	return (str);
 }
 
