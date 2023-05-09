@@ -13,12 +13,12 @@ char	**set_pipes(char **commands, int *j)
 	s = 0;
 	while (commands[*j])
 	{
-		printf("|%s|\n", commands[*j]);
 		if (commands[*j] && commands[*j][0] == PIPE && ++(*j))
 			break ;
 		str[s++] = ft_strdup(commands[*j]);
 		free(commands[(*j)++]);
 	}
+	// str[s++] = 0;
 	// if (!str[0])
 	// {
 	// 	print_error("", "Syntax Error\n");

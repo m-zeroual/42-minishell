@@ -4,8 +4,10 @@ int	get_number_of_commands(char **commands, int j)
 {
 	int	i;
 
+	if (!commands)
+		return 0;
 	i = 0;
-	while (commands && commands[j + i] && ft_strncmp(commands[j + i], "|", 2))
+	while (commands[j + i] && commands[j + i][0] != PIPE)
 		i++;
 	return (i);
 }

@@ -105,7 +105,7 @@ int	ft_var_error(t_shell *_shell, char *var)
 	{
 		// printf("minishel: %s: `%s\': not a valid identifier\n", \
 		// 	_shell->pipes->content->commands[0], var);
-		printf("minishell: not a valid identifier\n");
+		ft_printf("minishell: not a valid identifier\n");
 		_shell->status = 1;
 		return (0);
 	}

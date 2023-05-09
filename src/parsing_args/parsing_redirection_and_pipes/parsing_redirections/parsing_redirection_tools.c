@@ -2,10 +2,9 @@
 
 int	skip_commands(char **commands, int *j)
 {
-	while (commands[*j] && commands[*j][0] != INPUT_REDIRECT \
-			&& commands[*j][0] != OUTPUT_REDIRECT)
+	while (commands[*j] && commands[*j][0] != INPUT_REDIRECT && commands[*j][0] != OUTPUT_REDIRECT)
 	{
-		if (commands[*j][0] == PIPE)
+		if (commands[*j][0] && commands[*j][0] == PIPE)
 			return (1);
 		(*j)++;
 	}
@@ -92,6 +91,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 
 	input_len = 0;
 	output_len = 0;
+
 	if (skip_commands(commands, j))
 		return (2);
 	input_len = redirect_len(commands, j, INPUT_REDIRECT, "<");
