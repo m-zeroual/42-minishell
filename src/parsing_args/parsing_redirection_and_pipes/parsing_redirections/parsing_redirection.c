@@ -31,6 +31,8 @@ t_redirect	*get_redirections(t_shell *shell, char **commands)
 	int			j;
 	int			res;
 
+	if (!commands)
+		return (NULL);
 	i = -1;
 	while (commands[++i])
 		;

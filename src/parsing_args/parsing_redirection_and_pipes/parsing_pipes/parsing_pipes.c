@@ -5,12 +5,15 @@ char	**set_pipes(char **commands, int *j)
 	char	**str;
 	int		s;
 
+	if (!commands)
+		return (NULL);
 	str = ft_calloc(get_number_of_commands(commands, *j) + 1, sizeof(char *));
 	if (!str)
 		return (NULL);
 	s = 0;
 	while (commands[*j])
 	{
+		printf("|%s|\n", commands[*j]);
 		if (commands[*j] && commands[*j][0] == PIPE && ++(*j))
 			break ;
 		str[s++] = ft_strdup(commands[*j]);

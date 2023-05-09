@@ -48,8 +48,7 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 	{
 		if (ft_check_var_exist(shell->env, val) == -1)
 			return (0);
-		str = ft_strdup(" ");
-		str[0] = -10;
+		str = ft_strdup("");
 	}
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);

@@ -5,7 +5,7 @@ int	get_number_of_commands(char **commands, int j)
 	int	i;
 
 	i = 0;
-	while (commands[j + i] && ft_strncmp(commands[j + i], "|", 2))
+	while (commands && commands[j + i] && ft_strncmp(commands[j + i], "|", 2))
 		i++;
 	return (i);
 }
