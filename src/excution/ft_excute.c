@@ -267,6 +267,10 @@ int	create_redirections(t_shell *shell)
         	if (content->input_redirections[i].is_here_doc)
         	   free(get_here_doc_content(shell, content->input_redirections[i].file));
 		}
+		i = -1;
+		while (content->input_redirections && content->input_redirections[++i].file)
+        	if (content->input_redirections[i].file && !content->input_redirections[i].is_here_doc && !check_permissions(shell, content->input_redirections[i].file, "1100"))
+        	    break ;
 		if (error == 1)
 			return (0);
 		lst = lst->next;

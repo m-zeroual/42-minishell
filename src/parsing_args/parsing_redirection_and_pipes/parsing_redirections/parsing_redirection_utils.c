@@ -101,6 +101,8 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	i = -1;
 	index = 0;
 	len = -1;
+	(void)shell;
+	(void)error;
 	if (!inputs)
 		return (NULL);
 	while (inputs[++len].file)
@@ -112,13 +114,6 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	index = 0;
 	while (++i < len && inputs[i].file)
 	{
-		if (!inputs[i].is_here_doc && !check_permissions(shell, inputs[i].file, "1100"))
-		{
-			*error = 1;
-			free_t_redirect(inputs);
-			free(last_file);
-			return (NULL);
-		}
 		if (!inputs[i].is_here_doc && i < len - 1)
 			continue ;
 		last_file[index].file = ft_strdup(inputs[i].file);

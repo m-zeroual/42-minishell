@@ -34,7 +34,7 @@ void	search_and_replace(char *src, char search, char replace)
 			src[i] = replace;
 }
 
-char	*get_value(t_shell *shell, char **line)
+char	*get_value(t_shell *shell, char **line, char **dest, int j)
 {
 	char	*val;
 	char	*str;
@@ -45,14 +45,19 @@ char	*get_value(t_shell *shell, char **line)
 	str = ft_getenv(shell->env, val);
 	free(val);
 	if (!str)
-		return (0);
+	{
+		if (ft_check_var_exist(shell->env, val) == -1)
+			return (0);
+		str = ft_strdup("");
+	}
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
 	search_and_replace(str, '>', -4);
 	search_and_replace(str, '<', -5);
 	search_and_replace(str, '|', -6);
 	search_and_replace(str, '$', -7);
-	search_and_replace(str, ' ', -9);
+	if (ft_isalnum((*dest)[j - 1]))
+		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
 	free(str);
 	str = ft_strtrim(val, "\004\004");
@@ -68,7 +73,7 @@ void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 	int		i;
 
 	i = 0;
-	str = get_value(shell, line);
+	str = get_value(shell, line, dest, *j);
 	if (!str)
 		return ;
 	while (str[i])
@@ -205,6 +210,7 @@ char	**split_line(t_shell *shell, char *line)
 	search_and_replace(line_after_handling, -6, '|');
 	search_and_replace(line_after_handling, -7, '$');
 	search_and_replace(line_after_handling, -9, ' ');
+	search_and_replace(line_after_handling, -10, 0);
 	str = ft_split(line_after_handling, SEPARATOR);
 	free(line_after_handling);
 	if (!str)

@@ -42,10 +42,12 @@ t_redirect	*get_redirections(t_shell *shell, char **commands)
 	while (commands[j])
 	{
 		res = for_each_command(redirection, commands, &i, &j);
-		if (!res)
+		if (!res || res == 4)
 		{
 			// free(redirection);
 			shell->status = 2;
+			if (res == 4)
+				shell->status = 1;
 			return (NULL);
 		}
 		if (res == 2)
