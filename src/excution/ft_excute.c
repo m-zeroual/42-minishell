@@ -92,17 +92,21 @@ char	*ft_join_cmd(t_shell *_shell)
 		return (NULL);
 	if (ft_check_builtins(_shell->pipes->content->commands[0]))
 		return (ft_strdup(_shell->pipes->content->commands[0]));
-
-	cmd = ft_getenv(_shell->env, "PATH");
-	
-	if (!cmd)
+	if (!ft_strchr(_shell->pipes->content->commands[0], '/'))
 	{
-		ft_printf("minishell: No such file or directory\n");
-		// ft_printf("minshell: %s: %s\n", _shell->pipes->content->commands[0], "No such file or directory");
-		// _shell->status = 126;
-		_shell->status = 127;
-		return (0);
+		cmd = ft_getenv(_shell->env, "PATH");
+		if (!cmd)
+		{
+			ft_printf("minishell: No such file or directory\n");
+			// ft_printf("minshell: %s: %s\n", _shell->pipes->content->commands[0], "No such file or directory");
+			// _shell->status = 127;
+			_shell->status = 127;
+			return (0);
+		}
 	}
+	else
+		cmd = ft_strdup(_shell->pipes->content->commands[0]);
+	
 	cmd = ft_fix_path(cmd);
 	if (!cmd)
 		return (0);
@@ -186,6 +190,7 @@ int	ft_init(t_shell *_shell)
 		exit(_shell->status);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
+	printf("[%s]\n", _shell->pipes->content->commands[0]);
 	if (!_shell->pipes)
 		return (0);
 	_shell->i = 0;
@@ -303,7 +308,10 @@ int	minishel(t_shell *_shell)
 	while (_shell->pipes && ++(_shell->i))
     {
 		if (!init_pipe(_shell))
-            return (0);
+		{
+			_shell->pipes = _shell->pipes->next;
+            continue ;
+		}
 
 		ft_exe_command(_shell);
 		if (_shell->pipes->next)
