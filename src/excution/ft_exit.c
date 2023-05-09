@@ -52,7 +52,7 @@ int ft_exit(t_shell *_shell)
             if (num == 255)
             {
                 if (print_error)
-                    printf("minishell: %s: %s: numeric argument required\n", \
+                    ft_printf("minishell: %s: %s: numeric argument required\n", \
                 _shell->pipes->content->commands[0], _shell->pipes->content->commands[1]);
                 return (255);
             }
@@ -64,10 +64,10 @@ int ft_exit(t_shell *_shell)
         else
         {
             if (ft_isalpha(_shell->pipes->content->commands[1][0]))
-                return (printf("minishell: %s: %s: numeric argument required\n", \
+                return (ft_printf("minishell: %s: %s: numeric argument required\n", \
                 _shell->pipes->content->commands[0], _shell->pipes->content->commands[1]), 255);
             else
-                return (printf("minishell: %s: too many arguments\n", _shell->pipes->content->commands[0]), 1);
+                return (ft_printf("minishell: %s: too many arguments\n", _shell->pipes->content->commands[0]), 1);
         }
     }
 }

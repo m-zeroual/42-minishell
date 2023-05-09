@@ -17,13 +17,24 @@ char* ft_getvar_(char *str)
 int print(char *str, int status)
 {
 	int i;
+	char **s;
 
 	(void)status;
 
-	i = -1;
- 	while (str[++i])
-		printf("%c", str[i]);
-	return (0);
+	i = 0;
+ 	// while (str[++i])
+	s = ft_split(str, ' ');
+	while (s[i])
+	{
+		printf("%s", s[i]);
+		if (s[i + 1])
+			printf(" ");
+		i++;
+	}
+	free_split(s);
+	if (i != 0)
+		return (0);
+	return (1);
 }
 
 int all_n(char *str)
@@ -37,6 +48,7 @@ int all_n(char *str)
 			return (0);
 		i++;
 	}
+
 	return (1);
 }
 
