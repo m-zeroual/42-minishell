@@ -8,6 +8,7 @@ int ft_check_builtins(char *str)
 		|| !ft_strncmp(str, CD, ft_strlen(CD) + 1)
 		|| !ft_strncmp(str, PWD, ft_strlen(PWD) + 1)
 		|| !ft_strncmp(str, EN, ft_strlen(EN) + 1)
+		|| !ft_strncmp(str, ECHO, ft_strlen(ECHO) + 1)
 		|| !ft_strncmp(str, EXIT, ft_strlen(EXIT) + 1))
 		return (1);
 	return (0);
@@ -52,8 +53,7 @@ char *ft_fix_path(char *path)
 	j = 0;
 	len = ft_strlen(path);
 	while (path[++i])
-		if ((path[i] == ':' && (i == 0 || i == len - 1)) \
-		|| (path[i] == ':' && path[i + 1] == ':'))
+		if ((path[i] == ':' && (!i || i == len - 1)) || (path[i] == ':' && path[i + 1] == ':'))
 			j++;
 	new_path = ft_calloc((len + j + 1) , sizeof(char));
 	if (!new_path)
@@ -62,12 +62,12 @@ char *ft_fix_path(char *path)
 	j = 0;
 	while (path[i])
 	{
-		if ((path[i] == ':' && i == 0) || (path[i] == ':' && i == len - 1))
+		if ((path[i] == ':' && !i))
 		{
 			new_path[j++] = '.';
 			new_path[j++] = path[i];
 		}
-		else if (path[i] == ':' && path[i + 1] == ':' && i != 0 && i != len)
+		if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
 		{
 			new_path[j++] = path[i];
 			new_path[j++] = '.';
@@ -190,7 +190,6 @@ int	ft_init(t_shell *_shell)
 		exit(_shell->status);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
-	printf("[%s]\n", _shell->pipes->content->commands[0]);
 	if (!_shell->pipes)
 		return (0);
 	_shell->i = 0;
@@ -235,7 +234,7 @@ int	init_pipe(t_shell *_shell)
 
     if (!content->commands || !content->commands[0] || !content->commands[0][0])
 	{
-		_shell->status = 1;
+		// _shell->status = 1;
 		if (content->commands && content->commands[0] && !content->commands[0][0])
 		{
 			ft_printf("minishell: : command not found\n");
@@ -309,6 +308,8 @@ int	minishel(t_shell *_shell)
     {
 		if (!init_pipe(_shell))
 		{
+			if (_shell->pipes->next)
+				close(_shell->pipes->next->content->pipe_fds[0]);
 			_shell->pipes = _shell->pipes->next;
             continue ;
 		}

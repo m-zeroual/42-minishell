@@ -77,7 +77,7 @@ int	ft_check_var_exist(char **env, char *var)
 char	*ft_getenv(char **env, char *var)
 {
 	int			index;
-	char		**str;
+	char		*str;
 	char		*s;
 
 	if (!var)
@@ -86,9 +86,9 @@ char	*ft_getenv(char **env, char *var)
 	index = ft_check_var_exist(env, var);
 	if (index != -1)
 	{
-		str = ft_split(env[index], '=');
-		s = ft_strdup(str[1]);
-		free_split(str);
+		str = ft_strchr(env[index], '=');
+		if (str)
+			s = ft_strdup(str + 1);
 	}
 	return (s);
 }

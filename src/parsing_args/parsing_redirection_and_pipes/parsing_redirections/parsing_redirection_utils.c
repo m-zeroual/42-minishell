@@ -127,15 +127,47 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	return (last_file);
 }
 
+char	*remove_garbage_value(char *str)
+{
+	int	len = 0;
+	int	i = 0;
+	while (str[i])
+		if (ft_isprint(str[i++]))
+			len++;
+	char *dest = ft_calloc(len + 1, 1);
+	if (!dest)
+		return (0);
+	i = -1;
+	len = 0;
+	while (str[++i])
+		if (ft_isprint(str[i]))
+			dest[len++] = str[i];
+	return (dest);
+}
+
+int	is_here_doc(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] == -42)
+			return (1);
+	return (0);
+}
+
 char	*get_here_doc_content(t_shell *_shell, char	*eol)
 {
 	int		len;
 	char	*string;
 	char	*line;
 	char	*tmp;
+	char	check;
 
 	if (!eol)
 		return (ft_strdup(""));
+	check = is_here_doc(eol);
+	eol = remove_garbage_value(eol);
 	len = ft_strlen(eol);
 	string = ft_calloc(2, sizeof(*string));
 	if (!string)
@@ -144,7 +176,13 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 	{
 		line = readline("> ");
 		if (!line)
+		{
+			len = ft_strlen(string);
+			if (len)
+				string[len - 1] = 0;
 			break ;
+		}
+		// ft_printf("delimiter ==> |%s|\n", eol);
 		if (!ft_strncmp(line, eol, len + 1))
 		{
 			len = ft_strlen(string);
@@ -152,17 +190,31 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 				string[len - 1] = 0;
 			break ;
 		}
+		if (!check)
+		{
+			search_and_replace(line, '"', -3);
+			search_and_replace(line, '\'', -2);
+			search_and_replace(line, '>', -4);
+			search_and_replace(line, '<', -5);
+			search_and_replace(line, '|', -6);
+			search_and_replace(line, ' ', -9);
+			tmp = handle_line(_shell, line);
+			// free(line);
+			line = ft_strtrim(tmp, "\004\004");
+			// free(tmp);
+			search_and_replace(line, -3, '"');
+			search_and_replace(line, -2, '\'');
+			search_and_replace(line, -4, '>');
+			search_and_replace(line, -5, '<');
+			search_and_replace(line, -6, '|');
+			search_and_replace(line, -9, ' ');
+		}
 		tmp = ft_strjoin(string, line);
-		free(string);
+		// free(string);
 		string = ft_strjoin(tmp, "\n");
-		free(tmp);
-		free(line);
+		// free(tmp);
+		// if (line)
+		// 	free(line);
 	}
-	search_and_replace(string, '"', -3);
-	search_and_replace(string, '\'', -2);
-	tmp = handle_line(_shell, string);
-	free(string);
-	search_and_replace(tmp, -3, '"');
-	search_and_replace(tmp, -2, '\'');
-	return (tmp);
+	return (string);
 }

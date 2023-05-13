@@ -38,20 +38,23 @@ char	*ft_strendtrim(char const *s1)
 {
 	size_t	i;
 
-	if (!s1)
-		return (0);
-	i = ft_strlen(s1) - 1;
+	i = ft_strlen(s1);
 	while (i && ft_strchr("  ", s1[i]))
 		i--;
 	return (ft_substr(s1, 0, i + 1));
 }
 
-
-char	*get_value(t_shell *shell, char **line, char **dest, int j)
+char	*get_value(t_shell *shell, char **line, char **dest, int j, char separ, int *a)
 {
 	char	*val;
 	char	*str;
+	char	*tmp;
 
+	tmp = *line;
+	(void)j;
+	(void)dest;
+	(void)separ;
+	(void)a;
 	val = get_variable_name(line);
 	if (!val)
 		return (0);
@@ -63,6 +66,11 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 			return (0);
 		str = ft_strdup("");
 	}
+	else if (!str[0])
+		str[0] = -10;
+	
+	if (separ == '"' && *a)
+		search_and_replace(str, ' ', -99);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
 	search_and_replace(str, '>', -4);
@@ -72,7 +80,7 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 	// LEAKS HERE STR
 	// str = ft_strendtrim(str);
 	// printf("");
-	if (ft_isalnum((*dest)[j - 1]))
+	if ((separ == '"' && *a) || ft_isalnum(*(tmp - 2)))
 		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
 	free(str);
@@ -83,13 +91,13 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 	return (str);
 }
 
-void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
+void	expanding_variables(t_shell *shell, char **dest, char **line, int *j, char separ, int *a)
 {
 	char	*str;
 	int		i;
 
 	i = 0;
-	str = get_value(shell, line, dest, *j);
+	str = get_value(shell, line, dest, *j, separ, a);
 	if (!str)
 		return ;
 	while (str[i])
@@ -97,11 +105,63 @@ void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 	free(str);
 }
 
+char*	get_rediretion_name(char **line)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	while ((*line)[i])
+	{
+		if ((*line)[i] != ' ')
+			break;
+		i++;
+	}
+	while ((*line)[i] && (*line)[i] != ' ')
+		i++;
+	dest = ft_calloc(i + 1, sizeof(*dest));
+	if (!dest)
+		return (0);
+	i = 0;
+	while (**line)
+	{
+		if (**line != ' ')
+			break;
+		(*line)++;
+	}
+	i = 0;
+	while (**line && **line != ' ')
+		dest[i++] = *((*line)++);
+	return (dest);
+}
+
+int		is_a_redirct(char *dest, int j)
+{
+	while (dest[--j])
+	{
+		if (dest[j] == INPUT_REDIRECT || dest[j] == OUTPUT_REDIRECT)
+			return (1);
+		else if (dest[j] != SEPARATOR)
+			return (0);
+	}
+	return (0);
+}
+
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
+	static int isheredoc;
+	static int isoutput;
+
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) && (*line)++)
 	{
-		if (((separator == '"' && *a) || (!separator && !*a)) && **line && **line == '?')
+		if (isheredoc)
+		{
+			isheredoc = 0;
+			(*dest)[j++] = '$';
+			if (separator && *a)
+				(*dest)[j++] = -42;
+		}
+		else if (((separator == '"' && *a) || (!separator && !*a)) && **line && **line == '?')
 		{
 			char *str = ft_itoa(shell->status);
 			(*line)++;
@@ -111,7 +171,7 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 			free(str);
 		}
 		else if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
-			expanding_variables(shell, dest, line, &j);
+			expanding_variables(shell, dest, line, &j, separator, a);
 		else if (ft_isdigit(**line) || ft_strchr("$@*#-", **line))
 			(*line)++;
 		else
@@ -122,23 +182,40 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
         (*dest)[j++] = SEPARATOR;
+		isheredoc = 0;
+		isoutput = 0;
     }
 	else if (!*a && **line == '<' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = INPUT_REDIRECT;
         (*dest)[j++] = SEPARATOR;
+		if (**line == '<')
+			isheredoc = 1;
+		isoutput = 0;
     }
 	else if (!*a && **line == '>' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = OUTPUT_REDIRECT;
         (*dest)[j++] = SEPARATOR;
+		isoutput = 1;
+		isheredoc = 0;
     }
 	else if (!*a && (**line == ' ' || **line == '\t') && (*line)++)
         (*dest)[j++] = SEPARATOR;
     else
+	{
+		if (isheredoc && separator && *a)
+		{
+			(*dest)[j++] = -42;
+			isheredoc = 0;
+			isoutput = 0;
+		}
 		(*dest)[j++] = *((*line)++);
+		if (**line)
+			isheredoc = 0;
+	}
 	return (j);
 }
 
@@ -216,6 +293,7 @@ char	**split_line(t_shell *shell, char *line)
 
 	tmp_line = line;
 	line_after_handling = handle_line(shell, line);
+	// printf("|%s|\n", line_after_handling);
 	free(tmp_line);
 	if (!line_after_handling)
 		return (0);
