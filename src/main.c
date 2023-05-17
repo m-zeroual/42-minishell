@@ -1,6 +1,8 @@
 #include "../includes/minishell.h"
 
 
+
+
 // char	*get_pid()
 // {
 // 	int	pid;
@@ -49,9 +51,7 @@ int	main(int ac, char *av[], char *ev[])
 	_shell.status = 0;
 	
 	while (1)
-	{
 		minishel(&_shell);
-		// printf("|%s|\n", get_pid());
-	}
+	
 	return (0);
 }

@@ -49,6 +49,7 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 		if (ft_check_var_exist(shell->env, val) == -1)
 			return (0);
 		str = ft_strdup("");
+		// str[0] = -10;
 	}
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
@@ -56,6 +57,7 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 	search_and_replace(str, '<', -5);
 	search_and_replace(str, '|', -6);
 	search_and_replace(str, '$', -7);
+	// search_and_replace(str, ' ', -9);
 	if (ft_isalnum((*dest)[j - 1]))
 		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
@@ -69,6 +71,7 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j)
 
 void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 {
+	(void)dest;
 	char	*str;
 	int		i;
 
@@ -83,6 +86,8 @@ void	expanding_variables(t_shell *shell, char **dest, char **line,int *j)
 
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
+	(void)shell;
+	(void)separator;
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) && (*line)++)
 	{
 		if (((separator == '"' && *a) || (!separator && !*a)) && **line && **line == '?')
@@ -95,13 +100,17 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 			free(str);
 		}
 		else if (((separator == '"' && *a) || (!separator && !*a)) && (ft_isalpha(**line) || **line == '_'))
+		{
 			expanding_variables(shell, dest, line, &j);
+
+		}
 		else if (ft_isdigit(**line) || ft_strchr("$@*#-", **line))
 			(*line)++;
 		else
 			(*dest)[j++] = '$';
 	}
     else if (!*a && **line == '|' && (*line)++)
+    // if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
@@ -178,6 +187,7 @@ char	*handle_line(t_shell *shell, char *line)
 	dest[j++] = SEPARATOR;
 	while (*line)
 		j = set_dest(shell, &dest, &line, &a, j);
+	// printf("[%s]\n", dest);
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)

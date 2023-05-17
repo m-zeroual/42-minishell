@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 
 char **ft_remove_var(char **env, int index_to_remove)

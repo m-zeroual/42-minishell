@@ -4,3 +4,4 @@ minishell
 *.o
 ./src/**/*.o
 testing/*
+mini-ms-tester
