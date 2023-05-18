@@ -2,7 +2,8 @@
 
 void	set_redirections(t_redirect *red, char *str, char is_input, int len)
 {
-	red->file = ft_strdup(str);
+	red->file = ft_strtrim(str, " \t");
+	search_and_replace(red->file, -99, ' ');
 	ft_memset(str, 3, ft_strlen(str));
 	if (is_input)
 	{

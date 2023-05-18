@@ -53,8 +53,7 @@ char *ft_fix_path(char *path)
 	j = 0;
 	len = ft_strlen(path);
 	while (path[++i])
-		if ((path[i] == ':' && (i == 0 || i == len - 1)) \
-		|| (path[i] == ':' && path[i + 1] == ':'))
+		if ((path[i] == ':' && (!i || i == len - 1)) || (path[i] == ':' && path[i + 1] == ':'))
 			j++;
 	new_path = ft_calloc((len + j + 1) , sizeof(char));
 	if (!new_path)
@@ -63,7 +62,7 @@ char *ft_fix_path(char *path)
 	j = 0;
 	while (path[i])
 	{
-		if ((path[i] == ':' && i == 0))
+		if ((path[i] == ':' && !i))
 		{
 			new_path[j++] = '.';
 			if ((path[i] == ':' && path[i + 1] == ':'))
@@ -74,7 +73,7 @@ char *ft_fix_path(char *path)
 			else
 				new_path[j++] = path[i];
 		}
-		else if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))  // /bin/bash::
+		if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
 		{
 			new_path[j++] = path[i];
 			new_path[j++] = '.';
@@ -204,7 +203,9 @@ int	ft_init(t_shell *_shell)
 		exit(_shell->status);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
-
+	// int i =-1;
+	// while (_shell->pipes->content->commands[++i])
+	// 	printf("%s\n", _shell->pipes->content->commands[i]);
 	if (!_shell->pipes)
 		return (0);
 	_shell->i = 0;
@@ -244,7 +245,7 @@ int	init_pipe(t_shell *_shell)
 
     if (!content->commands || !content->commands[0] || !content->commands[0][0])
 	{
-		_shell->status = 1;
+		// _shell->status = 1;
 		if (content->commands && content->commands[0] && !content->commands[0][0])
 		{
 			ft_printf("minishell: : command not found\n");
@@ -318,6 +319,8 @@ int	minishel(t_shell *_shell)
     {
 		if (!init_pipe(_shell))
 		{
+			if (_shell->pipes->next)
+				close(_shell->pipes->next->content->pipe_fds[0]);
 			_shell->pipes = _shell->pipes->next;
             continue ;
 		}
