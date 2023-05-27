@@ -44,33 +44,30 @@ char	*ft_strendtrim(char const *s1)
 	return (ft_substr(s1, 0, i + 1));
 }
 
-char	*get_value(t_shell *shell, char **line, char **dest, int j, char separ, int *a)
+char	*get_value(t_shell *shell, char **line, char separ, int *a)
 {
 	char	*val;
 	char	*str;
 	char	*tmp;
 
 	tmp = *line;
-	(void)j;
-	(void)dest;
-	(void)separ;
 	(void)a;
+	(void)separ;
 	val = get_variable_name(line);
 	if (!val)
 		return (0);
 	str = ft_getenv(shell->env, val);
-	free(val);
+	// free(val);
 	if (!str)
 	{
 		if (ft_check_var_exist(shell->env, val) == -1)
 			return (0);
 		str = ft_strdup("");
 	}
-	else if (!str[0])
-		str[0] = -10;
-	
-	if (separ == '"' && *a)
-		search_and_replace(str, ' ', -99);
+	// else if (!str[0])
+	// 	str[0] = -10;
+	// if (separ == '"' && *a)
+		// search_and_replace(str, ' ', -99);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
 	search_and_replace(str, '>', -4);
@@ -80,12 +77,12 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j, char separ, int
 	// LEAKS HERE STR
 	// str = ft_strendtrim(str);
 	// printf("");
-	if ((separ == '"' && *a) || ft_isalnum(*(tmp - 2)))
+	// if ((separ == '"' && *a) || ft_isalnum(*(tmp - 2)))
 		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
-	free(str);
+	// free(str);
 	str = ft_strtrim(val, "\004\004");
-	free(val);
+	// free(val);
 	if (!str)
 		return (0);
 	return (str);
@@ -97,7 +94,7 @@ void	expanding_variables(t_shell *shell, char **dest, char **line, int *j, char 
 	int		i;
 
 	i = 0;
-	str = get_value(shell, line, dest, *j, separ, a);
+	str = get_value(shell, line, separ, a);
 	if (!str)
 		return ;
 	while (str[i])
@@ -150,16 +147,25 @@ int		is_a_redirct(char *dest, int j)
 int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
 	static int isheredoc;
-	static int isoutput;
+	static int check;
 
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) && (*line)++)
 	{
-		if (isheredoc)
+		if (check)
 		{
-			isheredoc = 0;
-			(*dest)[j++] = '$';
-			if (separator && *a)
-				(*dest)[j++] = -42;
+			check = 0;
+			if (isheredoc)
+			{
+				isheredoc = 0;
+				(*dest)[j++] = '$';
+				if (separator && *a)
+					(*dest)[j++] = -42;
+			}
+			else
+			{
+				(*dest)[j++] = '$';
+				(*dest)[j++] = -22;
+			}
 		}
 		else if (((separator == '"' && *a) || (!separator && !*a)) && **line && **line == '?')
 		{
@@ -183,7 +189,7 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 		(*dest)[j++] = PIPE;
         (*dest)[j++] = SEPARATOR;
 		isheredoc = 0;
-		isoutput = 0;
+		check = 0;
     }
 	else if (!*a && **line == '<' && (*line)++)
     {
@@ -192,14 +198,14 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
         (*dest)[j++] = SEPARATOR;
 		if (**line == '<')
 			isheredoc = 1;
-		isoutput = 0;
+		check = 1;
     }
 	else if (!*a && **line == '>' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = OUTPUT_REDIRECT;
         (*dest)[j++] = SEPARATOR;
-		isoutput = 1;
+		check = 1;
 		isheredoc = 0;
     }
 	else if (!*a && (**line == ' ' || **line == '\t') && (*line)++)
@@ -210,11 +216,14 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 		{
 			(*dest)[j++] = -42;
 			isheredoc = 0;
-			isoutput = 0;
+			check = 0;
 		}
 		(*dest)[j++] = *((*line)++);
 		if (**line)
+		{
 			isheredoc = 0;
+			check = 0;
+		}
 	}
 	return (j);
 }

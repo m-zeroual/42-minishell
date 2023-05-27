@@ -224,7 +224,7 @@ void	del_content(void *cont)
 
 
 
-int	init_pipe(t_shell *_shell)
+int	init(t_shell *_shell)
 {
 	t_content   *content;
 
@@ -267,6 +267,8 @@ int	create_redirections(t_shell *shell)
 		if (error == 1)
 			return (0);
 		content->input_redirections = get_input_file(shell, content->input_redirections, &error);
+		if (error == 2)
+			return (0);
 		int i = -1;
 		while (content->input_redirections && content->input_redirections[++i].file)
 		{
@@ -289,15 +291,17 @@ int	create_redirections(t_shell *shell)
 	return (1);
 }
 
-int	minishel(t_shell *_shell)
+int	minishell(t_shell *_shell)
 {
 	// t_list		*tmp;
 	// int			i;
 
 	if (!ft_init(_shell))
 		return (0);
-
-	// no LEAKS
+	/**
+	 * @brief Create n pipe depend on the number of pipes i have ...
+	 * 
+	 */
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
 	// tmp = _shell->pipes;
@@ -306,14 +310,13 @@ int	minishel(t_shell *_shell)
 
 	while (_shell->pipes && ++(_shell->i))
     {
-		if (!init_pipe(_shell))
+		if (!init(_shell))
 		{
 			if (_shell->pipes->next)
 				close(_shell->pipes->next->content->pipe_fds[0]);
 			_shell->pipes = _shell->pipes->next;
             continue ;
 		}
-
 		ft_exe_command(_shell);
 		if (_shell->pipes->next)
 		{

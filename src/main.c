@@ -47,10 +47,11 @@ int	main(int ac, char *av[], char *ev[])
 	signal(SIGINT, sig_handler);
 	_shell.env = ft_fill_env(ev, ft_count_env(ev));
 	_shell.status = 0;
+	_shell.here_doc_parsing = 1;
 	
 	while (1)
 	{
-		minishel(&_shell);
+		minishell(&_shell);
 		// printf("|%s|\n", get_pid());
 	}
 	return (0);

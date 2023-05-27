@@ -1,5 +1,54 @@
 #include "../../../../includes/minishell.h"
 
+void	replace_symbols(char *str)
+{
+	int	i = -1;
+
+	if (!str)
+		return ;
+	while (str[++i])
+		if (ft_strchr(" \"'><|", str[i]))
+			str[i] -= 127;
+}
+
+void	replace_symbols_rev(char *str)
+{
+	int	i = -1;
+
+	if (!str)
+		return ;
+	while (str[++i])
+		if (str[i] < 0)
+			str[i] += 127;
+}
+
+int		check_garbage_value(char	*str, int c)
+{
+	int i = -1;
+	while (str[++i])
+		if (str[i] == c)
+			return (1);
+	return (0);
+}
+
+char	*remove_garbage_value(char *str)
+{
+	int	len = 0;
+	int	i = 0;
+	while (str[i])
+		if (ft_isprint(str[i++]))
+			len++;
+	char *dest = ft_calloc(len + 1, 1);
+	if (!dest)
+		return (0);
+	i = -1;
+	len = 0;
+	while (str[++i])
+		if (ft_isprint(str[i]))
+			dest[len++] = str[i];
+	return (dest);
+}
+
 int	check_permissions(t_shell *shell, char *filename, char *permissions)
 {
 	if (permissions[0] == '1' && access(filename, F_OK))
@@ -41,6 +90,20 @@ int		create_file(t_shell *shell, t_redirect *file)
 {
 	int	fd;
 
+	if (check_garbage_value(file->file, -22))
+	{
+		file->file = remove_garbage_value(file->file);
+		replace_symbols(file->file);
+		file->file = handle_line(shell, file->file);
+		file->file = ft_strtrim(file->file, " \004\004");
+		replace_symbols_rev(file->file);
+		if (!file->file || !*file->file || ft_strchr(file->file, ' '))
+		{
+			ft_printf("minishell: ambiguous redirect\n");
+			shell->status = 1;
+			return (0);
+		}
+	}
 	if (file->is_append && !access(file->file, F_OK))
 	{
 		if (!check_permissions(shell, file->file, "0010"))
@@ -114,6 +177,22 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	index = 0;
 	while (++i < len && inputs[i].file)
 	{
+		if (check_garbage_value(inputs[i].file, -22))
+		{
+			inputs[i].file = remove_garbage_value(inputs[i].file);
+			replace_symbols(inputs[i].file);
+			inputs[i].file = handle_line(shell, inputs[i].file);
+			replace_symbols_rev(inputs[i].file);
+			// LEAKS herE
+			inputs[i].file = ft_strtrim(inputs[i].file, "\004\004  \t");
+			if (!inputs[i].file || !*inputs[i].file || ft_strchr(inputs[i].file, ' '))
+			{
+				*error = 2;
+				ft_printf("minishell: ambiguous redirect\n");
+				shell->status = 1;
+				return (0);
+			}
+		}
 		if (!inputs[i].is_here_doc && i < len - 1)
 			continue ;
 		last_file[index].file = ft_strdup(inputs[i].file);
@@ -127,23 +206,6 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	return (last_file);
 }
 
-char	*remove_garbage_value(char *str)
-{
-	int	len = 0;
-	int	i = 0;
-	while (str[i])
-		if (ft_isprint(str[i++]))
-			len++;
-	char *dest = ft_calloc(len + 1, 1);
-	if (!dest)
-		return (0);
-	i = -1;
-	len = 0;
-	while (str[++i])
-		if (ft_isprint(str[i]))
-			dest[len++] = str[i];
-	return (dest);
-}
 
 int	is_here_doc(char *str)
 {
@@ -199,6 +261,8 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 			search_and_replace(line, '|', -6);
 			search_and_replace(line, ' ', -9);
 			tmp = handle_line(_shell, line);
+			if (!tmp)
+				tmp = ft_strdup("");
 			// free(line);
 			line = ft_strtrim(tmp, "\004\004");
 			// free(tmp);

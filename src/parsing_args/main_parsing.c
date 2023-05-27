@@ -8,7 +8,7 @@ int setup_input_redirections(t_shell *_shell)
 
     if (!content->input_redirections)
     {
-        if (_shell->i)
+        if (_shell->i > 1)
         {
             // close(_shell->pipes->content->pipe_fds[1]);
             dup2(_shell->pipes->content->pipe_fds[0], 0);
@@ -80,6 +80,7 @@ t_list  *main_parsing(t_shell *shell, char   *getLine)
         return (NULL);
     }
     tmp = getLine;
+    shell->line = getLine;
     commands = parsing_single_double_quotes(shell, getLine);
     free(tmp);
     if (!commands)

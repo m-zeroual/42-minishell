@@ -100,9 +100,9 @@ t_list	*parsing_pipes(t_shell *shell, char **commands)
 	{
 		content = ft_calloc(2, sizeof(*content));
 		if (!content)
-			return (free_pipe(p), NULL);
+			return (/*free_pipe(p),*/ NULL);
 		if (!parsing_redirection(shell, content, p[i]))
-            return (free_pipe(p), free(content), NULL);
+            return (/*free_pipe(p), */free(content), NULL);
 		len = get_lenght_of_list_without_three(p[i]);
 		content->commands = get_list_without_three(p[i], len);
         set_one_to_null_pointer(content->commands);

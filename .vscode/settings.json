@@ -27,6 +27,7 @@
         "system_error": "c",
         "tuple": "c",
         "type_traits": "c",
-        "vector": "c"
+        "vector": "c",
+        "parsing_single_double_quotes.h": "c"
     }
 }
