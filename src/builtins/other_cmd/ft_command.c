@@ -25,6 +25,7 @@ void	ft_exec_cmd(t_shell *_shell)
 	if (p == 0)
 	{
 		setup_all(_shell);
+		// printf("=%s=\n", _shell->command_with_path);
 		if (execve(_shell->command_with_path, _shell->pipes->content->commands, _shell->env) == -1)
 		{
 			perror("minishell: ");
@@ -33,6 +34,9 @@ void	ft_exec_cmd(t_shell *_shell)
 	}
 	// exit status of child
 	wait(&status);
+	printf("%d\n", status);
 	if (WIFEXITED(status))
         _shell->status = WEXITSTATUS(status);
+	else
+		_shell->status = status;
 }

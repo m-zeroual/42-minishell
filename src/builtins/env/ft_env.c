@@ -6,14 +6,12 @@ char	**ft_fill_env(char **env, int lines)
 	char	**env_copy;
 
 	i = -1;
-	env_copy = ft_calloc((lines + 2), sizeof(char *));
+	env_copy = ft_calloc((lines + 1), sizeof(char *));
 	if (!env_copy)
 		return (0);
 	while (env[++i])
-	{
 		env_copy[i] = ft_strdup(env[i]);
 		// printf("%s\n", env[i]);
-	}
 	// env_copy[i] = ft_strdup("OLDPWD");
 	// env_copy[i] = 0;
 	return (env_copy);

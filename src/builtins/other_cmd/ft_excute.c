@@ -248,7 +248,7 @@ int	init_pipe(t_shell *_shell)
 		// _shell->status = 1;
 		if (content->commands && content->commands[0] && !content->commands[0][0])
 		{
-			ft_printf("minishell: : command not found\n");
+			ft_printf("minishell: command not found\n");
 			_shell->status = 127;
 		}
 		return (0);
