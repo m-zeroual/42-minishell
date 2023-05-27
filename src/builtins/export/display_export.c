@@ -1,6 +1,6 @@
 #include "../../../includes/minishell.h"
 
-static void print_var(char **exp, int i, int *j)
+static void	print_var(char **exp, int i, int *j)
 {
 	while (exp[i][*j])
 	{
@@ -11,7 +11,7 @@ static void print_var(char **exp, int i, int *j)
 	}
 }
 
-static void print_value(char **exp, int i, int *j)
+static void	print_value(char **exp, int i, int *j)
 {
 	while (exp[i][*j])
 	{
@@ -33,13 +33,13 @@ void	ft_display_export(char **exp)
 		printf("declare -x ");
 		if (ft_strchr(exp[i], '='))
 		{
-			print_var(exp, i , &j);
+			print_var(exp, i, &j);
 			printf("%c\"", exp[i][j++]);
-			print_value(exp, i , &j);
+			print_value(exp, i, &j);
 			printf("\"");
 		}
 		else
-			print_var(exp, i , &j);
+			print_var(exp, i, &j);
 		printf("\n");
 		i++;
 	}

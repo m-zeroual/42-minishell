@@ -15,7 +15,7 @@ char	*ft_getvar(char *str)
 		return (ft_strdup(str));
 	while (str[i] && str[i] != '=')
 		i++;
-	s = ft_calloc(sizeof(char) , (i + 1));
+	s = ft_calloc(sizeof(char), (i + 1));
 	if (!s)
 		return (0);
 	j = -1;
@@ -82,7 +82,6 @@ int	edit_var(char **env, char *var, char *value, int equal)
 	{
 		join_equal = ft_strjoin(var, "=");
 		free_var = env[index_var];
-
 		if (value)
 			env[index_var] = ft_strjoin(join_equal, value);
 		else
@@ -121,5 +120,3 @@ char	**add_var(char **env, char *var, char *value, int equal)
 	// add_line_env[i + 1] = 0;
 	return (add_line_env);
 }
-
-

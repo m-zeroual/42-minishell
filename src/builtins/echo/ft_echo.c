@@ -2,7 +2,7 @@
 
 void	print(t_shell *_shell, int i, int check_dash_n)
 {
-	int j;
+	int	j;
 
 	while (_shell->pipes->content->commands[i])
 	{
@@ -20,9 +20,9 @@ void	print(t_shell *_shell, int i, int check_dash_n)
 		printf("\n");
 }
 
-int all_n(char *str)
+int	all_n(char *str)
 {
-	int i;
+	int	i;
 
 	i = 2;
 	while (str[i])
@@ -34,12 +34,12 @@ int all_n(char *str)
 	return (1);
 }
 
-void    ft_exe_echo(t_shell *_shell)
+void	ft_exe_echo(t_shell *_shell)
 {
-	int i;
-	int n;
-	int pid;
-	int status;
+	int	i;
+	int	n;
+	int	pid;
+	int	status;
 
 	i = 1;
 	n = 0;
@@ -58,5 +58,5 @@ void    ft_exe_echo(t_shell *_shell)
 	}
 	wait(&status);
 	if (WIFEXITED(status))
-        _shell->status = WEXITSTATUS(status);
+		_shell->status = WEXITSTATUS(status);
 }

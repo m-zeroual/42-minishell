@@ -25,9 +25,9 @@ char	*curr_path(t_shell _shell)
 void	ft_exe_pwd(t_shell *_shell)
 {
 	char	*str;
-	int 	pid;
-	int 	status;
-	
+	int		pid;
+	int		status;
+
 	str = 0;
 	pid = fork ();
 	if (pid == -1)
@@ -42,7 +42,7 @@ void	ft_exe_pwd(t_shell *_shell)
 	}
 	wait(&status);
 	if (WIFEXITED(status))
-        _shell->status = WEXITSTATUS(status);
+		_shell->status = WEXITSTATUS(status);
 }
 
 void	ch_pwd(t_shell *_shell)

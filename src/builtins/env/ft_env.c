@@ -11,9 +11,6 @@ char	**ft_fill_env(char **env, int lines)
 		return (0);
 	while (env[++i])
 		env_copy[i] = ft_strdup(env[i]);
-		// printf("%s\n", env[i]);
-	// env_copy[i] = ft_strdup("OLDPWD");
-	// env_copy[i] = 0;
 	return (env_copy);
 }
 
@@ -29,11 +26,10 @@ int	ft_count_env(char **env)
 
 void	ft_exe_env(t_shell *_shell)
 {
-	// int	i;
-	int	j;
-	int	status;
-	int	pid;
-	char **str;
+	int		j;
+	int		status;
+	int		pid;
+	char	**str;
 
 	j = 0;
 	pid = fork();
@@ -54,6 +50,5 @@ void	ft_exe_env(t_shell *_shell)
 	}
 	wait(&status);
 	if (WIFEXITED(status))
-        _shell->status = WEXITSTATUS(status);
+		_shell->status = WEXITSTATUS(status);
 }
-

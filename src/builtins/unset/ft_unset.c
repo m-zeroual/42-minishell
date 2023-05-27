@@ -1,16 +1,11 @@
 #include "../../../includes/minishell.h"
 
-
-char **ft_remove_var(char **env, int index_to_remove)
+char	**ft_remove_var(char **env, int index_to_remove)
 {
-	int	i;
-	int	j;
-	int	count;
-
-	char **s;
-	// (void)var;
-	// (void)env;
-	// char **str;
+	int		i;
+	int		j;
+	int		count;
+	char	**s;
 
 	i = 0;
 	j = 0;
@@ -31,11 +26,10 @@ char **ft_remove_var(char **env, int index_to_remove)
 	return (s);
 }
 
-
 void	ft_exe_unset(t_shell *_shell)
 {
 	char	*var;
-    int		index_var;
+	int		index_var;
 	int		i;
 
 	i = 1;

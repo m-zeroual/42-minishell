@@ -52,16 +52,16 @@ int	exit_with_args(char **command)
 		while (command[1][++j])
 		{
 			if (!ft_isdigit(command[1][j]))
-				return (ft_printf("minishell: %s: %s: numeric argument required\n",  \
-				command[0], command[1]), 255);
+				return (ft_printf("minishell: %s: %s: \
+				numeric argument required\n", command[0], command[1]), 255);
 		}
 		return (ft_printf("minishell: %s: too many arguments\n", command[0]), 1);
 	}
 }
 
-int ft_exit(t_shell *_shell)
+int	ft_exit(t_shell *_shell)
 {
-	// printf("exit\n");
+	printf("exit\n");
 	if (!_shell->pipes->content->commands[1])
 		return (_shell->status);
 	else

@@ -14,7 +14,6 @@ char	*ft_str_tolower(char *cmd)
 		str[i] = ft_tolower(cmd[i]);
 		i++;
 	}
-	// str[i] = 0;
 	return (str);
 }
 
@@ -34,10 +33,11 @@ int	ft_get_index_reverse(char *str, char c, int count)
 	return (0);
 }
 
-char* ft_getvar_(char *str)
+char	*ft_getvar_(char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (ft_isalnum(str[i]) || str[i] == '_')
