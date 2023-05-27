@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 static void	ft_chdir(t_shell *_shell, char *str)
 {
@@ -9,7 +9,6 @@ static void	ft_chdir(t_shell *_shell, char *str)
 	{
 		ch_pwd(_shell);
 		_shell->status = 0;
-		//add_var(char **env, char *var, char *value, int equal)
 		if (!edit_var(_shell->env, "OLDPWD", cur_working, 1))
 			_shell->env = add_var(_shell->env, "OLDPWD", cur_working, 1);
 		return ;
@@ -22,8 +21,6 @@ static void	ft_chdir(t_shell *_shell, char *str)
 void	ft_exe_cd(t_shell *_shell)
 {
 	char	*str;
-	// int		status;
-	// int		pid;
 	if (_shell->pipes->next || _shell->i > 1)
 		return ;
 	// pid = fork();
@@ -48,7 +45,6 @@ void	ft_exe_cd(t_shell *_shell)
 		}
 		else
 			ft_chdir(_shell, _shell->pipes->content->commands[1]);
-		
 		// exit (0);
 	// }
 	// wait(&status);

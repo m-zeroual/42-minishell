@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 int	check_var_error(char *var)
 {
@@ -18,54 +18,45 @@ int	check_var_error(char *var)
 	return (1);
 }
 
-void	ft_display_export(char **exp)
+static int	ft_var_error(t_shell *_shell, char *var)
 {
-	int		i;
-	int		j;
-	// char	**str;
-
-	i = 0;
-	while (exp[i])
+	if (!check_var_error(var))
 	{
-		if (ft_strchr(exp[i], '='))
-		{
-			j = 0;
-			printf("declare -x ");
-			while (exp[i][j])
-			{
-				if (exp[i][j] != '=')
-					printf("%c", exp[i][j++]);
-				else
-					break ;
-			}
-			printf("=\"");
-			j++;
-			while (exp[i][j])
-			{
-				if (exp[i][j] == '$' || exp[i][j] == '"')
-					printf("\\");
-				printf("%c", exp[i][j++]);
-			}
-			printf("\"");
-		}
-		else
-		{
-			j = 0;
-			printf("declare -x ");
-			while (exp[i][j])
-			{
-				if (exp[i][j] != '=')
-					printf("%c", exp[i][j++]);
-				else
-					break ;
-			}
-		}
-		printf("\n");
-		i++;
+		// printf("minishel: %s: `%s\': not a valid identifier\n", \
+		// 	_shell->pipes->content->commands[0], var);
+		ft_printf("minishell: not a valid identifier\n");
+		_shell->status = 1;
+		return (0);
 	}
+	return (1);
 }
 
-int	ft_add_var(t_shell *_shell)
+static int	ft_getvar_and_value(char *command, char **env, char **var, char **value)
+{
+	char	*s;
+	char	*s1;
+	(void)env;
+
+	s = 0;
+	s1 = 0;
+
+	*var = ft_getvar(command);
+		
+	// if (*var[0] == '$' && ft_check_var_exist(env, *var) != -1)
+	// 	*var = ft_getenv(env, *var);
+	if (ft_strchr(command, '='))
+	{
+		*value = ft_strdup((ft_strchr(command, '=') + 1));
+		// printf("value |%s|\n", *value);
+
+		// if (*value && *value[0] == '$' && ft_check_var_exist(env, *value) != -1)
+		// 	*value = ft_getenv(env, *value);
+	}
+	return (0);
+}
+
+
+static int	ft_add_var(t_shell *_shell)
 {
 	char	*var;
 	char	*value;
@@ -96,12 +87,8 @@ int	ft_add_var(t_shell *_shell)
 
 void	ft_exe_export(t_shell *_shell)
 {
-	int pid;
-	int status;
-
-	// pid = -1;
-	// while (_shell->pipes->content->commands[++pid])
-	// 	printf("|%s|\n", _shell->pipes->content->commands[pid]);
+	int	pid;
+	int	status;
 
 	if (_shell->pipes->content->commands[1])
 		ft_add_var(_shell);
@@ -109,7 +96,7 @@ void	ft_exe_export(t_shell *_shell)
 	{
 		pid = fork();
 		if (pid == -1)
-			return ;
+			exit (1);
 		if (pid == 0)
 		{
 			setup_all(_shell);

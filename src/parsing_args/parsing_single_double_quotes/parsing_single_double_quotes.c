@@ -63,6 +63,7 @@ char	*get_value(t_shell *shell, char **line, char separ, int *a)
 		if (ft_check_var_exist(shell->env, val) == -1)
 			return (0);
 		str = ft_strdup("");
+		// str[0] = -10;
 	}
 	// else if (!str[0])
 	// 	str[0] = -10;
@@ -90,6 +91,7 @@ char	*get_value(t_shell *shell, char **line, char separ, int *a)
 
 void	expanding_variables(t_shell *shell, char **dest, char **line, int *j, char separ, int *a)
 {
+	(void)dest;
 	char	*str;
 	int		i;
 
@@ -149,6 +151,8 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 	static int isheredoc;
 	static int check;
 
+	(void)shell;
+	(void)separator;
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) && (*line)++)
 	{
 		if (check)
@@ -184,6 +188,7 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 			(*dest)[j++] = '$';
 	}
     else if (!*a && **line == '|' && (*line)++)
+    // if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
@@ -280,6 +285,7 @@ char	*handle_line(t_shell *shell, char *line)
 	dest[j++] = SEPARATOR;
 	while (*line)
 		j = set_dest(shell, &dest, &line, &a, j);
+	// printf("[%s]\n", dest);
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)

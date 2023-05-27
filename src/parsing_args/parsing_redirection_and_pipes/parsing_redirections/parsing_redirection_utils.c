@@ -64,9 +64,10 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
 		// ft_printf("minishell: Permission denied\n");
-		print_error(filename, ": Permission denied\n");
-		// shell->status = 126;
+		print_error(filename, ": Permission denied\n"); 
 		shell->status = 1;
+		if (permissions[3] == '1' && access(filename, X_OK))
+			shell->status = 126;
 		// exit status
 		return (0);
 	}
@@ -89,6 +90,14 @@ void	free_t_redirect(t_redirect *redirect)
 int		create_file(t_shell *shell, t_redirect *file)
 {
 	int	fd;
+//														//	
+//	// printf("[%s]\n", file->file);					//			
+//	if (!file->file || ft_strchr(file->file, ' '))		//	
+//	{													//		this part added by m-zeroual
+//		ft_printf("minishell: ambiguous redirect\n");	//		
+//		shell->status = 1;								//					
+//		return (0);										//				
+//	}													//
 
 	if (check_garbage_value(file->file, -22))
 	{
@@ -112,7 +121,7 @@ int		create_file(t_shell *shell, t_redirect *file)
 		close(fd);
 		return (1);
 	}
-	else if (access(file->file, F_OK) || (!access(file->file, F_OK) && check_permissions(shell, file->file, "0010")))
+	else if (access(file->file, F_OK) || check_permissions(shell, file->file, "0010"))
 	{
 		fd = open(file->file, O_CREAT | O_TRUNC, 0644);
 		close(fd);

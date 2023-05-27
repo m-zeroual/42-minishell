@@ -1,6 +1,6 @@
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
-int ft_check_builtins(char *str)
+int ft_is_builtins(char *str)
 {
 	
 	if (!ft_strncmp(str, EX, ft_strlen(EX) + 1) \
@@ -62,12 +62,18 @@ char *ft_fix_path(char *path)
 	j = 0;
 	while (path[i])
 	{
-		if ((path[i] == ':' && !i))
+		if ((path[i] == ':' && i == 0))
 		{
 			new_path[j++] = '.';
-			new_path[j++] = path[i];
+			if ((path[i] == ':' && path[i + 1] == ':'))
+			{
+				new_path[j++] = path[i];
+				new_path[j++] = '.';
+			}
+			else
+				new_path[j++] = path[i];
 		}
-		if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
+		else if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))  // /bin/bash::
 		{
 			new_path[j++] = path[i];
 			new_path[j++] = '.';
@@ -90,8 +96,9 @@ char	*ft_join_cmd(t_shell *_shell)
 
 	if (!_shell->pipes->content->commands)
 		return (NULL);
-	if (ft_check_builtins(_shell->pipes->content->commands[0]))
+	if (ft_is_builtins(_shell->pipes->content->commands[0]))
 		return (ft_strdup(_shell->pipes->content->commands[0]));
+
 	if (!ft_strchr(_shell->pipes->content->commands[0], '/'))
 	{
 		cmd = ft_getenv(_shell->env, "PATH");
@@ -110,6 +117,7 @@ char	*ft_join_cmd(t_shell *_shell)
 	cmd = ft_fix_path(cmd);
 	if (!cmd)
 		return (0);
+	// printf("|%s|\n", cmd);
 	path = ft_split(cmd, ':');
 	// if (!path)
 	// {
@@ -152,6 +160,11 @@ char	*ft_join_cmd(t_shell *_shell)
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
 	{
 		ft_printf("minishell: %s: %s\n", cmd, "is a directory");
+		_shell->status = 126;
+	}
+	else if (cmd[ft_strlen(cmd) - 1] == '/' && !(cmd[ft_strlen(cmd) - 1] = '\0') && !access(cmd, F_OK))
+	{
+		ft_printf("minishell: %s/: %s\n", cmd, "Not a directory");
 		_shell->status = 126;
 	}
 	else if (!access(cmd, F_OK) && !access(cmd, X_OK))
@@ -218,11 +231,6 @@ void	del_content(void *cont)
 	free(content);
 	return ;
 }
-
-
-
-
-
 
 int	init(t_shell *_shell)
 {

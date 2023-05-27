@@ -10,19 +10,18 @@ SRCS	=	src/main.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
-			src/excution/ft_utils.c	\
-			src/excution/ft_echo.c	\
-			src/excution/ft_pwd.c	\
-			src/excution/ft_cd.c	\
-			src/excution/ft_export_1.c	\
-			src/excution/ft_export_2.c	\
-			src/excution/ft_export_3.c	\
-			src/excution/ft_export.c	\
-			src/excution/ft_command.c	\
-			src/excution/ft_excute.c	\
-			src/excution/ft_unset.c	\
-			src/excution/ft_env.c \
-			src/excution/ft_exit.c \
+			src/excution/utils/ft_utils.c	\
+			src/excution/echo/ft_echo.c	\
+			src/excution/pwd/ft_pwd.c	\
+			src/excution/cd/ft_cd.c	\
+			src/excution/export/ft_export_1.c	\
+			src/excution/export/display_export.c	\
+			src/excution/export/ft_export.c	\
+			src/excution/other_cmd/ft_command.c	\
+			src/excution/other_cmd/ft_excute.c	\
+			src/excution/unset/ft_unset.c	\
+			src/excution/env/ft_env.c \
+			src/excution/exit/ft_exit.c \
 			src/pipes/pipes.c \
 			src/extra_functions.c
 
@@ -41,6 +40,7 @@ $(NAME)	:	$(OBJS)
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
+	
 
 run		: all
 	./minishell

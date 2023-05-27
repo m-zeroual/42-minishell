@@ -34,11 +34,11 @@ typedef struct s_shell
 }	t_shell;
 
 
-// 		======> ft_echo.c.c <=======
+// 		======> src/excution/echo/ft_echo.c.c <=======
 void    ft_exe_echo(t_shell *_shell);
 
 
-//		======> ft_utils.c <=======
+//		======> src/excution/utils/ft_utils.c <=======
 void	free_split(char **str);
 char	*ft_str_tolower(char *cmd);
 // int		ft_exe(t_shell *_shell);
@@ -46,62 +46,56 @@ char	*ft_str_tolower(char *cmd);
 int		ft_get_index_reverse(char *str, char c, int count);
 
 
-// 		======> ft_pwd.c <=======
+// 		======> src/excution/pwd/ft_pwd.c <=======
 char	*curr_path(t_shell _shell);
 void	ft_exe_pwd(t_shell *_shell);
 void	ch_pwd(t_shell *_shell);
 
 
-// 		======> env.c <=======
+// 		======> src/excution/env/env.c <=======
+char	**ft_fill_env(char **env, int lines);
+int		ft_count_env(char **env);
 void	ft_exe_env(t_shell *_shell);
 
 
-// 		======> ft_cd.c <=======
+// 		======> src/excution/cd/ft_cd.c <=======
 void	ft_exe_cd(t_shell *_shell);
-// void	cd_home(t_shell *_shell);         *
-// void cd_root(t_shell *_shell);
-// void cd_2dots(t_shell *_shell);
-// void cd_path(t_shell *_shell);         *
 
 
-// 		======> ft_command.c <=======
+
+// 		======> src/excution/other_cmd/ft_command.c <=======
 void exec_path_cmd(t_shell *_shell);
 void ft_exec_cmd(t_shell *_shell);
 
 
-
-
-
-// 		======> ft_excute.c <=======
+// 		======> src/excution/other_cmd/ft_excute.c <=======
 void ft_exe_command(t_shell *_shell);
 char *ft_join_cmd(t_shell *_shell);
 int ft_init(t_shell *_shell);
 int	minishell(t_shell *_shell);
 
-//		======> ft_export1.c <=======
-int ft_getvar_and_value(char *command, char **env, char **var, char **value);
+
+//		======> src/excution/export/ft_export1.c <=======
+int	edit_var(char **str, char *var, char *value, int equal);
+char	**add_var(char **env, char *var, char *value, int equal);
 char *ft_getenv(char **env, char *var);
 char *ft_getvar(char *str);
 int	ft_check_var_exist(char **env, char *var);
-int ft_var_error(t_shell *_shell, char *var);
 
-//		======> ft_export2.c <=======
-int	edit_var(char **str, char *var, char *value, int equal);
-char	**add_var(char **env, char *var, char *value, int equal);
-char **ft_fill_env(char **env, int lines);
-int ft_count_env(char **env);
 
-//		======> ft_export.c <=======
-int check_var_error(char *var);
-void ft_display_export(char **exp);
-int ft_add_var(t_shell *_shell);
+//		======> src/excution/export/ft_export.c <=======
+int	check_var_error(char *var);
 void ft_exe_export(t_shell *_shell);
 
 
-//		======> ft_unset.c <=======
+//		======> src/excution/export/display_export.c <=======
+void	ft_display_export(char **exp);
+
+
+//		======> src/excution/unset/ft_unset.c <=======
 void ft_exe_unset(t_shell *_shell);
 
-//		======> ft_exit.c <=======
+//		======> src/excution/exit/ft_exit.c <=======
 int ft_exit(t_shell *_shell);
 
 

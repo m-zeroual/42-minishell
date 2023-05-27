@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 char	*ft_str_tolower(char *cmd)
 {
@@ -32,6 +32,20 @@ int	ft_get_index_reverse(char *str, char c, int count)
 		i--;
 	}
 	return (0);
+}
+
+char* ft_getvar_(char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		if (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		else
+			break ;
+	}
+	return (ft_substr(str, 0, i));
 }
 
 // int ft_get_index(char *str, char c)
