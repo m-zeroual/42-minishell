@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_single_double_quotes.c                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/29 23:29:29 by esalim            #+#    #+#             */
+/*   Updated: 2023/05/29 23:30:01 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/parsing_single_double_quotes.h"
 
 char	*get_variable_name(char **line)
 {
-	int j;
-	char *var;
-	char *tmp;
+	int		j;
+	char	*var;
+	char	*tmp;
 
 	j = 0;
 	while ((*line)[j] && (ft_isalnum((*line)[j]) || (*line)[j] == '_'))
@@ -57,7 +69,7 @@ char	*get_value(t_shell *shell, char **line, char separ, int *a)
 	if (!val)
 		return (0);
 	str = ft_getenv(shell->env, val);
-	// free(val);
+	free(val);
 	if (!str)
 	{
 		if (ft_check_var_exist(shell->env, val) == -1)
@@ -78,12 +90,12 @@ char	*get_value(t_shell *shell, char **line, char separ, int *a)
 	// LEAKS HERE STR
 	// str = ft_strendtrim(str);
 	// printf("");
-	// if ((separ == '"' && *a) || ft_isalnum(*(tmp - 2)))
+	if ((separ == '"' && *a) || ft_isalnum(*(tmp - 2)))
 		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
-	// free(str);
+	free(str);
 	str = ft_strtrim(val, "\004\004");
-	// free(val);
+	free(val);
 	if (!str)
 		return (0);
 	return (str);
@@ -91,10 +103,10 @@ char	*get_value(t_shell *shell, char **line, char separ, int *a)
 
 void	expanding_variables(t_shell *shell, char **dest, char **line, int *j, char separ, int *a)
 {
-	(void)dest;
 	char	*str;
 	int		i;
 
+	(void)dest;
 	i = 0;
 	str = get_value(shell, line, separ, a);
 	if (!str)
@@ -134,7 +146,7 @@ char*	get_rediretion_name(char **line)
 	return (dest);
 }
 
-int		is_a_redirct(char *dest, int j)
+int	is_a_redirct(char *dest, int j)
 {
 	while (dest[--j])
 	{
@@ -146,7 +158,7 @@ int		is_a_redirct(char *dest, int j)
 	return (0);
 }
 
-int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
+int	check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, char separator)
 {
 	static int isheredoc;
 	static int check;
@@ -168,6 +180,10 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 			else
 			{
 				(*dest)[j++] = '$';
+				char *var_name = get_variable_name(line);
+				int	q = 0;
+				while (var_name[q])
+					(*dest)[j++] = var_name[q++];
 				(*dest)[j++] = -22;
 			}
 		}
@@ -188,7 +204,6 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 			(*dest)[j++] = '$';
 	}
     else if (!*a && **line == '|' && (*line)++)
-    // if (!*a && **line == '|' && (*line)++)
     {
         (*dest)[j++] = SEPARATOR;
 		(*dest)[j++] = PIPE;
@@ -233,7 +248,7 @@ int		check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, c
 	return (j);
 }
 
-int		set_dest(t_shell *shell, char **dest, char **line, int *a, int j)
+int	set_dest(t_shell *shell, char **dest, char **line, int *a, int j)
 {
 	int		separ_index;
 	char	separator;
@@ -285,7 +300,6 @@ char	*handle_line(t_shell *shell, char *line)
 	dest[j++] = SEPARATOR;
 	while (*line)
 		j = set_dest(shell, &dest, &line, &a, j);
-	// printf("[%s]\n", dest);
 	if (!a && !*line)
 		dest[j++] = SEPARATOR;
 	if (a)
@@ -297,6 +311,7 @@ char	*handle_line(t_shell *shell, char *line)
 	}
 	tmp = ft_strdup(dest);
 	free(dest);
+	a = 0;
 	return (tmp);
 }
 
@@ -308,7 +323,6 @@ char	**split_line(t_shell *shell, char *line)
 
 	tmp_line = line;
 	line_after_handling = handle_line(shell, line);
-	// printf("|%s|\n", line_after_handling);
 	free(tmp_line);
 	if (!line_after_handling)
 		return (0);
@@ -331,7 +345,7 @@ char	**parsing_single_double_quotes(t_shell *shell, char *args)
 {
 	char	*line;
 
-	if (!args || !*args)
+	if (!args)
 		return (0);
 	line = ft_strtrim(args, " \t\n");
 	if (!line)

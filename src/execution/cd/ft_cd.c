@@ -2,15 +2,16 @@
 
 static void	ft_chdir(t_shell *_shell, char *str)
 {
-	char *cur_working;
+	char cur_working[1024];
 
-	cur_working = getcwd(NULL, 1024);
+	getcwd(cur_working, 1024);
 	if (!chdir(str))
 	{
 		ch_pwd(_shell);
 		_shell->status = 0;
 		if (!edit_var(_shell->env, "OLDPWD", cur_working, 1))
 			_shell->env = add_var(_shell->env, "OLDPWD", cur_working, 1);
+		// free(cur_working);
 		return ;
 	}
 	// ft_printf("minishell: %s: No such file or directory\n", _shell->pipes->content->commands[1]);

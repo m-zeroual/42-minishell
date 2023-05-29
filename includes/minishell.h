@@ -22,4 +22,8 @@ void    setup_all(t_shell *_shell);
 char    **duplicate_dpointer(char **src);
 void	del_content(void *cont);
 
+
+
+char	*get_value(t_shell *shell, char **line, char separ, int *a);
+
 #endif

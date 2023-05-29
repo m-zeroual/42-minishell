@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_redirection.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/29 23:38:44 by esalim            #+#    #+#             */
+/*   Updated: 2023/05/29 23:45:56 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../../includes/minishell.h"
 
 void	set_redirections(t_redirect *red, char *str, char is_input, int len)
@@ -47,7 +59,7 @@ t_redirect	*get_redirections(t_shell *shell, char **commands)
 		res = for_each_command(redirection, commands, &i, &j);
 		if (!res || res == 4)
 		{
-			// free(redirection);
+			free(redirection);
 			shell->status = 2;
 			if (res == 4)
 				shell->status = 1;

@@ -49,6 +49,7 @@ void	ch_pwd(t_shell *_shell)
 {
 	int		i;
 	char	**str;
+	char	str1[1024];
 
 	i = 0;
 	while (_shell->env[i])
@@ -57,7 +58,8 @@ void	ch_pwd(t_shell *_shell)
 		if (!ft_strncmp(str[0], "PWD", 3))
 		{
 			free(_shell->env[i]);
-			_shell->env[i] = ft_strjoin("PWD=", getcwd(NULL, 1024));
+			getcwd(str1, 1024);
+			_shell->env[i] = ft_strjoin("PWD=", str1);
 		}
 		free_split(str);
 		i++;

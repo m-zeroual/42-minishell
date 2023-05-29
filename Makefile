@@ -10,25 +10,25 @@ SRCS	=	src/main.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
-			src/excution/utils/ft_utils.c	\
-			src/excution/echo/ft_echo.c	\
-			src/excution/pwd/ft_pwd.c	\
-			src/excution/cd/ft_cd.c	\
-			src/excution/export/ft_export_1.c	\
-			src/excution/export/display_export.c	\
-			src/excution/export/ft_export.c	\
-			src/excution/other_cmd/ft_command.c	\
-			src/excution/other_cmd/ft_excute.c	\
-			src/excution/unset/ft_unset.c	\
-			src/excution/env/ft_env.c \
-			src/excution/exit/ft_exit.c \
+			src/execution/utils/ft_utils.c	\
+			src/execution/echo/ft_echo.c	\
+			src/execution/pwd/ft_pwd.c	\
+			src/execution/cd/ft_cd.c	\
+			src/execution/export/ft_export_1.c	\
+			src/execution/export/display_export.c	\
+			src/execution/export/ft_export.c	\
+			src/execution/other_cmd/ft_command.c	\
+			src/execution/other_cmd/ft_excute.c	\
+			src/execution/unset/ft_unset.c	\
+			src/execution/env/ft_env.c \
+			src/execution/exit/ft_exit.c \
 			src/pipes/pipes.c \
 			src/extra_functions.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
 RM		=	rm -f
 
 all	:	$(NAME)

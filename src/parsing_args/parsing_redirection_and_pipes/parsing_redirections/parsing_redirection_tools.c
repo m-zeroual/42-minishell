@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_redirection_tools.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/29 23:46:23 by esalim            #+#    #+#             */
+/*   Updated: 2023/05/29 23:48:15 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../../includes/minishell.h"
 
 int	skip_commands(char **commands, int *j)
 {
-	while (commands[*j] && commands[*j][0] != INPUT_REDIRECT && commands[*j][0] != OUTPUT_REDIRECT)
+	while (commands[*j] && commands[*j][0] != INPUT_REDIRECT \
+		&& commands[*j][0] != OUTPUT_REDIRECT)
 	{
 		if (commands[*j][0] && commands[*j][0] == PIPE)
 			return (1);
@@ -15,13 +28,13 @@ int	redirect_len(char **commands, int *j, char c, char *print_c)
 {
 	int	len;
 	int	two;
-    int max;
+	int	max;
 
 	len = 0;
 	two = 0;
-    max = 3;
-    if (print_c && print_c[0] == '<')
-        max = 4;
+	max = 3;
+	if (print_c && print_c[0] == '<')
+		max = 4;
 	while (commands[*j] && commands[*j][0] == c)
 	{
 		len++;
@@ -43,7 +56,8 @@ int	check_redirection_error(char **cmds, int *j, int len, int swap)
 	int	two;
 
 	two = 0;
-	while (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 && cmds[*j][0] > 1 && two++ < 2)
+	while (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 \
+		&& cmds[*j][0] > 1 && two++ < 2)
 	{
 		len = 200;
 		if (swap && (cmds[(*j)][0] == OUTPUT_REDIRECT || cmds[(*j)][0] == 3))
@@ -91,7 +105,6 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 
 	input_len = 0;
 	output_len = 0;
-
 	if (skip_commands(commands, j))
 		return (2);
 	input_len = redirect_len(commands, j, INPUT_REDIRECT, "<");

@@ -27,7 +27,11 @@ void	ft_exe_command(t_shell *_shell)
 	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET) + 1))   // just lowercase
 		ft_exe_unset(_shell);
 	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT) + 1))  // just lowercase
+	{
+		if (_shell->pipes->next || _shell->i > 1)
+			return free(cmd_lower);
 		exit(ft_exit(_shell));
+	}
 	else if (!ft_strncmp(cmd, CD, ft_strlen(CD) + 1))      // just lowercas
 		ft_exe_cd(_shell);
 // --------------------------------------------------------------------
@@ -197,6 +201,7 @@ int all_speace(char *str)
 int	ft_init(t_shell *_shell)
 {
 	char *cmd;
+	// int	d;
 
 	cmd = readline("minishell -> ");
 	if (!cmd)
@@ -205,6 +210,7 @@ int	ft_init(t_shell *_shell)
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
 		return (0);
+	// scanf("%d\n", &d);
 	_shell->i = 0;
 	return (1);
 }
@@ -218,6 +224,7 @@ void	free_struct(t_shell *_shell, t_list *tmp)
     free_double_pointer(tmp->content->commands);
 	free_t_redirect(tmp->content->output_redirections);
 	free_t_redirect(tmp->content->input_redirections);
+	free(tmp->content->here_doc_string);
 	free(tmp->content);
     free(tmp);
 }
@@ -248,6 +255,7 @@ int	init(t_shell *_shell)
 			ft_printf("minishell: : command not found\n");
 			_shell->status = 127;
 		}
+		_shell->command_with_path = ft_strdup("");
 		return (0);
 	}
 	_shell->command_with_path = ft_join_cmd(_shell);
@@ -301,18 +309,15 @@ int	create_redirections(t_shell *shell)
 
 int	minishell(t_shell *_shell)
 {
-	// t_list		*tmp;
+	t_list		*tmp;
 	// int			i;
 
 	if (!ft_init(_shell))
 		return (0);
-	/**
-	 * @brief Create n pipe depend on the number of pipes i have ...
-	 * 
-	 */
+	
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
-	// tmp = _shell->pipes;
+	tmp = _shell->pipes;
 	if (!create_redirections(_shell))
 		return (0);
 
@@ -322,9 +327,13 @@ int	minishell(t_shell *_shell)
 		{
 			if (_shell->pipes->next)
 				close(_shell->pipes->next->content->pipe_fds[0]);
+			tmp = _shell->pipes;
 			_shell->pipes = _shell->pipes->next;
+			free_struct(_shell, tmp);
             continue ;
 		}
+		// ft_printf("hello world 544 1\n");
+
 		ft_exe_command(_shell);
 		if (_shell->pipes->next)
 		{
@@ -332,10 +341,9 @@ int	minishell(t_shell *_shell)
 			close(_shell->pipes->content->pipe_fds[1]);
 			close(_shell->pipes->next->content->pipe_fds[1]);
 		}
-
-        // tmp = _shell->pipes;
+        tmp = _shell->pipes;
         _shell->pipes = _shell->pipes->next;
-		// free_struct(_shell, tmp);
+		free_struct(_shell, tmp);
 	}
 	
 	return (1);
