@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/29 23:45:20 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/02 17:04:18 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,53 @@ char	*remove_character(char *str)
 			len++;
 	dest = ft_calloc(len + 1, 1);
 	if (!dest)
-		return (0);
+		return (free(str), NULL);
 	i = -1;
 	len = 0;
 	while (str[++i])
 		if (ft_isprint(str[i]))
 			dest[len++] = str[i];
+	free(str);
 	return (dest);
+}
+
+
+
+
+char	*get_file_name(t_shell *shell, char *file_name)
+{
+	char	*name;
+	char	*tmp;
+	int		i = 0;
+
+	tmp = file_name;
+	name = ft_calloc(ft_strlen(file_name) * 100, 1);
+	if (!name)
+		return (NULL);
+	while (*file_name)
+	{
+		if (*file_name == '$')
+		{
+			file_name++;
+			char	*variable = get_variable_name(&file_name);
+			if (!variable)
+				return (0);
+			int		j = 0;
+			char	*value = ft_getenv(shell->env, variable);
+			free(variable);
+			if (!value)
+				continue ;
+			while (value[j])
+				name[i++] = value[j++];
+			free(value);
+			continue;
+		}
+		name[i++] = *file_name++;
+	}
+	free(tmp);
+	tmp = ft_strdup(name);
+	free(name);
+	return (tmp);
 }
 
 int	check_permissions(t_shell *shell, char *filename, char *permissions)
@@ -100,10 +140,23 @@ void	free_t_redirect(t_redirect *redirect)
 
 	if (!redirect)
 		return ;
-	i = 0;
-	while (redirect[i].file)
-		free(redirect[i++].file);
-	// ft_bzero(redirect, sizeof(*redirect));
+	i = -1;
+	while (redirect[++i].file)
+		free(redirect[i].file);
+	ft_bzero(redirect, sizeof(*redirect));
+	free(redirect);
+}
+
+void	free_t_redirect_2(t_redirect *redirect)
+{
+	unsigned char	i;
+
+	if (!redirect)
+		return ;
+	i = -1;
+	while (redirect[++i].file)
+		free(redirect[i].file);
+	ft_bzero(redirect, sizeof(*redirect));
 	free(redirect);
 }
 
@@ -114,15 +167,16 @@ int	create_file(t_shell *shell, t_redirect *file)
 
 	if (check_character(file->file, -22))
 	{
-		tmp = remove_character(file->file);
-		free(file->file);
-		replace_symbols(tmp);
-		file->file = handle_line(shell, tmp);
-		free(tmp);
-		tmp = ft_strtrim(file->file, "\004\004");
-		free(file->file);
-		file->file = tmp;
-		replace_symbols_rev(file->file);
+		file->file = get_file_name(shell, file->file);
+		if (file->file)
+		{
+			if (!file->file[0])
+				file->file[0] = 11;
+			file->file = remove_character(file->file);
+			tmp = ft_strtrim(file->file, " ");
+			free(file->file);
+			file->file = tmp;
+		}
 		if (!file->file || !*file->file || ft_strchr(file->file, ' '))
 		{
 			ft_printf("minishell: ambiguous redirect\n");
@@ -181,15 +235,6 @@ t_redirect	*create_output_files(t_shell *shell, t_redirect *output, char *err)
 	return (last_file);
 }
 
-// char	*get_file_name(char *file_name)
-// {
-// 	int		i = 0;
-// 	char	**splited = ft_split(file_name, -22);
-// 	while (splited[i])
-// 	{}
-
-// }
-
 t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 {
 	t_redirect	*last_file;
@@ -213,18 +258,18 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	index = 0;
 	while (++i < len && inputs[i].file)
 	{
-		// ft_printf("[%s]\n", inputs[i].file);
 		if (check_character(inputs[i].file, -22))
 		{
-			inputs[i].file = remove_character(inputs[i].file);
-			replace_symbols(inputs[i].file);
-			inputs[i].file = handle_line(shell, inputs[i].file);
-			replace_symbols_rev(inputs[i].file);
-			// ft_printf("[%s]\n", inputs[i].file);
+			inputs[i].file = get_file_name(shell, inputs[i].file);
+			if (inputs[i].file)
+			{
+				if (!inputs[i].file[0])
+					inputs[i].file[0] = 11;
+				inputs[i].file = remove_character(inputs[i].file);
+				inputs[i].file = ft_strtrim(inputs[i].file, " ");
+			}
 			// LEAKS herE
-			inputs[i].file = ft_strtrim(inputs[i].file, "\004\004");
-			if (!inputs[i].file || !*inputs[i].file \
-				|| ft_strchr(inputs[i].file, ' '))
+			if (!inputs[i].file || !*inputs[i].file || ft_strchr(inputs[i].file, ' '))
 			{
 				*error = 2;
 				ft_printf("minishell: ambiguous redirect\n");
@@ -264,40 +309,29 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 	char	*tmp;
 	char	check;
 
+	(void)_shell;
 	if (!eol)
 		return (ft_strdup(""));
 	check = is_here_doc(eol);
 	eol = remove_character(eol);
 	len = ft_strlen(eol);
-	// ft_printf("EOF ==> [%s]\n", eol);
-	string = ft_calloc(2, sizeof(*string));
-	if (!string)
-		return (free(eol), ft_strdup(""));
+	string = ft_calloc(3, 1);
+	ft_printf("string ==> [%p]\n", string);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			len = ft_strlen(string);
-			if (len)
-				string[len - 1] = 0;
-			break ;
-		}
-		if (!ft_strncmp(line, eol, len + 1))
+		ft_printf("line ==> [%p]\n", line);
+		if (!line || !ft_strncmp(line, eol, len + 1))
 		{
 			len = ft_strlen(string);
 			if (len)
 				string[len - 1] = 0;
 			free(line);
-			break ;
+			return (string);
 		}
 		if (!check)
 		{
-			search_and_replace(line, '"', -3);
-			search_and_replace(line, '\'', -2);
-			search_and_replace(line, '>', -4);
-			search_and_replace(line, '<', -5);
-			search_and_replace(line, '|', -6);
+			replace_symbols(line);
 			search_and_replace(line, ' ', -9);
 			tmp = handle_line(_shell, line);
 			free(line);
@@ -305,18 +339,16 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 				tmp = ft_strdup("");
 			line = ft_strtrim(tmp, "\004\004");
 			free(tmp);
-			search_and_replace(line, -3, '"');
-			search_and_replace(line, -2, '\'');
-			search_and_replace(line, -4, '>');
-			search_and_replace(line, -5, '<');
-			search_and_replace(line, -6, '|');
+			replace_symbols_rev(line);
 			search_and_replace(line, -9, ' ');
 		}
+		ft_printf("string ==> [%p]\n", string);
 		tmp = ft_strjoin(string, line);
+		ft_printf("string ==> [%p]\n", string);
 		free(string);
 		free(line);
 		string = ft_strjoin(tmp, "\n");
 		free(tmp);
 	}
-	return (free(eol), string);
+	return (string);
 }

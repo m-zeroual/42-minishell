@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:44 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/29 23:45:56 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:07:01 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	set_redirections(t_redirect *red, char *str, char is_input, int len)
 {
 	red->file = ft_strtrim(str, " \t");
+	ft_printf("red->file ==> [%p]\n", red->file);
 	search_and_replace(red->file, -99, ' ');
 	ft_memset(str, 3, ft_strlen(str));
 	if (is_input)
@@ -41,15 +42,18 @@ t_redirect	*get_redirections(t_shell *shell, char **commands)
 {
 	t_redirect	*redirection;
 	int			i;
+	int			len;
 	int			j;
 	int			res;
 
 	if (!commands)
 		return (NULL);
 	i = -1;
+	len = 0;
 	while (commands[++i])
-		;
-	redirection = ft_calloc(i + 1, sizeof(*redirection));
+		if (commands[i][0] == INPUT_REDIRECT || commands[i][0] == OUTPUT_REDIRECT)
+			len++;
+	redirection = ft_calloc(len + 1, sizeof(*redirection));
 	if (!redirection)
 		return (NULL);
 	i = 0;
@@ -84,16 +88,17 @@ t_redirect	*get_input_redirections(t_redirect *redirections)
 	while (redirections[i].file)
 		if (redirections[i++].is_input == 1)
 			len++;
+	if (!len)
+		return (NULL);
 	input = ft_calloc(len + 1, sizeof(*input));
 	if (!input)
 		return (0);
 	i = -1;
 	len = 0;
+	ft_printf("input ==> [%p]\n", input);
 	while (redirections[++i].file)
 		if (redirections[i].is_input == 1)
 			init_t_redirect(&input[len++], &redirections[i]);
-	if (!len)
-		return (free(input), NULL);
 	return (input);
 }
 
@@ -110,16 +115,17 @@ t_redirect	*get_output_redirections(t_redirect *redirections)
 	while (redirections[i].file)
 		if (redirections[i++].is_output == 1)
 			len++;
+	if (!len)
+		return (NULL);
 	output = ft_calloc(len + 1, sizeof(*output));
 	if (!output)
 		return (0);
+	
 	i = -1;
 	len = 0;
 	while (redirections[++i].file)
 		if (redirections[i].is_output == 1)
 			init_t_redirect(&output[len++], &redirections[i]);
-	if (!len)
-		return (free(output), NULL);
 	return (output);
 }
 
@@ -133,7 +139,9 @@ int	parsing_redirection(t_shell *shell, t_content *content, char **redirections)
 	if (!redirect)
 		return (0);
 	content->output_redirections = get_output_redirections(redirect);
+	ft_printf("content->output_redirections ==> [%p]\n", content->output_redirections);
 	content->input_redirections = get_input_redirections(redirect);
-	free_t_redirect(redirect);
+	ft_printf("content->input_redirections ==> [%p]\n", content->input_redirections);
+	free_t_redirect_2(redirect);
 	return (1);
 }

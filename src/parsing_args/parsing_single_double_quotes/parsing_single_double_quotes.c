@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:29:29 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/29 23:30:01 by esalim           ###   ########.fr       */
+/*   Updated: 2023/05/31 14:36:34 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,6 @@ void	search_and_replace(char *src, char search, char replace)
 			src[i] = replace;
 }
 
-char	*ft_strendtrim(char const *s1)
-{
-	size_t	i;
-
-	i = ft_strlen(s1);
-	while (i && ft_strchr("  ", s1[i]))
-		i--;
-	return (ft_substr(s1, 0, i + 1));
-}
-
 char	*get_value(t_shell *shell, char **line, char separ, int *a)
 {
 	char	*val;
@@ -75,26 +65,18 @@ char	*get_value(t_shell *shell, char **line, char separ, int *a)
 		if (ft_check_var_exist(shell->env, val) == -1)
 			return (0);
 		str = ft_strdup("");
-		// str[0] = -10;
 	}
-	// else if (!str[0])
-	// 	str[0] = -10;
-	// if (separ == '"' && *a)
-		// search_and_replace(str, ' ', -99);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
 	search_and_replace(str, '>', -4);
 	search_and_replace(str, '<', -5);
 	search_and_replace(str, '|', -6);
 	search_and_replace(str, '$', -7);
-	// LEAKS HERE STR
-	// str = ft_strendtrim(str);
-	// printf("");
 	if ((separ == '"' && *a) || ft_isalnum(*(tmp - 2)))
 		search_and_replace(str, ' ', -9);
 	val = handle_line(shell, str);
 	free(str);
-	str = ft_strtrim(val, "\004\004");
+	str = ft_strtrim(val, " \004\004");
 	free(val);
 	if (!str)
 		return (0);
@@ -184,6 +166,7 @@ int	check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, ch
 				int	q = 0;
 				while (var_name[q])
 					(*dest)[j++] = var_name[q++];
+				free(var_name);
 				(*dest)[j++] = -22;
 			}
 		}

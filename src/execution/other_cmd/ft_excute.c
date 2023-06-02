@@ -102,7 +102,6 @@ char	*ft_join_cmd(t_shell *_shell)
 		return (NULL);
 	if (ft_is_builtins(_shell->pipes->content->commands[0]))
 		return (ft_strdup(_shell->pipes->content->commands[0]));
-
 	if (!ft_strchr(_shell->pipes->content->commands[0], '/'))
 	{
 		cmd = ft_getenv(_shell->env, "PATH");
@@ -177,7 +176,6 @@ char	*ft_join_cmd(t_shell *_shell)
 	{
 		// ft_printf("minshell: %s: %s\n", cmd, strerror(errno));
 		ft_printf("minishell: No such file or directory\n");
-		// _shell->status = 126;
 		_shell->status = 127;
 	}
 	free_split(path);
@@ -201,7 +199,6 @@ int all_speace(char *str)
 int	ft_init(t_shell *_shell)
 {
 	char *cmd;
-	// int	d;
 
 	cmd = readline("minishell -> ");
 	if (!cmd)
@@ -210,7 +207,6 @@ int	ft_init(t_shell *_shell)
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
 		return (0);
-	// scanf("%d\n", &d);
 	_shell->i = 0;
 	return (1);
 }
@@ -235,6 +231,7 @@ void	del_content(void *cont)
 	free_double_pointer(content->commands);
 	free_t_redirect(content->output_redirections);
 	free_t_redirect(content->input_redirections);
+	free(content->here_doc_string);
 	free(content);
 	return ;
 }
@@ -265,45 +262,40 @@ int	init(t_shell *_shell)
 }
 
 
-int	create_redirections(t_shell *shell)
+int	create_redirections(t_shell *shell, t_list *lst)
 {
-	t_list	*lst;
 	t_content   *content;
     char        error;
 	
-	lst = shell->pipes;
-	while (lst)
+	error = 0;
+	content  = lst->content;
+	if (!content)
+		return (0);
+	content->output_redirections = create_output_files(shell, content->output_redirections, &error);
+	if (error == 1)
+		return (0);
+	content->input_redirections = get_input_file(shell, content->input_redirections, &error);
+	if (error == 2)
+		return (0);
+	int i = -1;
+	while (content->input_redirections && content->input_redirections[++i].file)
 	{
-		error = 0;
-		content  = lst->content;
-		if (!content)
-			return (0);
-
-		content->output_redirections = create_output_files(shell, content->output_redirections, &error);
-		if (error == 1)
-			return (0);
-		content->input_redirections = get_input_file(shell, content->input_redirections, &error);
-		if (error == 2)
-			return (0);
-		int i = -1;
-		while (content->input_redirections && content->input_redirections[++i].file)
-		{
-        	if (!content->input_redirections[i + 1].file && content->input_redirections[i].is_here_doc)
-        	{
-        	    lst->content->here_doc_string = get_here_doc_content(shell, content->input_redirections[i].file);
-        	    return (1);
-        	}
-        	if (content->input_redirections[i].is_here_doc)
-        	   free(get_here_doc_content(shell, content->input_redirections[i].file));
-		}
-		i = -1;
-		while (content->input_redirections && content->input_redirections[++i].file)
-        	if (content->input_redirections[i].file && !content->input_redirections[i].is_here_doc && !check_permissions(shell, content->input_redirections[i].file, "1100"))
-        	    break ;
-		if (error == 1)
-			return (0);
-		lst = lst->next;
+    	if (!content->input_redirections[i + 1].file && content->input_redirections[i].is_here_doc)
+    	{
+    	    lst->content->here_doc_string = get_here_doc_content(shell, content->input_redirections[i].file);
+    	    return (1);
+    	}
+    	if (content->input_redirections[i].is_here_doc)
+    	   free(get_here_doc_content(shell, content->input_redirections[i].file));
 	}
+	i = -1;
+	while (content->input_redirections && content->input_redirections[++i].file)
+    	if (content->input_redirections[i].file \
+			&& !content->input_redirections[i].is_here_doc \
+			&& !check_permissions(shell, content->input_redirections[i].file, "1100"))
+    	    break ;
+	if (error == 1)
+		return (0);
 	return (1);
 }
 
@@ -313,17 +305,13 @@ int	minishell(t_shell *_shell)
 	// int			i;
 
 	if (!ft_init(_shell))
-		return (0);
-	
+		return (0);	
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
 	tmp = _shell->pipes;
-	if (!create_redirections(_shell))
-		return (0);
-
 	while (_shell->pipes && ++(_shell->i))
     {
-		if (!init(_shell))
+		if (!create_redirections(_shell, _shell->pipes) || !init(_shell))
 		{
 			if (_shell->pipes->next)
 				close(_shell->pipes->next->content->pipe_fds[0]);
@@ -332,8 +320,6 @@ int	minishell(t_shell *_shell)
 			free_struct(_shell, tmp);
             continue ;
 		}
-		// ft_printf("hello world 544 1\n");
-
 		ft_exe_command(_shell);
 		if (_shell->pipes->next)
 		{

@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:49:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/29 23:49:55 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/01 16:59:59 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_list	*parsing_pipes(t_shell *shell, char **commands)
 			return (free_pipe(p), free(content), NULL);
 		len = get_lenght_of_list_without_three(p[i]);
 		content->commands = get_list_without_three(p[i], len);
+
 		set_one_to_null_pointer(content->commands);
 		ft_lstadd_back(&pipes, ft_lstnew(content));
 		i++;

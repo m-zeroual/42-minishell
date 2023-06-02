@@ -25,5 +25,8 @@ void	del_content(void *cont);
 
 
 char	*get_value(t_shell *shell, char **line, char separ, int *a);
+char	*get_variable_name(char **line);
+
+void	free_t_redirect_2(t_redirect *redirect);
 
 #endif
