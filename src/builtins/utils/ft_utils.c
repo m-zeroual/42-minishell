@@ -31,18 +31,24 @@ char	*ft_getvar_(char *str)
 	return (ft_substr(str, 0, i));
 }
 
+
 void	free_struct(t_shell *_shell, t_list *tmp)
 {
 	if (_shell->command_with_path)
+	{
 		free(_shell->command_with_path);
+		_shell->command_with_path = NULL;
+	}
 	if (!tmp)
 		return ;
-	free_double_pointer(tmp->content->commands);
+    free_double_pointer(tmp->content->commands);
 	free_t_redirect(tmp->content->output_redirections);
 	free_t_redirect(tmp->content->input_redirections);
+	free(tmp->content->here_doc_string);
 	free(tmp->content);
-	free(tmp);
+    free(tmp);
 }
+
 
 void	del_content(void *cont)
 {

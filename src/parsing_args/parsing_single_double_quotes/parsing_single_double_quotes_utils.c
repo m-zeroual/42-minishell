@@ -1,9 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_single_double_quotes_utils.c               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/29 23:30:40 by esalim            #+#    #+#             */
+/*   Updated: 2023/05/29 23:32:25 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/parsing_single_double_quotes.h"
 
-/**
- *  this function will be free the double pointer that you giving to him.
- */
-void    free_double_pointer(char **str)
+void	free_double_pointer(char **str)
 {
 	int	i;
 
@@ -15,12 +24,6 @@ void    free_double_pointer(char **str)
 	free(str);
 }
 
-/**
- *  this function return the index of the first (single | double)
- *  quotes character in the string and set separ to this character.
- *  EXAMPLE:
- *      str = `ls -"'a'" -'l'`  ==> separ = `"` | return 4
- */
 int	get_separator(char *str, char *separ)
 {
 	int	i;
@@ -39,39 +42,30 @@ int	get_separator(char *str, char *separ)
 	return (i);
 }
 
-int is_only_three(char    *str)
+int	is_only_three(char *str)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (str[++i])
-        if (str[i] != 3)
-            return (0);
-    return (1);
+	i = -1;
+	while (str[++i])
+		if (str[i] != 3)
+			return (0);
+	return (1);
 }
 
-/**
- *
- */
-int get_lenght_of_list_without_three(char **str)
+int	get_lenght_of_list_without_three(char **str)
 {
-    int     i;
-    int     len;
+	int	len;
+	int	i;
 
 	i = -1;
 	len = 0;
 	while (str[++i])
 		if (!is_only_three(str[i]))
-            len++;
-    return (len);
+			len++;
+	return (len);
 }
 
-/**
- *  this function takes double pointer and trim all strings from it,
- *	and return a double pointer without any Extra spaces.
- *  EXAMPLE:
- *    {"ls",`33333`, "-a", "-l", "-R", `33`}  ==>  {"ls", "-a", "-l", "-R"}
- */
 char	**get_list_without_three(char **dpointer, int len)
 {
 	char	**result;
@@ -88,9 +82,8 @@ char	**get_list_without_three(char **dpointer, int len)
 	while (dpointer[++i])
 		if (!is_only_three(dpointer[i]))
 			result[j++] = ft_strdup(dpointer[i]);
-    free_double_pointer(dpointer);
-    if (!j)
-        return (free(result), NULL);
+	free_double_pointer(dpointer);
+	if (!j)
+		return (free(result), NULL);
 	return (result);
 }
-

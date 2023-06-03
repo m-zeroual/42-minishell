@@ -1,6 +1,6 @@
 #include "../../../includes/minishell.h"
 
-static int	ft_is_builtins(char *str)
+int ft_is_builtins(char *str)
 {
 	
 	if (!ft_strncmp(str, EX, ft_strlen(EX) + 1) \
@@ -14,53 +14,8 @@ static int	ft_is_builtins(char *str)
 	return (0);
 }
 
-static void ft_fill(char *path, char *new_path, int len)
-{
-	int i;
-	int j;
 
-	i = -1;
-	j = 0;
-	while (path[++i])
-	{
-		// if (path[i] == ':')
-		// {
-		// 	new_path[j++] = '.';
-		// 	if (!i)
-		// 	{
-		// 		if ((path[i] == ':' && path[i + 1] == ':'))
-		// 			new_path[j++] = path[i];
-		// 	}
-		// 	else
-		// 		new_path[j++] = path[i];
-		// 	if ((i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
-		// 		new_path[j++] = path[i];
-		// }
-		// else
-		// 	new_path[j++] = path[i];
-
-		if ((path[i] == ':' && !i))
-		{
-			new_path[j++] = '.';
-			if ((path[i] == ':' && path[i + 1] == ':'))
-			{
-				new_path[j++] = path[i];
-				new_path[j++] = '.';
-			}
-			else
-				new_path[j++] = path[i];
-		}
-		if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
-		{
-			new_path[j++] = path[i];
-			new_path[j++] = '.';
-		}
-		else
-			new_path[j++] = path[i];
-	}
-}
-
-static char	*ft_fix_path(char *path)
+char *ft_fix_path(char *path)
 {
 	int		i;
 	int		j;
@@ -76,31 +31,30 @@ static char	*ft_fix_path(char *path)
 	new_path = ft_calloc((len + j + 1) , sizeof(char));
 	if (!new_path)
 		return (0);
-	ft_fill(path, new_path, len);
-	// i = 0;
-	// j = 0;
-	// while (path[i])
-	// {
-	// 	if ((path[i] == ':' && !i))
-	// 	{
-	// 		new_path[j++] = '.';
-	// 		if ((path[i] == ':' && path[i + 1] == ':'))
-	// 		{
-	// 			new_path[j++] = path[i];
-	// 			new_path[j++] = '.';
-	// 		}
-	// 		else
-	// 			new_path[j++] = path[i];
-	// 	}
-	// 	if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
-	// 	{
-	// 		new_path[j++] = path[i];
-	// 		new_path[j++] = '.';
-	// 	}
-	// 	else
-	// 		new_path[j++] = path[i];
-	// 	i++;
-	// }
+	i = 0;
+	j = 0;
+	while (path[i])
+	{
+		if ((path[i] == ':' && i == 0))
+		{
+			new_path[j++] = '.';
+			if ((path[i] == ':' && path[i + 1] == ':'))
+			{
+				new_path[j++] = path[i];
+				new_path[j++] = '.';
+			}
+			else
+				new_path[j++] = path[i];
+		}
+		else if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))  // /bin/bash::
+		{
+			new_path[j++] = path[i];
+			new_path[j++] = '.';
+		}
+		else
+			new_path[j++] = path[i];
+		i++;
+	}
 	free(path);
 	return (new_path);
 }
@@ -117,7 +71,6 @@ char	*ft_join_cmd(t_shell *_shell)
 		return (NULL);
 	if (ft_is_builtins(_shell->pipes->content->commands[0]))
 		return (ft_strdup(_shell->pipes->content->commands[0]));
-
 	if (!ft_strchr(_shell->pipes->content->commands[0], '/'))
 	{
 		cmd = ft_getenv(_shell->env, "PATH");
@@ -125,7 +78,6 @@ char	*ft_join_cmd(t_shell *_shell)
 		{
 			ft_printf("minishell: No such file or directory\n");
 			// ft_printf("minshell: %s: %s\n", _shell->pipes->content->commands[0], "No such file or directory");
-			// _shell->status = 127;
 			_shell->status = 127;
 			return (0);
 		}
@@ -136,7 +88,7 @@ char	*ft_join_cmd(t_shell *_shell)
 	cmd = ft_fix_path(cmd);
 	if (!cmd)
 		return (0);
-	printf("|%s|\n", cmd);
+	// printf("|%s|\n", cmd);
 	path = ft_split(cmd, ':');
 	// if (!path)
 	// {
@@ -192,29 +144,37 @@ char	*ft_join_cmd(t_shell *_shell)
 	{
 		// ft_printf("minshell: %s: %s\n", cmd, strerror(errno));
 		ft_printf("minishell: No such file or directory\n");
-		// _shell->status = 126;
 		_shell->status = 127;
 	}
 	free_split(path);
 	return (0);
 }
 
+int all_speace(char *str)
+{
+	int i;
 
-// ---------------------------------------------------------------------------------------------------------
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] && str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
-// int all_speace(char *str)
-// {
-// 	int i;
+int	ft_init(t_shell *_shell)
+{
+	char *cmd;
 
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] && str[i] != ' ')
-// 			return (0);
-// 		i++;
-// 	}
-// 	return (1);
-// }
-
-
-
+	cmd = readline("minishell -> ");
+	if (!cmd)
+		exit(_shell->status);
+	add_history(cmd);
+	_shell->pipes = main_parsing(_shell, cmd);
+	if (!_shell->pipes)
+		return (0);
+	_shell->i = 0;
+	return (1);
+}

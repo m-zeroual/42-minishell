@@ -1,6 +1,6 @@
 #include "../../../includes/minishell.h"
 
-static char	*ft_str_tolower(char *cmd)
+char	*ft_str_tolower(char *cmd)
 {
 	int		i;
 	char	*str;

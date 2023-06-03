@@ -15,11 +15,18 @@ int     **get_pipes(int size);
 void    create_pipes(t_list    *pipes);
 void    close_all_pipes(t_content *content);
 
-
+void	free_struct(t_shell *_shell, t_list *tmp);
 
 // 
 void    setup_all(t_shell *_shell);
 char    **duplicate_dpointer(char **src);
 void	del_content(void *cont);
+
+
+
+char	*get_value(t_shell *shell, char **line, char separ, int *a);
+char	*get_variable_name(char **line);
+
+void	free_t_redirect_2(t_redirect *redirect);
 
 #endif

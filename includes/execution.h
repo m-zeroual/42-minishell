@@ -24,12 +24,13 @@
 
 typedef struct s_shell
 {
+	char	*line;
 	int		status;
 	char 	**env;
 	char	*command_with_path;
 	t_list 	*pipes;
 	int		i;
-	int		a;
+	int		here_doc_parsing;
 }	t_shell;
 
 
@@ -39,7 +40,7 @@ void    ft_exe_echo(t_shell *_shell);
 
 //		======> src/excution/utils/ft_utils.c <=======
 void	free_split(char **str);
-// char	*ft_str_tolower(char *cmd);                                       // change
+char	*ft_str_tolower(char *cmd);                                       // change
 // int		ft_exe(t_shell *_shell);
 // int ft_get_index(char *str, char c);
 int		ft_get_index_reverse(char *str, char c, int count);
@@ -71,7 +72,7 @@ void ft_exec_cmd(t_shell *_shell);
 void ft_exe_command(t_shell *_shell);
 char *ft_join_cmd(t_shell *_shell);
 int ft_init(t_shell *_shell);
-int	minishel(t_shell *_shell);
+int	minishell(t_shell *_shell);
 
 
 //		======> src/excution/export/ft_export1.c <=======

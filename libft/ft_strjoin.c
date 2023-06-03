@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:21:06 by esalim            #+#    #+#             */
-/*   Updated: 2023/04/30 21:18:17 by esalim           ###   ########.fr       */
+/*   Updated: 2023/05/31 15:06:09 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*d;
 	int		i;
+	int		j;
 
 	i = 0;
 	if (!s1 && !s2)
@@ -25,10 +26,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	d = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!d)
 		return (0);
-	while (*s1)
-		d[i++] = *s1++;
-	while (*s2)
-		d[i++] = *s2++;
+	j = 0;
+	while (s1[j])
+		d[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		d[i++] = s2[j++];
 	d[i] = 0;
 	return (d);
 }
