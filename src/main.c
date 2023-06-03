@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:15:40 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/01 16:44:34 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/03 15:28:37 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
+		// rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
 }
-		// rl_replace_line("", 0);
 
 int	main(int ac, char *av[], char *ev[])
 {
@@ -35,7 +35,7 @@ int	main(int ac, char *av[], char *ev[])
 	_shell.here_doc_parsing = 1;
 	while (1)
 	{
-		system("leaks minishell");
+		// system("leaks minishell");
 		minishell(&_shell);
 	}
 	return (0);

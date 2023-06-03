@@ -261,51 +261,55 @@ int	init(t_shell *_shell)
 	return (1);
 }
 
-
-int	create_redirections(t_shell *shell, t_list *lst)
+int     create_redirections(t_shell *shell, t_list *node)
 {
-	t_content   *content;
+    t_content   *content;
     char        error;
-	
-	error = 0;
-	content  = lst->content;
-	if (!content)
-		return (0);
-	content->output_redirections = create_output_files(shell, content->output_redirections, &error);
-	if (error == 1)
-		return (0);
-	content->input_redirections = get_input_file(shell, content->input_redirections, &error);
-	if (error == 2)
-		return (0);
-	int i = -1;
-	while (content->input_redirections && content->input_redirections[++i].file)
-	{
+
+    error = 0;
+    content  = node->content;
+    if (!content)
+            return (0);
+    content->output_redirections = create_output_files(shell, content->output_redirections, &error);
+    if (error == 1)
+            return (0);
+	ft_printf("test 1\n");
+    content->input_redirections = get_input_file(shell, content->input_redirections, &error);
+    int i = -1;
+    while (content->input_redirections && content->input_redirections[++i].file)
+    {
     	if (!content->input_redirections[i + 1].file && content->input_redirections[i].is_here_doc)
     	{
-    	    lst->content->here_doc_string = get_here_doc_content(shell, content->input_redirections[i].file);
-    	    return (1);
+    	    node->content->here_doc_string = get_here_doc_content(shell, content->input_redirections[i].file);
+    	    continue;
     	}
     	if (content->input_redirections[i].is_here_doc)
     	   free(get_here_doc_content(shell, content->input_redirections[i].file));
-	}
-	i = -1;
-	while (content->input_redirections && content->input_redirections[++i].file)
-    	if (content->input_redirections[i].file \
-			&& !content->input_redirections[i].is_here_doc \
-			&& !check_permissions(shell, content->input_redirections[i].file, "1100"))
-    	    break ;
-	if (error == 1)
+    }
+    if (error == 2)
 		return (0);
-	return (1);
+	if (error == 3)
+	{
+		ft_printf("minishell: No such file or directory\n");
+		shell->status = 1;
+		return (0);
+	}
+	if (error == 4)
+	{
+		ft_printf("minishell: Permission denied\n");
+		shell->status = 1;
+		return (0);
+	}
+    return (1);
 }
 
 int	minishell(t_shell *_shell)
 {
 	t_list		*tmp;
-	// int			i;
+	// int			status;
 
 	if (!ft_init(_shell))
-		return (0);	
+		return (0);
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
 	tmp = _shell->pipes;
@@ -331,6 +335,11 @@ int	minishell(t_shell *_shell)
         _shell->pipes = _shell->pipes->next;
 		free_struct(_shell, tmp);
 	}
-	
+	// while ((_shell->i)--)
+	// {
+	// 	wait(&status);
+	// 	if (WIFEXITED(status))
+	// 		_shell->status = WEXITSTATUS(status);
+	// }
 	return (1);
 }

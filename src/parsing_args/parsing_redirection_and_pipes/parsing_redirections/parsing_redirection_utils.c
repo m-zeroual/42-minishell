@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/02 17:04:18 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/03 16:07:50 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_character(char	*str, int c)
 	return (0);
 }
 
-char	*remove_character(char *str)
+void	remove_character(char *str)
 {
 	char	*dest;
 	int		len;
@@ -60,18 +60,17 @@ char	*remove_character(char *str)
 			len++;
 	dest = ft_calloc(len + 1, 1);
 	if (!dest)
-		return (free(str), NULL);
+		return ;
 	i = -1;
 	len = 0;
 	while (str[++i])
 		if (ft_isprint(str[i]))
 			dest[len++] = str[i];
-	free(str);
-	return (dest);
+	len = ft_strlen(str);
+	ft_bzero(str, len);
+	ft_strlcpy(str, dest, len + 1);
+	free(dest);
 }
-
-
-
 
 char	*get_file_name(t_shell *shell, char *file_name)
 {
@@ -90,7 +89,7 @@ char	*get_file_name(t_shell *shell, char *file_name)
 			file_name++;
 			char	*variable = get_variable_name(&file_name);
 			if (!variable)
-				return (0);
+				continue ;
 			int		j = 0;
 			char	*value = ft_getenv(shell->env, variable);
 			free(variable);
@@ -123,8 +122,8 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 			|| (permissions[2] == '1' && access(filename, W_OK)) \
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
-		// ft_printf("minishell: Permission denied\n");
-		print_error(filename, ": Permission denied\n");
+		ft_printf("minishell: Permission denied\n");
+		// print_error(filename, ": Permission denied\n");
 		shell->status = 1;
 		if (permissions[3] == '1' && access(filename, X_OK))
 			shell->status = 126;
@@ -135,19 +134,6 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 }
 
 void	free_t_redirect(t_redirect *redirect)
-{
-	unsigned char	i;
-
-	if (!redirect)
-		return ;
-	i = -1;
-	while (redirect[++i].file)
-		free(redirect[i].file);
-	ft_bzero(redirect, sizeof(*redirect));
-	free(redirect);
-}
-
-void	free_t_redirect_2(t_redirect *redirect)
 {
 	unsigned char	i;
 
@@ -172,7 +158,7 @@ int	create_file(t_shell *shell, t_redirect *file)
 		{
 			if (!file->file[0])
 				file->file[0] = 11;
-			file->file = remove_character(file->file);
+			remove_character(file->file);
 			tmp = ft_strtrim(file->file, " ");
 			free(file->file);
 			file->file = tmp;
@@ -212,18 +198,13 @@ t_redirect	*create_output_files(t_shell *shell, t_redirect *output, char *err)
 		return (NULL);
 	last_file = ft_calloc(2, sizeof(*last_file));
 	if (!last_file)
-	{
-		free_t_redirect(output);
-		return (NULL);
-	}
+		return (free_t_redirect(output), NULL);
 	while (output[++i].file)
 	{
 		if (!create_file(shell, &output[i]))
 		{
 			*err = 1;
-			free_t_redirect(output);
-			free(last_file);
-			return (NULL);
+			return (free_t_redirect(output), free_t_redirect(last_file), NULL);
 		}
 	}
 	last_file->file = ft_strdup(output[i - 1].file);
@@ -238,6 +219,7 @@ t_redirect	*create_output_files(t_shell *shell, t_redirect *output, char *err)
 t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 {
 	t_redirect	*last_file;
+	char		*tmpfile;
 	int			index;
 	int			len;
 	int			i;
@@ -245,8 +227,6 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	i = -1;
 	index = 0;
 	len = -1;
-	(void)shell;
-	(void)error;
 	if (!inputs)
 		return (NULL);
 	while (inputs[++len].file)
@@ -254,7 +234,7 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 			index++;
 	last_file = ft_calloc(index + 2, sizeof(*last_file));
 	if (!last_file)
-		return (NULL);
+		return (free_t_redirect(inputs), NULL);
 	index = 0;
 	while (++i < len && inputs[i].file)
 	{
@@ -265,20 +245,28 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 			{
 				if (!inputs[i].file[0])
 					inputs[i].file[0] = 11;
-				inputs[i].file = remove_character(inputs[i].file);
+				remove_character(inputs[i].file);
+				tmpfile = inputs[i].file;
 				inputs[i].file = ft_strtrim(inputs[i].file, " ");
+				free(tmpfile);
 			}
-			// LEAKS herE
 			if (!inputs[i].file || !*inputs[i].file || ft_strchr(inputs[i].file, ' '))
 			{
 				*error = 2;
 				ft_printf("minishell: ambiguous redirect\n");
 				shell->status = 1;
-				return (0);
+				return (free_t_redirect(inputs), free_t_redirect(last_file), NULL);
 			}
 		}
-		if (!inputs[i].is_here_doc && i < len - 1)
-			continue ;
+		if (!inputs[i].is_here_doc)
+		{
+    		if (inputs[i].file && access(inputs[i].file, F_OK))
+    	    	*error = 3;
+			if (inputs[i].file && !access(inputs[i].file, F_OK) && access(inputs[i].file, R_OK))
+				*error = 4;
+			if (i < len - 1)
+				continue ;
+		}
 		last_file[index].file = ft_strdup(inputs[i].file);
 		last_file[index].is_here_doc = inputs[i].is_here_doc;
 		last_file[index].is_input = inputs[i].is_input;
@@ -313,14 +301,12 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 	if (!eol)
 		return (ft_strdup(""));
 	check = is_here_doc(eol);
-	eol = remove_character(eol);
+	remove_character(eol);
 	len = ft_strlen(eol);
 	string = ft_calloc(3, 1);
-	ft_printf("string ==> [%p]\n", string);
 	while (1)
 	{
 		line = readline("> ");
-		ft_printf("line ==> [%p]\n", line);
 		if (!line || !ft_strncmp(line, eol, len + 1))
 		{
 			len = ft_strlen(string);
@@ -342,9 +328,7 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 			replace_symbols_rev(line);
 			search_and_replace(line, -9, ' ');
 		}
-		ft_printf("string ==> [%p]\n", string);
 		tmp = ft_strjoin(string, line);
-		ft_printf("string ==> [%p]\n", string);
 		free(string);
 		free(line);
 		string = ft_strjoin(tmp, "\n");
