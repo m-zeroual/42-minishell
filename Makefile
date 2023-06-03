@@ -10,18 +10,18 @@ SRCS	=	src/main.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
-			src/execution/utils/ft_utils.c	\
-			src/execution/echo/ft_echo.c	\
-			src/execution/pwd/ft_pwd.c	\
-			src/execution/cd/ft_cd.c	\
-			src/execution/export/ft_export_1.c	\
-			src/execution/export/display_export.c	\
-			src/execution/export/ft_export.c	\
-			src/execution/other_cmd/ft_command.c	\
-			src/execution/other_cmd/ft_excute.c	\
-			src/execution/unset/ft_unset.c	\
-			src/execution/env/ft_env.c \
-			src/execution/exit/ft_exit.c \
+			src/builtins/utils/ft_utils.c	\
+			src/builtins/echo/ft_echo.c	\
+			src/builtins/pwd/ft_pwd.c	\
+			src/builtins/cd/ft_cd.c	\
+			src/builtins/export/ft_export_1.c	\
+			src/builtins/export/display_export.c	\
+			src/builtins/export/ft_export.c	\
+			src/builtins/other_cmd/ft_command.c	\
+			src/builtins/other_cmd/ft_excute.c	\
+			src/builtins/unset/ft_unset.c	\
+			src/builtins/env/ft_env.c \
+			src/builtins/exit/ft_exit.c \
 			src/pipes/pipes.c \
 			src/extra_functions.c
 
