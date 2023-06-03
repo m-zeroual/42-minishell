@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/03 16:07:50 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/03 16:43:20 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 {
 	if (permissions[0] == '1' && access(filename, F_OK))
 	{
-		// print_error(filename, ": No such file or directory\n");
-		ft_printf("minishell: No such file or directory\n");
+		print_error(filename, ": No such file or directory\n");
+		// ft_printf("minishell: No such file or directory\n");
 		// exit status
 		shell->status = 1;
 		return (0);
@@ -122,8 +122,8 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 			|| (permissions[2] == '1' && access(filename, W_OK)) \
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
-		ft_printf("minishell: Permission denied\n");
-		// print_error(filename, ": Permission denied\n");
+		// ft_printf("minishell: Permission denied\n");
+		print_error(filename, ": Permission denied\n");
 		shell->status = 1;
 		if (permissions[3] == '1' && access(filename, X_OK))
 			shell->status = 126;
@@ -238,7 +238,7 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 	index = 0;
 	while (++i < len && inputs[i].file)
 	{
-		if (check_character(inputs[i].file, -22))
+		if (!inputs[i].is_here_doc && check_character(inputs[i].file, -22))
 		{
 			inputs[i].file = get_file_name(shell, inputs[i].file);
 			if (inputs[i].file)
@@ -289,7 +289,7 @@ int	is_here_doc(char *str)
 	return (0);
 }
 
-char	*get_here_doc_content(t_shell *_shell, char	*eol)
+char	*get_here_doc_content(t_shell *_shell, char	*delimiter)
 {
 	int		len;
 	char	*string;
@@ -298,16 +298,16 @@ char	*get_here_doc_content(t_shell *_shell, char	*eol)
 	char	check;
 
 	(void)_shell;
-	if (!eol)
+	if (!delimiter)
 		return (ft_strdup(""));
-	check = is_here_doc(eol);
-	remove_character(eol);
-	len = ft_strlen(eol);
+	check = is_here_doc(delimiter);
+	remove_character(delimiter);
+	len = ft_strlen(delimiter);
 	string = ft_calloc(3, 1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strncmp(line, eol, len + 1))
+		if (!line || !ft_strncmp(line, delimiter, len + 1))
 		{
 			len = ft_strlen(string);
 			if (len)

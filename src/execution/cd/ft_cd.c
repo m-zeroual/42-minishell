@@ -14,8 +14,8 @@ static void	ft_chdir(t_shell *_shell, char *str)
 		// free(cur_working);
 		return ;
 	}
-	// ft_printf("minishell: %s: No such file or directory\n", _shell->pipes->content->commands[1]);
-	ft_printf("minishell: No such file or directory\n");
+	ft_printf("minishell: %s: No such file or directory\n", _shell->pipes->content->commands[1]);
+	// ft_printf("minishell: No such file or directory\n");
 	_shell->status = 1;
 }
 

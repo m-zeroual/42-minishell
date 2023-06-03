@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:19:50 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/30 18:44:37 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/03 16:17:18 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	print_error(char *file, char *message)
 {
-	(void)file;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(file, 2);
 	ft_putstr_fd(message, 2);

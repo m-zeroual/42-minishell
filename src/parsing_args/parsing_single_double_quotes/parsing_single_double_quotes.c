@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:29:29 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/31 14:36:34 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/03 16:45:45 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,6 @@ int	check_conditions(t_shell *shell, char **dest, char **line, int *a, int j, ch
 	static int isheredoc;
 	static int check;
 
-	(void)shell;
-	(void)separator;
 	if ((separator == '"' || !*a) && **line == '$' && *((*line) + 1) && (*line)++)
 	{
 		if (check)

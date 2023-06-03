@@ -109,7 +109,6 @@ char	*ft_join_cmd(t_shell *_shell)
 		{
 			ft_printf("minishell: No such file or directory\n");
 			// ft_printf("minshell: %s: %s\n", _shell->pipes->content->commands[0], "No such file or directory");
-			// _shell->status = 127;
 			_shell->status = 127;
 			return (0);
 		}
@@ -214,7 +213,10 @@ int	ft_init(t_shell *_shell)
 void	free_struct(t_shell *_shell, t_list *tmp)
 {
 	if (_shell->command_with_path)
+	{
 		free(_shell->command_with_path);
+		_shell->command_with_path = NULL;
+	}
 	if (!tmp)
 		return ;
     free_double_pointer(tmp->content->commands);
@@ -273,7 +275,6 @@ int     create_redirections(t_shell *shell, t_list *node)
     content->output_redirections = create_output_files(shell, content->output_redirections, &error);
     if (error == 1)
             return (0);
-	ft_printf("test 1\n");
     content->input_redirections = get_input_file(shell, content->input_redirections, &error);
     int i = -1;
     while (content->input_redirections && content->input_redirections[++i].file)
