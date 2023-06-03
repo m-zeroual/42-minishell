@@ -254,7 +254,6 @@ int	init(t_shell *_shell)
 			ft_printf("minishell: : command not found\n");
 			_shell->status = 127;
 		}
-		_shell->command_with_path = ft_strdup("");
 		return (0);
 	}
 	_shell->command_with_path = ft_join_cmd(_shell);
@@ -307,7 +306,6 @@ int     create_redirections(t_shell *shell, t_list *node)
 int	minishell(t_shell *_shell)
 {
 	t_list		*tmp;
-	// int			status;
 
 	if (!ft_init(_shell))
 		return (0);
@@ -336,11 +334,5 @@ int	minishell(t_shell *_shell)
         _shell->pipes = _shell->pipes->next;
 		free_struct(_shell, tmp);
 	}
-	// while ((_shell->i)--)
-	// {
-	// 	wait(&status);
-	// 	if (WIFEXITED(status))
-	// 		_shell->status = WEXITSTATUS(status);
-	// }
 	return (1);
 }
