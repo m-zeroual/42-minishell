@@ -1,22 +1,5 @@
 #include "../../../includes/minishell.h"
 
-char	*ft_str_tolower(char *cmd)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = ft_calloc(ft_strlen(cmd) + 1, 1);
-	if (!str)
-		return (0);
-	while (cmd[i])
-	{
-		str[i] = ft_tolower(cmd[i]);
-		i++;
-	}
-	return (str);
-}
-
 int	ft_get_index_reverse(char *str, char c, int count)
 {
 	int	i;
@@ -46,6 +29,31 @@ char	*ft_getvar_(char *str)
 			break ;
 	}
 	return (ft_substr(str, 0, i));
+}
+
+void	free_struct(t_shell *_shell, t_list *tmp)
+{
+	if (_shell->command_with_path)
+		free(_shell->command_with_path);
+	if (!tmp)
+		return ;
+	free_double_pointer(tmp->content->commands);
+	free_t_redirect(tmp->content->output_redirections);
+	free_t_redirect(tmp->content->input_redirections);
+	free(tmp->content);
+	free(tmp);
+}
+
+void	del_content(void *cont)
+{
+	t_content	*content;
+
+	content = (t_content *)cont;
+	free_double_pointer(content->commands);
+	free_t_redirect(content->output_redirections);
+	free_t_redirect(content->input_redirections);
+	free(content);
+	return ;
 }
 
 // int ft_get_index(char *str, char c)

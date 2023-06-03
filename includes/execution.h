@@ -39,7 +39,7 @@ void    ft_exe_echo(t_shell *_shell);
 
 //		======> src/excution/utils/ft_utils.c <=======
 void	free_split(char **str);
-char	*ft_str_tolower(char *cmd);
+// char	*ft_str_tolower(char *cmd);                                       // change
 // int		ft_exe(t_shell *_shell);
 // int ft_get_index(char *str, char c);
 int		ft_get_index_reverse(char *str, char c, int count);

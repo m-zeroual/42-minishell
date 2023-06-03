@@ -1,6 +1,7 @@
 NAME	=	minishell
 
 SRCS	=	src/main.c \
+			src/builtins/minishell.c \
 			src/errors/print_error.c \
 			src/parsing_args/main_parsing.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
@@ -18,6 +19,7 @@ SRCS	=	src/main.c \
 			src/builtins/export/display_export.c	\
 			src/builtins/export/ft_export.c	\
 			src/builtins/other_cmd/ft_command.c	\
+			src/builtins/other_cmd/ft_exe_command.c	\
 			src/builtins/other_cmd/ft_excute.c	\
 			src/builtins/unset/ft_unset.c	\
 			src/builtins/env/ft_env.c \
