@@ -31,6 +31,8 @@
         "parsing_single_double_quotes.h": "c",
         "readline.h": "c",
         "errors.h": "c",
-        "expanding.h": "c"
+        "expanding.h": "c",
+        "parsing_redirection_and_pipes.h": "c",
+        "stdio.h": "c"
     }
 }

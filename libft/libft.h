@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 15:40:47 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/27 17:39:37 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:56:14 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,29 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdarg.h>
 
-typedef struct  s_redirect
+typedef struct s_redirect
 {
-    char            *file;
-    char            is_input;
-    char            is_output;
-    char            is_append;
-    char            is_here_doc;
-}   t_redirect;
+	char	*file;
+	char	is_input;
+	char	is_output;
+	char	is_append;
+	char	is_here_doc;
+}	t_redirect;
 
-typedef struct  s_content
+typedef struct s_content
 {
-    int         pipe_fds[2];
-    char        **commands;
-    t_redirect  *input_redirections;     //|`` `` `` `` | - | | - | | - |\0|
-    t_redirect  *output_redirections;
-    char        *here_doc_string;
-}   t_content;
+	int			pipe_fds[2];
+	char		**commands;
+	t_redirect	*input_redirections;
+	t_redirect	*output_redirections;
+	char		*here_doc_string;
+}	t_content;
 
 typedef struct s_list
 {
-    t_content       *content;
+	t_content		*content;
 	struct s_list	*next;
 }	t_list;
 
@@ -85,5 +86,12 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+char	*ft_strchr(const char *str, int c);
+void	ft_putchar(char c, int *count);
+void	ft_putstr(char *str, int *count);
+void	ft_putnbr(long nbr, int isunsigned, int *count);
+void	ft_putnbr_base(long nbr, char *base, int islong, int *count);
+int		ft_printf(const char *str, ...);
 
 #endif

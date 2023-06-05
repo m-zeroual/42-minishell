@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:46:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 12:40:44 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	redirect_len(char **commands, int *j, char c, char *print_c)
 	{
 		len++;
 		if (len > max && two < max - 1 && ++two)
-			p_error(print_c);
+			ft_printf("minishell: syntax error\n");
 		ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
 		(*j)++;
 	}
 	if (!commands[*j] && len && len < 4)
 	{
-		p_error("newline");
+		ft_printf("minishell: syntax error\n");
 		len = 4;
 	}
 	return (len);
@@ -60,7 +60,7 @@ int	check_redirection_error(char **cmds, int *j, int len)
 		&& cmds[*j][0] > 1 && two++ < 2)
 	{
 		len = 200;
-		p_error(" ");
+		ft_printf("minishell: syntax error\n");
 		(*j)++;
 	}
 	if (len == 200)

@@ -6,13 +6,13 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:51:41 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/04 00:53:18 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		init(t_shell *_shell)
+int	init(t_shell *_shell)
 {
 	t_content	*content;
 
@@ -57,7 +57,7 @@ void	open_here_docs(t_shell *shell, t_list *node)
 	}
 }
 
-int		create_redirections(t_shell *shell, t_list *node)
+int	create_redirections(t_shell *shell, t_list *node)
 {
 	char		error;
 
@@ -86,24 +86,28 @@ int		create_redirections(t_shell *shell, t_list *node)
 	return (1);
 }
 
-int		minishell(t_shell *_shell)
+void	swap_and_free(t_shell *_shell)
 {
-	t_list		*tmp;
+	t_list	*tmp;
 
+	tmp = _shell->pipes;
+	_shell->pipes = _shell->pipes->next;
+	free_struct(_shell, tmp);
+}
+
+int	minishell(t_shell *_shell)
+{
 	if (!ft_init(_shell))
 		return (0);
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
-	tmp = _shell->pipes;
 	while (_shell->pipes && ++(_shell->i))
 	{
 		if (!create_redirections(_shell, _shell->pipes) || !init(_shell))
 		{
 			if (_shell->pipes->next)
 				close(_shell->pipes->next->content->pipe_fds[0]);
-			tmp = _shell->pipes;
-			_shell->pipes = _shell->pipes->next;
-			free_struct(_shell, tmp);
+			swap_and_free(_shell);
 			continue ;
 		}
 		ft_exe_command(_shell);
@@ -113,9 +117,7 @@ int		minishell(t_shell *_shell)
 			close(_shell->pipes->content->pipe_fds[1]);
 			close(_shell->pipes->next->content->pipe_fds[1]);
 		}
-		tmp = _shell->pipes;
-		_shell->pipes = _shell->pipes->next;
-		free_struct(_shell, tmp);
+		swap_and_free(_shell);
 	}
 	return (1);
 }

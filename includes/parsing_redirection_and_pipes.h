@@ -10,6 +10,31 @@ int         get_number_of_pipe(char **commands);
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_pipes/parsing_pipes.c
 t_list    *parsing_pipes(t_shell *shell, char  **commands);
 
+
+//PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/utils.c
+void	replace_symbols(char *str);
+void	replace_symbols_rev(char *str);
+int	    check_character(char *str, int c);
+void	remove_character(char *str);
+void	free_t_redirect(t_redirect *redirect);
+
+//PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/utils_2.c
+void	expand_file_name(t_shell *shell, char *name, char *file_name, int i);
+char	*get_file_name(t_shell *shell, char *file_name);
+int	check_permissions(t_shell *shell, char *filename, char *permissions);
+int	check_output_ambiguous(t_shell *shell, t_redirect *file);
+int	is_here_doc(char *str);
+
+//PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/utils_3.c
+int	create_file(t_shell *shell, t_redirect *file);
+t_redirect	*create_output_files(t_shell *shell, t_redirect *output, char *err);
+int	check_input_ambiguous(t_shell *shell, t_redirect *inputs, char *err, int i);
+int	inputs_len(t_redirect *inputs, int *len);
+int	ft_while(t_shell *shell, t_redirect *input, t_redirect	*lastf, char *err);
+
+//PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/utils_4.c
+int	split_commands(t_shell *shell, t_redirect	*redirect, char	**commands);
+
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/parsing_redirection.c
 t_redirect  *get_redirections(t_shell *shell, char   **commands);
 void    set_redirections(t_redirect *redirection, char *str, char is_input, int len);
@@ -38,8 +63,6 @@ int     setup_input_redirections(t_shell *_shell);
 int     setup_output_redirections(t_list *pipe);
 
 
-
-void    p_error(char *str);
 void	search_and_replace(char *src, char search, char replace);
 
 #endif

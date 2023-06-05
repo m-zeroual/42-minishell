@@ -6,7 +6,7 @@
 #    By: esalim <esalim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 18:43:45 by esalim            #+#    #+#              #
-#    Updated: 2023/04/18 23:07:24 by mzeroual         ###   ########.fr        #
+#    Updated: 2023/06/05 17:53:49 by esalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ CFILES	= ft_isalnum.c \
 		ft_strlen.c \
 		ft_bzero.c \
 		ft_strdup.c \
-		ft_strndup.c \
 		ft_atoi.c \
 		ft_calloc.c \
 		ft_strlcpy.c \
@@ -53,7 +52,13 @@ CFILES	= ft_isalnum.c \
 		ft_lstdelone.c \
 		ft_lstclear.c \
 		ft_lstiter.c \
-		ft_lstmap.c
+		ft_lstmap.c \
+		ft_printf.c \
+		ft_putnbr_base.c \
+		ft_putchar.c \
+		ft_putstr.c \
+		ft_putnbr.c \
+		ft_strchr.c
 
 OBJS	= $(CFILES:.c=.o)
 

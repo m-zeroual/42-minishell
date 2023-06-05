@@ -12,6 +12,10 @@ SRCS	=	src/main.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes_utils.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/utils.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/utils_2.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/utils_3.c \
+			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/utils_4.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_tools.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_redirections/parsing_redirection_utils.c \
@@ -41,8 +45,7 @@ all	:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 	@make -C libft
-	@make -C ft_printf
-	$(CC) $(CFLAGS)  $^ libft/libft.a ft_printf/libftprintf.a -o $@ -lreadline
+	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
@@ -53,12 +56,10 @@ run		: all
 
 clean	:
 	@make clean -C libft
-	@make clean -C ft_printf
 	@$(RM) $(OBJS)
 
 fclean	:	clean
 	@make fclean -C libft
-	@make fclean -C ft_printf
 	@$(RM) $(NAME)
 
 re		: fclean	all
