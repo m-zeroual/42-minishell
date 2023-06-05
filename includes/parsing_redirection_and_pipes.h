@@ -27,7 +27,7 @@ char        *get_here_doc_content(t_shell *_shell, char  *eol);
 //PATH: src/parsing_args/parsing_pipes_and_redirections/parsing_redirections/parsing_redirection_tools.c
 int     skip_commands(char **commands, int *j);
 int     redirect_len(char **commands, int *j, char c, char *print_c);
-int     check_redirection_error(char **cmds, int *j, int len, int swap);
+int     check_redirection_error(char **cmds, int *j, int len);
 int     for_each_command(t_redirect *redirection, char **commands, int *i, int *j);
 void    init_t_redirect(t_redirect *dest, t_redirect *src);
 

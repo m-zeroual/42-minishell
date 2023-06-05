@@ -33,7 +33,9 @@ typedef struct s_shell
 	int		here_doc_parsing;
 
 //	Last added ======================
-	char	*dest;
+	// char	**dest;
+	int		isheredoc;
+	int		check;
 	int		isopen;
 	int		index;
 	char	separator;

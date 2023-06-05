@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 00:30:13 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 13:05:26 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,26 +72,22 @@ void	remove_character(char *str)
 	free(dest);
 }
 
-char	*get_file_name(t_shell *shell, char *file_name)
+void	expand_file_name(t_shell *shell, char *name, char *file_name, int i)
 {
-	char	*name;
-	char	*tmp;
-	int		i = 0;
+	char	*variable;
+	char	*value;
+	int		j;
 
-	tmp = file_name;
-	name = ft_calloc(ft_strlen(file_name) * 100, 1);
-	if (!name)
-		return (NULL);
 	while (*file_name)
 	{
 		if (*file_name == '$')
 		{
 			file_name++;
-			char	*variable = get_variable_name(&file_name);
+			variable = get_variable_name(&file_name);
 			if (!variable)
 				continue ;
-			int		j = 0;
-			char	*value = ft_getenv(shell->env, variable);
+			j = 0;
+			value = ft_getenv(shell->env, variable);
 			free(variable);
 			if (!value)
 				continue ;
@@ -102,6 +98,20 @@ char	*get_file_name(t_shell *shell, char *file_name)
 		}
 		name[i++] = *file_name++;
 	}
+}
+
+char	*get_file_name(t_shell *shell, char *file_name)
+{
+	char	*name;
+	char	*tmp;
+	int		i;
+
+	tmp = file_name;
+	name = ft_calloc(ft_strlen(file_name) * 100, 1);
+	if (!name)
+		return (NULL);
+	i = 0;
+	expand_file_name(shell, name, file_name, i);
 	free(tmp);
 	tmp = ft_strdup(name);
 	free(name);
@@ -113,8 +123,6 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 	if (permissions[0] == '1' && access(filename, F_OK))
 	{
 		print_error(filename, ": No such file or directory\n");
-		// ft_printf("minishell: No such file or directory\n");
-		// exit status
 		shell->status = 1;
 		return (0);
 	}
@@ -122,12 +130,10 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions)
 			|| (permissions[2] == '1' && access(filename, W_OK)) \
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
-		// ft_printf("minishell: Permission denied\n");
 		print_error(filename, ": Permission denied\n");
 		shell->status = 1;
 		if (permissions[3] == '1' && access(filename, X_OK))
 			shell->status = 126;
-		// exit status
 		return (0);
 	}
 	return (1);
@@ -146,10 +152,9 @@ void	free_t_redirect(t_redirect *redirect)
 	free(redirect);
 }
 
-int	create_file(t_shell *shell, t_redirect *file)
+int	check_ambiguous(t_shell *shell, t_redirect *file)
 {
 	char	*tmp;
-	int		fd;
 
 	if (check_character(file->file, -22))
 	{
@@ -170,21 +175,22 @@ int	create_file(t_shell *shell, t_redirect *file)
 			return (0);
 		}
 	}
+	return (1);
+}
+
+int	create_file(t_shell *shell, t_redirect *file)
+{
+	if (!check_ambiguous(shell, file))
+		return (0);
 	if (file->is_append && !access(file->file, F_OK))
 	{
 		if (!check_permissions(shell, file->file, "0010"))
 			return (0);
-		fd = open(file->file, O_CREAT | O_APPEND, 0644);
-		close(fd);
-		return (1);
+		return (close(open(file->file, O_CREAT | O_APPEND, 0644)), 1);
 	}
 	else if (access(file->file, F_OK) \
 		|| check_permissions(shell, file->file, "0010"))
-	{
-		fd = open(file->file, O_CREAT | O_TRUNC, 0644);
-		close(fd);
-		return (1);
-	}
+		return (close(open(file->file, O_CREAT | O_TRUNC, 0644)), 1);
 	return (0);
 }
 
@@ -260,8 +266,8 @@ t_redirect	*get_input_file(t_shell *shell, t_redirect *inputs, char *error)
 		}
 		if (!inputs[i].is_here_doc)
 		{
-    		if (inputs[i].file && access(inputs[i].file, F_OK))
-    	    	*error = 3;
+			if (inputs[i].file && access(inputs[i].file, F_OK))
+				*error = 3;
 			if (inputs[i].file && !access(inputs[i].file, F_OK) && access(inputs[i].file, R_OK))
 				*error = 4;
 			if (i < len - 1)
@@ -291,96 +297,47 @@ int	is_here_doc(char *str)
 
 char    *get_here_doc_content(t_shell *_shell, char     *delimiter)
 {
-        int             len;
-        char    *string;
-        char    *line;
-        char    *tmp;
-        char    check;
+	int		len;
+	char	*string;
+	char	*line;
+	char	*tmp;
+	char	check;
 
-        (void)_shell;
-        if (!delimiter)
-                return (ft_strdup(""));
-        check = is_here_doc(delimiter);
-        remove_character(delimiter);
-        len = ft_strlen(delimiter);
-        string = ft_calloc(3, 1);
-        while (1)
-        {
-                line = readline("> ");
-                if (!line || !ft_strncmp(line, delimiter, len + 1))
-                {
-                        len = ft_strlen(string);
-                        if (len)
-                                string[len - 1] = 0;
-                        free(line);
-                        return (string);
-                }
-                if (!check)
-                {
-                        replace_symbols(line);
-                        search_and_replace(line, ' ', -9);
-                        tmp = handle_line(_shell, line);
-                        free(line);
-                        if (!tmp)
-                                tmp = ft_strdup("");
-                        line = ft_strtrim(tmp, "\004\004");
-                        free(tmp);
-                        replace_symbols_rev(line);
-                        search_and_replace(line, -9, ' ');
-                }
-                tmp = ft_strjoin(string, line);
-                free(string);
-                free(line);
-                string = ft_strjoin(tmp, "\n");
-                free(tmp);
-        }
-        return (string);
+	if (!delimiter)
+			return (ft_strdup(""));
+	check = is_here_doc(delimiter);
+	remove_character(delimiter);
+	len = ft_strlen(delimiter);
+	string = ft_calloc(3, 1);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || !ft_strncmp(line, delimiter, len + 1))
+		{
+				len = ft_strlen(string);
+				if (len)
+						string[len - 1] = 0;
+				free(line);
+				return (string);
+		}
+		if (!check)
+		{
+				replace_symbols(line);
+				search_and_replace(line, ' ', -9);
+				tmp = handle_line(_shell, line);
+				free(line);
+				if (!tmp)
+						tmp = ft_strdup("");
+				line = ft_strtrim(tmp, "\004\004");
+				free(tmp);
+				replace_symbols_rev(line);
+				search_and_replace(line, -9, ' ');
+		}
+		tmp = ft_strjoin(string, line);
+		free(string);
+		free(line);
+		string = ft_strjoin(tmp, "\n");
+		free(tmp);
+	}
+	return (string);
 }
-
-// char	*get_here_doc_content(t_shell *_shell, char	*delimiter)
-// {
-// 	int		len;
-// 	char	*string;
-// 	t_data	data;
-// 	char	*tmp;
-// 	char	check;
-
-// 	data.shell = _shell;
-// 	if (!delimiter)
-// 		return (ft_strdup(""));
-// 	check = is_here_doc(delimiter);
-// 	remove_character(delimiter);
-// 	len = ft_strlen(delimiter);
-// 	string = ft_calloc(3, 1);
-// 	while (1)
-// 	{
-// 		data.line = readline("> ");
-// 		if (!data.line || !ft_strncmp(data.line, delimiter, len + 1))
-// 		{
-// 			len = ft_strlen(string);
-// 			if (len)
-// 				string[len - 1] = 0;
-// 			free(data.line);
-// 			return (string);
-// 		}
-// 		if (!check)
-// 		{
-// 			replace_symbols(data.line);
-// 			search_and_replace(data.line, ' ', -9);
-// 			tmp = handle_line(&data);
-// 			free(data.line);
-// 			if (!tmp)
-// 				tmp = ft_strdup("");
-// 			data.line = ft_strtrim(tmp, "\004\004");
-// 			free(tmp);
-// 			replace_symbols_rev(data.line);
-// 			search_and_replace(data.line, -9, ' ');
-// 		}
-// 		tmp = ft_strjoin(string, data.line);
-// 		free(string);
-// 		free(data.line);
-// 		string = ft_strjoin(tmp, "\n");
-// 		free(tmp);
-// 	}
-// 	return (string);
-// }

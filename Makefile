@@ -4,7 +4,11 @@ SRCS	=	src/main.c \
 			src/builtins/minishell.c \
 			src/errors/print_error.c \
 			src/parsing_args/main_parsing.c \
+			src/parsing_args/expanding_variables/expanding.c \
+			src/parsing_args/expanding_variables/expanding_utils.c \
+			src/parsing_args/parsing_single_double_quotes/checking.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes.c \
+			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_tools.c \
 			src/parsing_args/parsing_single_double_quotes/parsing_single_double_quotes_utils.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes.c \
 			src/parsing_args/parsing_redirection_and_pipes/parsing_pipes/parsing_pipes_utils.c \

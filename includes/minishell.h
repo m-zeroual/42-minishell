@@ -8,6 +8,7 @@
 #include "parsing_redirection_and_pipes.h"
 #include <readline/readline.h>
 #include "execution.h"
+#include "expanding.h"
 #include "errors.h"
 #include <fcntl.h>
 

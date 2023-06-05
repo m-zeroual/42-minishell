@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:46:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/02 16:08:14 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 12:40:44 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,46 +51,16 @@ int	redirect_len(char **commands, int *j, char c, char *print_c)
 	return (len);
 }
 
-int	check_redirection_error(char **cmds, int *j, int len, int swap)
+int	check_redirection_error(char **cmds, int *j, int len)
 {
 	int	two;
 
 	two = 0;
-	while (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 \
+	if (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 \
 		&& cmds[*j][0] > 1 && two++ < 2)
 	{
 		len = 200;
-		if (swap && (cmds[(*j)][0] == OUTPUT_REDIRECT || cmds[(*j)][0] == 3))
-		{
-			p_error(">");
-			break ;
-		}
-		else if (swap && cmds[(*j)][0] == INPUT_REDIRECT)
-		{
-			p_error(">");
-			break ;
-		}
-		else if (!swap \
-			&& (cmds[(*j)][0] == INPUT_REDIRECT || cmds[(*j)][0] == 3))
-		{
-			p_error(">");
-			break ;
-		}
-		else if (!swap && cmds[(*j)][0] == OUTPUT_REDIRECT)
-		{
-			p_error(">");
-			break ;
-		}
-		else if (cmds[(*j)][0] == PIPE && ++two)
-		{
-			p_error(">");
-			break ;
-		}
-		else
-		{
-			p_error(">");
-			break ;
-		}
+		p_error(" ");
 		(*j)++;
 	}
 	if (len == 200)
@@ -108,7 +78,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 	if (skip_commands(commands, j))
 		return (2);
 	input_len = redirect_len(commands, j, INPUT_REDIRECT, "<");
-	if (input_len > 3 || check_redirection_error(commands, j, input_len, 1))
+	if (input_len > 3 || check_redirection_error(commands, j, input_len))
 		return (0);
 	if (input_len < 4 && commands[*j] && commands[*j][0] == 1)
 		return (print_error("", "No such file or directory\n"), 4);
@@ -117,7 +87,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 	output_len = redirect_len(commands, j, OUTPUT_REDIRECT, ">");
 	if (output_len < 3 && commands[*j] && commands[*j][0] == 1)
 		return (print_error("", "No such file or directory\n"), 4);
-	if (output_len > 2 || check_redirection_error(commands, j, output_len, 0))
+	if (output_len > 2 || check_redirection_error(commands, j, output_len))
 		return (0);
 	if (output_len != 0 && commands[*j] && commands[*j][0] != INPUT_REDIRECT)
 		set_redirections(&redirection[(*i)++], commands[(*j)++], 0, output_len);
