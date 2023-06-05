@@ -21,11 +21,9 @@ void	free_struct(t_shell *_shell, t_list *tmp);
 void    setup_all(t_shell *_shell);
 char    **duplicate_dpointer(char **src);
 void	del_content(void *cont);
+void	replace_symbols(char *str);
+void	replace_symbols_rev(char *str);
 
-
-
-char	*get_value(t_shell *shell, char **line, char separ, int *a);
-char	*get_variable_name(char **line);
 
 void	free_t_redirect_2(t_redirect *redirect);
 

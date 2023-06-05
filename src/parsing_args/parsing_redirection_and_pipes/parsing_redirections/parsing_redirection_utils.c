@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/03 16:43:20 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 00:30:13 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,50 +289,98 @@ int	is_here_doc(char *str)
 	return (0);
 }
 
-char	*get_here_doc_content(t_shell *_shell, char	*delimiter)
+char    *get_here_doc_content(t_shell *_shell, char     *delimiter)
 {
-	int		len;
-	char	*string;
-	char	*line;
-	char	*tmp;
-	char	check;
+        int             len;
+        char    *string;
+        char    *line;
+        char    *tmp;
+        char    check;
 
-	(void)_shell;
-	if (!delimiter)
-		return (ft_strdup(""));
-	check = is_here_doc(delimiter);
-	remove_character(delimiter);
-	len = ft_strlen(delimiter);
-	string = ft_calloc(3, 1);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || !ft_strncmp(line, delimiter, len + 1))
-		{
-			len = ft_strlen(string);
-			if (len)
-				string[len - 1] = 0;
-			free(line);
-			return (string);
-		}
-		if (!check)
-		{
-			replace_symbols(line);
-			search_and_replace(line, ' ', -9);
-			tmp = handle_line(_shell, line);
-			free(line);
-			if (!tmp)
-				tmp = ft_strdup("");
-			line = ft_strtrim(tmp, "\004\004");
-			free(tmp);
-			replace_symbols_rev(line);
-			search_and_replace(line, -9, ' ');
-		}
-		tmp = ft_strjoin(string, line);
-		free(string);
-		free(line);
-		string = ft_strjoin(tmp, "\n");
-		free(tmp);
-	}
-	return (string);
+        (void)_shell;
+        if (!delimiter)
+                return (ft_strdup(""));
+        check = is_here_doc(delimiter);
+        remove_character(delimiter);
+        len = ft_strlen(delimiter);
+        string = ft_calloc(3, 1);
+        while (1)
+        {
+                line = readline("> ");
+                if (!line || !ft_strncmp(line, delimiter, len + 1))
+                {
+                        len = ft_strlen(string);
+                        if (len)
+                                string[len - 1] = 0;
+                        free(line);
+                        return (string);
+                }
+                if (!check)
+                {
+                        replace_symbols(line);
+                        search_and_replace(line, ' ', -9);
+                        tmp = handle_line(_shell, line);
+                        free(line);
+                        if (!tmp)
+                                tmp = ft_strdup("");
+                        line = ft_strtrim(tmp, "\004\004");
+                        free(tmp);
+                        replace_symbols_rev(line);
+                        search_and_replace(line, -9, ' ');
+                }
+                tmp = ft_strjoin(string, line);
+                free(string);
+                free(line);
+                string = ft_strjoin(tmp, "\n");
+                free(tmp);
+        }
+        return (string);
 }
+
+// char	*get_here_doc_content(t_shell *_shell, char	*delimiter)
+// {
+// 	int		len;
+// 	char	*string;
+// 	t_data	data;
+// 	char	*tmp;
+// 	char	check;
+
+// 	data.shell = _shell;
+// 	if (!delimiter)
+// 		return (ft_strdup(""));
+// 	check = is_here_doc(delimiter);
+// 	remove_character(delimiter);
+// 	len = ft_strlen(delimiter);
+// 	string = ft_calloc(3, 1);
+// 	while (1)
+// 	{
+// 		data.line = readline("> ");
+// 		if (!data.line || !ft_strncmp(data.line, delimiter, len + 1))
+// 		{
+// 			len = ft_strlen(string);
+// 			if (len)
+// 				string[len - 1] = 0;
+// 			free(data.line);
+// 			return (string);
+// 		}
+// 		if (!check)
+// 		{
+// 			replace_symbols(data.line);
+// 			search_and_replace(data.line, ' ', -9);
+// 			tmp = handle_line(&data);
+// 			free(data.line);
+// 			if (!tmp)
+// 				tmp = ft_strdup("");
+// 			data.line = ft_strtrim(tmp, "\004\004");
+// 			free(tmp);
+// 			replace_symbols_rev(data.line);
+// 			search_and_replace(data.line, -9, ' ');
+// 		}
+// 		tmp = ft_strjoin(string, data.line);
+// 		free(string);
+// 		free(data.line);
+// 		string = ft_strjoin(tmp, "\n");
+// 		free(tmp);
+// 	}
+// 	return (string);
+// }

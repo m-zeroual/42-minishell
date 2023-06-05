@@ -46,7 +46,7 @@ char *ft_fix_path(char *path)
 			else
 				new_path[j++] = path[i];
 		}
-		else if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))  // /bin/bash::
+		else if ((path[i] == ':' && i == len - 1) || (path[i] == ':' && path[i + 1] == ':'))
 		{
 			new_path[j++] = path[i];
 			new_path[j++] = '.';

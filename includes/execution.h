@@ -31,6 +31,9 @@ typedef struct s_shell
 	t_list 	*pipes;
 	int		i;
 	int		here_doc_parsing;
+	int		isopen;
+	int		index;
+	char	separator;
 }	t_shell;
 
 
