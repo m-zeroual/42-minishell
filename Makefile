@@ -24,7 +24,7 @@ SRCS	=	src/main.c \
 			src/builtins/export/ft_export.c	\
 			src/builtins/other_cmd/ft_command.c	\
 			src/builtins/other_cmd/ft_exe_command.c	\
-			src/builtins/other_cmd/ft_excute.c	\
+			src/builtins/other_cmd/ft_execute.c	\
 			src/builtins/unset/ft_unset.c	\
 			src/builtins/env/ft_env.c \
 			src/builtins/exit/ft_exit.c \

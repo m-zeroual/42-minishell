@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:44 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 12:39:53 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 15:30:54 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,32 +87,6 @@ void	set_redirections(t_redirect *red, char *str, char is_input, int len)
 			red->is_append = 1;
 		red->is_output = 1;
 	}
-}
-
-int	split_commands(t_shell *shell, t_redirect	*redirect, char	**commands)
-{
-	int	res;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	res = 0;
-	while (commands[j])
-	{
-		res = for_each_command(redirect, commands, &i, &j);
-		if (!res || res == 4)
-		{
-			free(redirect);
-			shell->status = 2;
-			if (res == 4)
-				shell->status = 1;
-			return (0);
-		}
-		if (res == 2)
-			break ;
-	}
-	return (1);
 }
 
 t_redirect	*get_redirections(t_shell *shell, char **commands)
