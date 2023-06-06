@@ -77,23 +77,26 @@ static int	ft_add_var(t_shell *_shell)
 void	ft_exe_export(t_shell *_shell)
 {
 	int	pid;
-	int	status;
+	// int	status;
+
 
 	if (_shell->pipes->content->commands[1])
+	{
+		if (_shell->pipes->next || _shell->i > 1)
+			return ;
 		ft_add_var(_shell);
+	}
 	else
 	{
 		pid = fork();
-		if (pid == -1)
-			exit (1);
 		if (pid == 0)
 		{
 			setup_all(_shell);
 			ft_display_export(_shell->env);
 			exit(0);
 		}
-		wait(&status);
-		if (WIFEXITED(status))
-			_shell->status = WEXITSTATUS(status);
+		// wait(&status);
+		// if (WIFEXITED(status))
+		// 	_shell->status = WEXITSTATUS(status);
 	}
 }

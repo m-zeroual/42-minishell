@@ -6,7 +6,7 @@
 #    By: esalim <esalim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 18:43:45 by esalim            #+#    #+#              #
-#    Updated: 2023/06/05 17:53:49 by esalim           ###   ########.fr        #
+#    Updated: 2023/06/05 21:37:13 by esalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,8 +57,7 @@ CFILES	= ft_isalnum.c \
 		ft_putnbr_base.c \
 		ft_putchar.c \
 		ft_putstr.c \
-		ft_putnbr.c \
-		ft_strchr.c
+		ft_putnbr.c
 
 OBJS	= $(CFILES:.c=.o)
 

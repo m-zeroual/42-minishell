@@ -39,13 +39,10 @@ void	ft_exe_echo(t_shell *_shell)
 	int	i;
 	int	n;
 	int	pid;
-	int	status;
 
 	i = 1;
 	n = 0;
 	pid = fork();
-	if (pid == -1)
-		exit (1);
 	if (pid == 0)
 	{
 		setup_all(_shell);
@@ -56,7 +53,4 @@ void	ft_exe_echo(t_shell *_shell)
 		print(_shell, i, n);
 		exit (0);
 	}
-	wait(&status);
-	if (WIFEXITED(status))
-		_shell->status = WEXITSTATUS(status);
 }

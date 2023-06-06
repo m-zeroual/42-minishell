@@ -19,7 +19,6 @@
 void	ft_exec_cmd(t_shell *_shell)
 {
 	int	p;
-	int	status;
 
 	p = fork();
 	if (p == 0)
@@ -32,7 +31,4 @@ void	ft_exec_cmd(t_shell *_shell)
 			exit(1);
 		}
 	}
-	wait(&status);
-	if (WIFEXITED(status))
-		_shell->status = WEXITSTATUS(status);
 }

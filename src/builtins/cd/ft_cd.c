@@ -22,6 +22,7 @@ static void	ft_chdir(t_shell *_shell, char *str)
 void	ft_exe_cd(t_shell *_shell)
 {
 	char	*str;
+
 	if (_shell->pipes->next || _shell->i > 1)
 		return ;
 	// pid = fork();
@@ -48,7 +49,4 @@ void	ft_exe_cd(t_shell *_shell)
 			ft_chdir(_shell, _shell->pipes->content->commands[1]);
 		// exit (0);
 	// }
-	// wait(&status);
-	// if (WIFEXITED(status))
-    //     _shell->status = WEXITSTATUS(status);
 }

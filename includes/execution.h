@@ -79,7 +79,7 @@ void ft_exec_cmd(t_shell *_shell);
 // 		======> src/excution/other_cmd/ft_excute.c <=======
 void ft_exe_command(t_shell *_shell);
 char *ft_join_cmd(t_shell *_shell);
-int ft_init(t_shell *_shell);
+int ft_parsing(t_shell *_shell);
 int	minishell(t_shell *_shell);
 
 

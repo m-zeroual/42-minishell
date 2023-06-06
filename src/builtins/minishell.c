@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:51:41 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/06 22:35:23 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,27 +97,37 @@ void	swap_and_free(t_shell *_shell)
 
 int	minishell(t_shell *_shell)
 {
-	if (!ft_init(_shell))
+	int	status;
+
+	if (!ft_parsing(_shell))
 		return (0);
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
+	_shell->i = 0;
 	while (_shell->pipes && ++(_shell->i))
 	{
 		if (!create_redirections(_shell, _shell->pipes) || !init(_shell))
 		{
+			close(_shell->pipes->content->pipe_fds[0]);
+			close(_shell->pipes->content->pipe_fds[1]);
 			if (_shell->pipes->next)
 				close(_shell->pipes->next->content->pipe_fds[0]);
 			swap_and_free(_shell);
+			_shell->i--;
 			continue ;
 		}
 		ft_exe_command(_shell);
+		close(_shell->pipes->content->pipe_fds[0]);
+		close(_shell->pipes->content->pipe_fds[1]);
 		if (_shell->pipes->next)
-		{
-			close(_shell->pipes->content->pipe_fds[0]);
-			close(_shell->pipes->content->pipe_fds[1]);
 			close(_shell->pipes->next->content->pipe_fds[1]);
-		}
 		swap_and_free(_shell);
+	}
+	while ((_shell->i)--)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			_shell->status = WEXITSTATUS(status);
 	}
 	return (1);
 }

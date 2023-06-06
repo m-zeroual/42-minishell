@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/06 22:57:54 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	modify_line(t_shell *shell, char *line)
 	replace_symbols(line);
 	search_and_replace(line, ' ', -9);
 	tmp = handle_line(shell, line);
-	free(line);
 	if (!tmp)
 		tmp = ft_strdup("");
+	free(line);
 	line = ft_strtrim(tmp, "\004\004");
 	free(tmp);
 	replace_symbols_rev(line);

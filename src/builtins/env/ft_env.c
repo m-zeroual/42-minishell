@@ -27,7 +27,6 @@ int	ft_count_env(char **env)
 void	ft_exe_env(t_shell *_shell)
 {
 	int		j;
-	int		status;
 	int		pid;
 	char	**str;
 
@@ -48,7 +47,4 @@ void	ft_exe_env(t_shell *_shell)
 		}
 		exit (0);
 	}
-	wait(&status);
-	if (WIFEXITED(status))
-		_shell->status = WEXITSTATUS(status);
 }
