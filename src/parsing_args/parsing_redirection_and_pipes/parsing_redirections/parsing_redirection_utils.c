@@ -15,7 +15,7 @@ int	check_permissions(t_shell *shell, char *filename, char *permissions) //
 			|| (permissions[3] == '1' && access(filename, X_OK)))
 	{
 		// ft_printf("minishell: Permission denied\n");
-		print_error(filename, ": Permission denied\n"); 
+		print_error(filename, ": Permission denied\n");
 		shell->status = 1;
 		if (permissions[3] == '1' && access(filename, X_OK))
 			shell->status = 126;

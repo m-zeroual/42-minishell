@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 15:11:20 by mzeroual          #+#    #+#             */
+/*   Created: 2023/04/07 15:11:20 by mzeroual          #+#    #+#             */
 /*   Updated: 2023/06/07 15:11:22 by mzeroual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -74,10 +74,7 @@ static char *next(t_shell *_shell, char **path, char *cmd)
 		if (!access(path_cmd, F_OK))
 		{
 			if (!access(path_cmd, X_OK))
-			{
-				// free_split(path);
 				return (path_cmd);
-			}
 			ft_printf("minishell: %s: %s\n", cmd, "Permission denied");
 			return (free_split(path), _shell->status = 1, NULL);
 		}
@@ -86,8 +83,10 @@ static char *next(t_shell *_shell, char **path, char *cmd)
 	return (print_error2(_shell, cmd, 127, "command not found"), NULL);
 }
 
-char *conditions(t_shell *_shell, char *path_cmd, char **path, char *cmd)
+char	*check_errors(t_shell *_shell, char **path, char *cmd)
 {
+	char	*path_cmd;
+
 	if (!ft_strchr(cmd, '/'))
 	{
 		path_cmd = next(_shell, path, cmd);
@@ -112,19 +111,12 @@ char	*ft_join_cmd(t_shell *_shell)
 {
 	char	**path;
 	char	*cmd;
-	char	*path_cmd;
 
-	path_cmd = 0;
 	cmd = ft_path(_shell);
 	if (ft_is_builtins(cmd))
 		return (cmd);
 	path = ft_split(cmd, ':');
 	free(cmd);
 	cmd = _shell->pipes->content->commands[0];
-	path_cmd = conditions(_shell, path_cmd, path, cmd);
-	if (!path_cmd)
-		return (NULL);
-	else
-		return (path_cmd);
-	return (NULL);
+	return (check_errors(_shell, path, cmd));
 }
