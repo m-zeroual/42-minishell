@@ -61,8 +61,8 @@ char	*ft_join_cmd(t_shell *_shell)
 			free(path_cmd);
 			i++;
 		}
-		// ft_printf("minishell: %s: %s\n", cmd, "command not found");
-		ft_printf("minishell: command not found\n");
+		ft_printf("minishell: %s: %s\n", cmd, "command not found");
+		// ft_printf("minishell: command not found\n");
 		_shell->status = 127;
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
@@ -89,17 +89,17 @@ char	*ft_join_cmd(t_shell *_shell)
 int	ft_parsing(t_shell *_shell)
 {
 	char *cmd;
-	// char *tmp_cmd;
+	char *tmp_cmd;
 
 	cmd = readline("minishell -> ");
 	if (!cmd)
 		exit(_shell->status);
-	// tmp_cmd = ft_strdup(cmd);
+	tmp_cmd = ft_strdup(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
-		return (/*free(tmp_cmd),*/ 0);
+		return (free(tmp_cmd), 0);
 	_shell->i = 0;
-	// add_history(tmp_cmd);
-	// free(tmp_cmd);
+	add_history(tmp_cmd);
+	free(tmp_cmd);
 	return (1);
 }
