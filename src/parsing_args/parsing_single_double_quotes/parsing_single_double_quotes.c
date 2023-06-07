@@ -70,8 +70,6 @@ char	*get_value(t_shell *shell, char **line, char **dest, int j, char separ, int
 	else if (!str[0])
 		str[0] = -10;
 	
-	if (separ == '"' && *a)
-		search_and_replace(str, ' ', -99);
 	search_and_replace(str, '"', -3);
 	search_and_replace(str, '\'', -2);
 	search_and_replace(str, '>', -4);

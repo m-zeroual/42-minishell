@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export_1.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/07 15:06:06 by mzeroual          #+#    #+#             */
+/*   Updated: 2023/06/07 15:06:11 by mzeroual         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 char	*ft_getvar(char *str)
@@ -37,8 +49,6 @@ int	ft_check_var_exist(char **env, char *var)
 	while (env[i])
 	{
 		str = ft_split(env[i], '=');
-		// if (!str)
-		// 	return (-1);
 		if (!ft_strncmp(str[0], var + j, ft_strlen(var + j) + 1))
 		{
 			free_split(str);
@@ -65,7 +75,6 @@ char	*ft_getenv(char **env, char *var)
 		str = ft_strchr(env[index], '=');
 		if (str)
 			s = ft_strdup(str + 1);
-		// free_split(str);
 	}
 	return (s);
 }
@@ -77,7 +86,6 @@ int	edit_var(char **env, char *var, char *value, int equal)
 	char	*join_equal;
 
 	index_var = ft_check_var_exist(env, var);
-	// printf("N =>%d\n", index_var);
 	if (index_var != -1 && *var && equal)
 	{
 		join_equal = ft_strjoin(var, "=");
@@ -117,6 +125,5 @@ char	**add_var(char **env, char *var, char *value, int equal)
 		add_line_env[i] = ft_strdup(var);
 	free(join_equal);
 	free_split(env);
-	// add_line_env[i + 1] = 0;
 	return (add_line_env);
 }

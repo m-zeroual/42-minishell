@@ -32,7 +32,7 @@ typedef struct s_shell
 	int		a;
 }	t_shell;
 
-
+void	rl_replace_line(const char *str, int i);
 // 		======> src/excution/echo/ft_echo.c.c <=======
 void    ft_exe_echo(t_shell *_shell);
 

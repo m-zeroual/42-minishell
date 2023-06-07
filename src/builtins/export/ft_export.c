@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/07 15:05:14 by mzeroual          #+#    #+#             */
+/*   Updated: 2023/06/07 15:05:17 by mzeroual         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 int	check_var_error(char *var)
@@ -22,8 +34,9 @@ static int	ft_var_error(t_shell *_shell, char *var)
 {
 	if (!check_var_error(var))
 	{
-		printf("minishel: %s: `%s\': not a valid identifier\n", \
-			_shell->pipes->content->commands[0], var);
+		ft_printf("minishell: not a valid identifier\n");
+		// ft_printf("minishell: %s: `%s\': not a valid identifier\n", 
+			// _shell->pipes->content->commands[0], var);
 		_shell->status = 1;
 		return (0);
 	}
@@ -84,8 +97,6 @@ void	ft_exe_export(t_shell *_shell)
 	else
 	{
 		pid = fork();
-		if (pid == -1)
-			exit (1);
 		if (pid == 0)
 		{
 			setup_all(_shell);

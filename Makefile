@@ -38,7 +38,7 @@ all	:	$(NAME)
 $(NAME)	:	$(OBJS)
 	@make -C libft
 	@make -C ft_printf
-	$(CC) $(CFLAGS)  $^ libft/libft.a ft_printf/libftprintf.a -o $@ -lreadline
+	$(CC) $(CFLAGS)  $^ libft/libft.a ft_printf/libftprintf.a -I /goinfre/mzeroual/.brew/opt/readline/include -L /goinfre/mzeroual/.brew/opt/readline/lib -o $@ -lreadline
 
 %.o		:	%.c
 	@$(CC) $(CFLAGS) -c $^ -o $@

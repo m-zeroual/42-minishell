@@ -8,6 +8,8 @@ int	ft_init(t_shell *_shell)
 	cmd = readline("minishell -> ");
 	if (!cmd)
 		exit(_shell->status);
+	else if (!*cmd)
+		return (0);
 	add_history(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
 	// int i =-1;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_command.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/07 15:08:01 by mzeroual          #+#    #+#             */
+/*   Updated: 2023/06/07 15:08:04 by mzeroual         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 // void	exec_path_cmd(t_shell *_shell)
@@ -10,7 +22,7 @@
 //_shell->pipes->content->commands, _shell->ev) == -1)
 // 				printf("Error in execve function\n");
 // 		}
-// 		printf("minishell: %s: No such file or directory\n" 
+// 		ft_printf("minishell: %s: No such file or directory\n" 
 // 			, _shell->pipes->content->commands[0]);
 // 		exit (127);
 // 	}
