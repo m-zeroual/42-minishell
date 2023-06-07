@@ -61,8 +61,8 @@ char	*ft_join_cmd(t_shell *_shell)
 			free(path_cmd);
 			i++;
 		}
-		// ft_printf("minishell: %s: %s\n", cmd, "command not found");
-		ft_printf("minishell: command not found\n");
+		ft_printf("minishell: %s: %s\n", cmd, "command not found");
+		// ft_printf("minishell: command not found\n");
 		_shell->status = 127;
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
