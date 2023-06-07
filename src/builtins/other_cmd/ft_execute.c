@@ -70,7 +70,7 @@ char	*ft_join_cmd(t_shell *_shell)
 		ft_printf("minishell: %s: %s\n", cmd, "is a directory");
 		_shell->status = 126;
 	}
-	else if (cmd[ft_strlen(cmd) - 1] == '/' && !(cmd[ft_strlen(cmd) - 1] = '\0') && !access(cmd, F_OK))
+	else if (cmd[ft_strlen(cmd) - 1] == '/' && ft_memset(cmd + ft_strlen(cmd) - 1, 0, 1) && !access(cmd, F_OK))
 	{
 		ft_printf("minishell: %s/: %s\n", cmd, "Not a directory");
 		_shell->status = 126;
@@ -89,17 +89,17 @@ char	*ft_join_cmd(t_shell *_shell)
 int	ft_parsing(t_shell *_shell)
 {
 	char *cmd;
-	// char *tmp_cmd;
+	char *tmp_cmd;
 
 	cmd = readline("minishell -> ");
 	if (!cmd)
 		exit(_shell->status);
-	// tmp_cmd = ft_strdup(cmd);
+	tmp_cmd = ft_strdup(cmd);
 	_shell->pipes = main_parsing(_shell, cmd);
 	if (!_shell->pipes)
-		return (/*free(tmp_cmd),*/ 0);
+		return (free(tmp_cmd), 0);
 	_shell->i = 0;
-	// add_history(tmp_cmd);
-	// free(tmp_cmd);
+	add_history(tmp_cmd);
+	free(tmp_cmd);
 	return (1);
 }

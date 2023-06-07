@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:15:40 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/07 16:43:53 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/07 20:21:19 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 		// close(0);
