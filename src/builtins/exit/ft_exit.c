@@ -73,7 +73,7 @@ numeric argument required\n", command[0], command[1]), 255);
 
 int	ft_exit(t_shell *_shell)
 {
-	// printf("exit\n");
+	printf("exit\n");
 	if (!_shell->pipes->content->commands[1])
 		return (_shell->status);
 	else

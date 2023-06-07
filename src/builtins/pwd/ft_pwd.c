@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/09 19:40:55 by mzeroual          #+#    #+#             */
+/*   Updated: 2023/06/07 19:41:14 by mzeroual         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
 char	*curr_path(t_shell _shell)
@@ -26,7 +38,6 @@ void	ft_exe_pwd(t_shell *_shell)
 {
 	char	*str;
 	int		pid;
-	int		status;
 
 	str = 0;
 	pid = fork ();
@@ -40,15 +51,15 @@ void	ft_exe_pwd(t_shell *_shell)
 		free(str);
 		exit (0);
 	}
-	wait(&status);
-	if (WIFEXITED(status))
-		_shell->status = WEXITSTATUS(status);
+	else
+		_shell->pipes->content->pid = pid;
 }
 
 void	ch_pwd(t_shell *_shell)
 {
 	int		i;
 	char	**str;
+	char	str1[1024];
 
 	i = 0;
 	while (_shell->env[i])
@@ -57,7 +68,8 @@ void	ch_pwd(t_shell *_shell)
 		if (!ft_strncmp(str[0], "PWD", 3))
 		{
 			free(_shell->env[i]);
-			_shell->env[i] = ft_strjoin("PWD=", getcwd(NULL, 1024));
+			getcwd(str1, 1024);
+			_shell->env[i] = ft_strjoin("PWD=", str1);
 		}
 		free_split(str);
 		i++;

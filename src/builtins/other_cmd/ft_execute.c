@@ -39,8 +39,8 @@ char	*ft_path(t_shell *_shell)
 		cmd = ft_getenv(_shell->env, "PATH");
 		if (!cmd)
 		{
-			ft_printf("minishell: No such file or directory\n");
-			// ft_printf("minshell: %s: %s\n", _shell->pipes->content->commands[0], "No such file or directory");
+			ft_printf("minshell: %s: %s\n", \
+_shell->pipes->content->commands[0], "No such file or directory");
 			_shell->status = 127;
 			return (0);
 		}
@@ -50,16 +50,7 @@ char	*ft_path(t_shell *_shell)
 	return (cmd);
 }
 
-static void	print_error2(t_shell *_shell, char *cmd, \
-int exit_status, char *str_error)
-{
-	(void)cmd;
-	ft_printf("minishell: %s\n", str_error);
-	// ft_printf("minishell: %s: %s\n", cmd, str_error);
-	_shell->status = exit_status;
-}
-
-static char *next(t_shell *_shell, char **path, char *cmd)
+static char	*next(t_shell *_shell, char **path, char *cmd)
 {
 	int		i;
 	char	*tmp;
@@ -75,7 +66,8 @@ static char *next(t_shell *_shell, char **path, char *cmd)
 		{
 			if (!access(path_cmd, X_OK))
 				return (path_cmd);
-			ft_printf("minishell: %s: %s\n", cmd, "Permission denied");
+			ft_printf("minishell: %s%s: %s\n", path[i], cmd, \
+			"Permission denied");
 			return (free_split(path), _shell->status = 1, NULL);
 		}
 		free(path_cmd);
@@ -83,7 +75,7 @@ static char *next(t_shell *_shell, char **path, char *cmd)
 	return (print_error2(_shell, cmd, 127, "command not found"), NULL);
 }
 
-char	*check_errors(t_shell *_shell, char **path, char *cmd)
+char	*check_error(t_shell *_shell, char **path, char *cmd)
 {
 	char	*path_cmd;
 
@@ -95,16 +87,19 @@ char	*check_errors(t_shell *_shell, char **path, char *cmd)
 		return (path_cmd);
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
-		return (free_split(path), print_error2(_shell, cmd, 126, "is a directory"), NULL);
+		return (free_split(path), print_error2(_shell, cmd, 126, \
+		"is a directory"), NULL);
 	else if (cmd[ft_strlen(cmd) - 1] == '/')
 	{
 		cmd[ft_strlen(cmd) - 1] = '\0';
 		if (!access(cmd, F_OK))
-			return (free_split(path), print_error2(_shell, cmd, 126, "Not a directory"), NULL);
+			return (free_split(path), print_error2(_shell, cmd, 126, \
+			"Not a directory"), NULL);
 	}
 	else if (!access(cmd, F_OK) && !access(cmd, X_OK))
 		return (free_split(path), ft_strdup(cmd));
-	return (free_split(path), print_error2(_shell, cmd, 127, "No such file or directory"), NULL);
+	return (free_split(path), print_error2(_shell, cmd, 127, \
+	"No such file or directory"), NULL);
 }
 
 char	*ft_join_cmd(t_shell *_shell)
@@ -118,5 +113,5 @@ char	*ft_join_cmd(t_shell *_shell)
 	path = ft_split(cmd, ':');
 	free(cmd);
 	cmd = _shell->pipes->content->commands[0];
-	return (check_errors(_shell, path, cmd));
+	return (check_error(_shell, path, cmd));
 }

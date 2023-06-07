@@ -12,7 +12,7 @@
 
 #include "../../../includes/minishell.h"
 
-static char	*ft_str_tolower(char *cmd)
+char	*ft_str_tolower(char *cmd)
 {
 	int		i;
 	char	*str;
@@ -36,15 +36,14 @@ void	ft_exe_command(t_shell *_shell)
 
 	cmd = _shell->pipes->content->commands[0];
 	cmd_lower = ft_str_tolower(cmd);
-	if (!ft_strncmp(cmd, EX, ft_strlen(EX) + 1)) // just lowercase
+	if (!ft_strncmp(cmd, EX, ft_strlen(EX) + 1))
 		ft_exe_export(_shell);
-	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET) + 1)) // just lowercase
+	else if (!ft_strncmp(cmd, UNSET, ft_strlen(UNSET) + 1))
 		ft_exe_unset(_shell);
-	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT) + 1)) // just lowercase
+	else if (!ft_strncmp(cmd, EXIT, ft_strlen(EXIT) + 1))
 		exit(ft_exit(_shell));
-	else if (!ft_strncmp(cmd, CD, ft_strlen(CD) + 1)) // just lowercas
+	else if (!ft_strncmp(cmd, CD, ft_strlen(CD) + 1))
 		ft_exe_cd(_shell);
-// --------------------------------------------------------------------
 	else if (!ft_strncmp(cmd_lower, ECHO, ft_strlen(ECHO) + 1))
 		ft_exe_echo(_shell);
 	else if (!ft_strncmp(cmd_lower, PWD, ft_strlen(PWD) + 1))

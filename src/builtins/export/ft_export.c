@@ -34,9 +34,8 @@ static int	ft_var_error(t_shell *_shell, char *var)
 {
 	if (!check_var_error(var))
 	{
-		ft_printf("minishell: not a valid identifier\n");
-		// ft_printf("minishell: %s: `%s\': not a valid identifier\n", 
-			// _shell->pipes->content->commands[0], var);
+		ft_printf("minishell: %s: `%s\': not a valid identifier\n", \
+_shell->pipes->content->commands[0], var);
 		_shell->status = 1;
 		return (0);
 	}
@@ -90,10 +89,13 @@ static int	ft_add_var(t_shell *_shell)
 void	ft_exe_export(t_shell *_shell)
 {
 	int	pid;
-	int	status;
 
 	if (_shell->pipes->content->commands[1])
+	{
+		if (_shell->pipes->next || _shell->i > 1)
+			return ;
 		ft_add_var(_shell);
+	}
 	else
 	{
 		pid = fork();
@@ -103,8 +105,7 @@ void	ft_exe_export(t_shell *_shell)
 			ft_display_export(_shell->env);
 			exit(0);
 		}
-		wait(&status);
-		if (WIFEXITED(status))
-			_shell->status = WEXITSTATUS(status);
+		else
+			_shell->pipes->content->pid = pid;
 	}
 }

@@ -1,19 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 22:16:12 by esalim            #+#    #+#             */
-/*   Updated: 2023/05/07 16:33:07 by esalim           ###   ########.fr       */
+/*   Created: 2022/10/06 22:42:47 by esalim            #+#    #+#             */
+/*   Updated: 2023/06/05 21:40:17 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	ft_putchar(char c, int *count)
+void	ft_putnbr(long nb, int isunsigned, int *count)
 {
-	write(2, &c, 1);
-	*count += 1;
+	unsigned int	ui;
+
+	if (!isunsigned)
+	{
+		if (nb < 0)
+		{
+			ft_putchar('-', count);
+			nb *= -1;
+		}
+		if (nb > 9)
+			ft_putnbr(nb / 10, isunsigned, count);
+		ft_putchar(nb % 10 + 48, count);
+	}
+	else
+	{
+		ui = nb;
+		if (ui > 9)
+			ft_putnbr(ui / 10, isunsigned, count);
+		ft_putchar(ui % 10 + 48, count);
+	}
 }
