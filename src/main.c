@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:15:40 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/06 21:58:19 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/07 16:43:53 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ void	sig_handler(int sig)
 		// rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		// close(0);
 	}
 }
 
 int	main(int ac, char *av[], char *ev[])
 {
 	t_shell	_shell;
+	// int		fd;
 
 	(void)ac;
 	(void)av;
@@ -34,7 +36,13 @@ int	main(int ac, char *av[], char *ev[])
 	_shell.status = 0;
 	_shell.command_with_path = NULL;
 	_shell.here_doc_parsing = 1;
+	// fd = dup(0);
 	while (1)
+	{
+		// dup2(fd, 0);
+		// rl_catch_signals = 1;
 		minishell(&_shell);
+		// system("leaks minishell");
+	}
 	return (0);
 }

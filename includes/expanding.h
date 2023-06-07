@@ -6,14 +6,14 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:51:22 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/07 16:56:38 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDING_H
-#define EXPANDING_H
+# define EXPANDING_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 //PATH: src/parsing_args/expanding_varaibles/expanding.c
 void	expand_exit_status(t_shell *shell, char **dest, char **line, int *j);

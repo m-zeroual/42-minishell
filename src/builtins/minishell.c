@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:51:41 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/06 22:35:23 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/07 16:40:04 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,26 @@ int	create_redirections(t_shell *shell, t_list *node)
 	return (1);
 }
 
-void	swap_and_free(t_shell *_shell)
-{
-	t_list	*tmp;
+// void	swap_and_free(t_shell *_shell)
+// {
+// 	t_list	*tmp;
 
-	tmp = _shell->pipes;
-	_shell->pipes = _shell->pipes->next;
-	free_struct(_shell, tmp);
-}
+// 	tmp = _shell->pipes;
+// 	_shell->pipes = _shell->pipes->next;
+// 	free_struct(_shell, tmp);
+// }
 
 int	minishell(t_shell *_shell)
 {
-	int	status;
+	t_list	*tmp;
+	int		status;
 
 	if (!ft_parsing(_shell))
 		return (0);
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
 	_shell->i = 0;
+	tmp = _shell->pipes;
 	while (_shell->pipes && ++(_shell->i))
 	{
 		if (!create_redirections(_shell, _shell->pipes) || !init(_shell))
@@ -112,8 +114,7 @@ int	minishell(t_shell *_shell)
 			close(_shell->pipes->content->pipe_fds[1]);
 			if (_shell->pipes->next)
 				close(_shell->pipes->next->content->pipe_fds[0]);
-			swap_and_free(_shell);
-			_shell->i--;
+			_shell->pipes = _shell->pipes->next;
 			continue ;
 		}
 		ft_exe_command(_shell);
@@ -121,13 +122,20 @@ int	minishell(t_shell *_shell)
 		close(_shell->pipes->content->pipe_fds[1]);
 		if (_shell->pipes->next)
 			close(_shell->pipes->next->content->pipe_fds[1]);
-		swap_and_free(_shell);
+		_shell->pipes = _shell->pipes->next;
 	}
-	while ((_shell->i)--)
+	_shell->pipes = tmp;
+	while (_shell->pipes)
 	{
-		wait(&status);
-		if (WIFEXITED(status))
-			_shell->status = WEXITSTATUS(status);
+		if (_shell->pipes->content->pid)
+		{
+			waitpid(_shell->pipes->content->pid, &status, 0);
+			if (WIFEXITED(status))
+				_shell->status = WEXITSTATUS(status);
+		}
+		tmp = _shell->pipes;
+		_shell->pipes = _shell->pipes->next;
+		free_struct(_shell, tmp);
 	}
 	return (1);
 }

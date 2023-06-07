@@ -53,4 +53,6 @@ void	ft_exe_echo(t_shell *_shell)
 		print(_shell, i, n);
 		exit (0);
 	}
+	else
+		_shell->pipes->content->pid = pid;
 }

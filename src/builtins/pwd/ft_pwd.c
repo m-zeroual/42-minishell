@@ -39,6 +39,8 @@ void	ft_exe_pwd(t_shell *_shell)
 		free(str);
 		exit (0);
 	}
+	else
+		_shell->pipes->content->pid = pid;
 }
 
 void	ch_pwd(t_shell *_shell)

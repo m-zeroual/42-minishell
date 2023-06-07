@@ -18,10 +18,10 @@
 
 void	ft_exec_cmd(t_shell *_shell)
 {
-	int	p;
+	int	pid;
 
-	p = fork();
-	if (p == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		setup_all(_shell);
 		if (execve(_shell->command_with_path, \
@@ -31,4 +31,6 @@ void	ft_exec_cmd(t_shell *_shell)
 			exit(1);
 		}
 	}
+	else
+		_shell->pipes->content->pid = pid;
 }

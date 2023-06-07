@@ -47,4 +47,6 @@ void	ft_exe_env(t_shell *_shell)
 		}
 		exit (0);
 	}
+	else
+		_shell->pipes->content->pid = pid;
 }

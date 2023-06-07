@@ -95,8 +95,7 @@ void	ft_exe_export(t_shell *_shell)
 			ft_display_export(_shell->env);
 			exit(0);
 		}
-		// wait(&status);
-		// if (WIFEXITED(status))
-		// 	_shell->status = WEXITSTATUS(status);
+		else
+			_shell->pipes->content->pid = pid;
 	}
 }
