@@ -22,6 +22,8 @@ void	sig_handler(int sig)
 		rl_redisplay();
 		// close(0);
 	}
+	else if (sig == SIGQUIT)
+		return ;
 }
 
 int	main(int ac, char *av[], char *ev[])
@@ -32,6 +34,7 @@ int	main(int ac, char *av[], char *ev[])
 	(void)ac;
 	(void)av;
 	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	_shell.env = ft_fill_env(ev, ft_count_env(ev));
 	_shell.status = 0;
 	_shell.command_with_path = NULL;

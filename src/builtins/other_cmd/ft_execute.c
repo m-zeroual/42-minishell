@@ -68,7 +68,7 @@ static char	*next(t_shell *_shell, char **path, char *cmd)
 				return (path_cmd);
 			ft_printf("minishell: %s%s: %s\n", path[i], cmd, \
 			"Permission denied");
-			return (free_split(path), _shell->status = 1, NULL);
+			return (free (path_cmd), free_split(path), _shell->status = 1, NULL);
 		}
 		free(path_cmd);
 	}
@@ -84,7 +84,7 @@ char	*check_error(t_shell *_shell, char **path, char *cmd)
 		path_cmd = next(_shell, path, cmd);
 		if (!path_cmd)
 			return (free_split(path), NULL);
-		return (path_cmd);
+		return (free_split(path), path_cmd);
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
 		return (free_split(path), print_error2(_shell, cmd, 126, \
