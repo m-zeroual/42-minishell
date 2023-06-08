@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:49:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/08 21:49:21 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_list	*parsing_pipes(t_shell *shell, char **commands)
 		return (NULL);
 	p = split_into_pipes(commands);
 	if (!p)
-		return (print_error("", "syntax error\n"), shell->status = 2, NULL);
+		return (print_error("", "syntax error\n"), shell->status = 258, NULL);
 	i = 0;
 	pipes = NULL;
 	while (p[i])

@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:51:41 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/08 20:07:56 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/08 22:45:32 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	create_redirections(t_shell *shell, t_list *node)
 	char		error;
 
 	error = 0;
-	if (!node->content)
-		return (0);
 	node->content->output_redirections = create_output_files(shell, \
 						node->content->output_redirections, &error);
 	if (error == 1)
@@ -90,48 +88,54 @@ int	create_redirections(t_shell *shell, t_list *node)
 	return (1);
 }
 
+int	*exec(t_shell *_shell, int lstsize)
+{
+	int	*pids;
+
+	pids = ft_calloc(lstsize + 1, sizeof(*pids));
+	if (!pids)
+		return (NULL);
+	while (_shell->pipes && ++(_shell->i))
+	{
+		if (!_shell->pipes->content)
+			continue ;
+		if (!create_redirections(_shell, _shell->pipes) || !init(_shell))
+		{
+			ft_swap(_shell);
+			continue ;
+		}
+		ft_exe_command(_shell);
+		pids[_shell->i - 1] = _shell->pipes->content->pid;
+		ft_swap(_shell);
+	}
+	return (pids);
+}
+
 int	minishell(t_shell *_shell)
 {
-	t_list	*tmp;
-	int		status;
+	int	lstsize;
+	int	status;
+	int	*pids;
+	int	i;
 
 	if (!ft_parsing(_shell))
 		return (0);
 	create_pipes(_shell->pipes);
 	close(_shell->pipes->content->pipe_fds[0]);
 	_shell->i = 0;
-	tmp = _shell->pipes;
-	while (_shell->pipes && ++(_shell->i))
+	lstsize = ft_lstsize(_shell->pipes);
+	pids = exec(_shell, lstsize);
+	if (!pids)
+		return (0);
+	i = -1;
+	while (++i <= lstsize)
 	{
-		if (!create_redirections(_shell, _shell->pipes) || !init(_shell))
+		if (pids[i])
 		{
-			close(_shell->pipes->content->pipe_fds[0]);
-			close(_shell->pipes->content->pipe_fds[1]);
-			if (_shell->pipes->next)
-				close(_shell->pipes->next->content->pipe_fds[0]);
-			_shell->pipes = _shell->pipes->next;
-			continue ;
-		}
-
-		ft_exe_command(_shell);
-		close(_shell->pipes->content->pipe_fds[0]);
-		close(_shell->pipes->content->pipe_fds[1]);
-		if (_shell->pipes->next)
-			close(_shell->pipes->next->content->pipe_fds[1]);
-		_shell->pipes = _shell->pipes->next;
-	}
-	_shell->pipes = tmp;
-	while (_shell->pipes)
-	{
-		if (_shell->pipes->content->pid)
-		{
-			waitpid(_shell->pipes->content->pid, &status, 0);
+			waitpid(pids[i], &status, 0);
 			if (WIFEXITED(status))
 				_shell->status = WEXITSTATUS(status);
 		}
-		tmp = _shell->pipes;
-		_shell->pipes = _shell->pipes->next;
-		free_struct(_shell, tmp);
 	}
-	return (1);
+	return (free(pids), 1);
 }

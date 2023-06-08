@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 15:00:27 by mzeroual          #+#    #+#             */
+/*   Updated: 2023/06/08 21:55:01 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 #include <inttypes.h>
 
@@ -42,8 +54,8 @@ int	exit_with_args(char **command)
 	{
 		num = ft_chr_to_int(command[1], &print_error);
 		if (print_error)
-			return (ft_printf("minishell: %s: %s: numeric argument required\n", \
-			command[0], command[1]), 255);
+			return (ft_printf("minishell: %s: %s: numeric argument required\n" \
+, command[0], command[1]), 255);
 		else
 			return (num % 256);
 	}
@@ -52,7 +64,8 @@ int	exit_with_args(char **command)
 		while (command[1][++j])
 		{
 			if (!ft_isdigit(command[1][j]))
-				return (ft_printf("minishell: %s: %s: numeric argument required\n", command[0], command[1]), 255);
+				return (ft_printf("minishell: %s: %s: \
+numeric argument required\n", command[0], command[1]), 255);
 		}
 		return (ft_printf("minishell: %s: too many arguments\n", command[0]), 1);
 	}
@@ -60,7 +73,7 @@ int	exit_with_args(char **command)
 
 int	ft_exit(t_shell *_shell)
 {
-	// printf("exit\n");
+	ft_printf("exit\n");
 	if (!_shell->pipes->content->commands[1])
 		return (_shell->status);
 	else

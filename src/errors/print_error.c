@@ -19,3 +19,10 @@ int	print_error(char *file, char *message)
 	ft_putstr_fd(message, 2);
 	return (1);
 }
+
+void	print_error2(t_shell *_shell, char *cmd, int status, char *str_error)
+{
+	(void)cmd;
+	ft_printf("minishell: %s: %s\n", cmd, str_error);
+	_shell->status = status;
+}

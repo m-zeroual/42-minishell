@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:59:20 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/07 17:01:54 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/08 22:43:43 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ void	replace_symbols(char *str);
 void	replace_symbols_rev(char *str);
 
 void	free_t_redirect_2(t_redirect *redirect);
+void	ft_swap(t_shell *_shell);
+void	sig_handler(int sig);
 
 #endif

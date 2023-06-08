@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 
-int	print_error(char *file, char *message);
+int		print_error(char *file, char *message);
+void	print_error2(t_shell *_shell, char *cmd, int status, char *str_error);
 
 #endif

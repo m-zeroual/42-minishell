@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_execute.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/07 15:11:20 by mzeroual          #+#    #+#             */
+/*   Updated: 2023/06/08 20:55:27 by esalim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
-int ft_is_builtins(char *str)
+static int	ft_is_builtins(char *str)
 {
 	if (!ft_strncmp(str, EX, ft_strlen(EX) + 1) \
 		|| !ft_strncmp(str, UNSET, ft_strlen(UNSET) + 1) \
@@ -13,12 +25,8 @@ int ft_is_builtins(char *str)
 	return (0);
 }
 
-char	*ft_join_cmd(t_shell *_shell)
+char	*ft_path(t_shell *_shell)
 {
-	int		i;
-	char	*help_for_free;
-	char	*path_cmd;
-	char	**path;
 	char	*cmd;
 
 	cmd = 0;
@@ -31,71 +39,80 @@ char	*ft_join_cmd(t_shell *_shell)
 		cmd = ft_getenv(_shell->env, "PATH");
 		if (!cmd)
 		{
-			ft_printf("minishell: No such file or directory\n");
-			// ft_printf("minshell: %s: No such file or directory\n", _shell->pipes->content->commands[0]);
+			ft_printf("minshell: %s: %s\n", \
+_shell->pipes->content->commands[0], "No such file or directory");
 			_shell->status = 127;
 			return (0);
 		}
 	}
 	else
 		cmd = ft_strdup(_shell->pipes->content->commands[0]);
-	path = ft_split(cmd, ':');
-	free(cmd);
-	cmd = _shell->pipes->content->commands[0];
-	i = 0;
-	
+	return (cmd);
+}
+
+static char	*next(t_shell *_shell, char **path, char *cmd)
+{
+	int		i;
+	char	*tmp;
+	char	*path_cmd;
+
+	i = -1;
+	while (path[++i])
+	{
+		tmp = ft_strjoin(path[i], "/");
+		path_cmd = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (!access(path_cmd, F_OK))
+		{
+			if (!access(path_cmd, X_OK))
+				return (path_cmd);
+			ft_printf("minishell: %s%s: %s\n", path[i], cmd, \
+			"Permission denied");
+			free (path_cmd);
+			return (free_split(path), _shell->status = 1, NULL);
+		}
+		free(path_cmd);
+	}
+	return (print_error2(_shell, cmd, 127, "command not found"), NULL);
+}
+
+char	*check_error(t_shell *_shell, char **path, char *cmd)
+{
+	char	*path_cmd;
+
 	if (!ft_strchr(cmd, '/'))
 	{
-		while (path[i])
-		{
-			help_for_free = ft_strjoin(path[i], "/");
-			path_cmd = ft_strjoin(help_for_free, cmd);
-			free(help_for_free);
-			if (!access(path_cmd, F_OK))
-			{
-				if (!access(path_cmd, X_OK))
-					return (free_split(path), path_cmd);
-				ft_printf("minishell: %s%s: %s\n", path[i], cmd, "Permission denied");
-				return (free_split(path), _shell->status = 1, NULL);
-			}
-			free(path_cmd);
-			i++;
-		}
-		ft_printf("minishell: %s: %s\n", cmd, "command not found");
-		// ft_printf("minishell: command not found\n");
-		_shell->status = 127;
+		path_cmd = next(_shell, path, cmd);
+		if (!path_cmd)
+			return (free_split(path), NULL);
+		return (free_split(path), path_cmd);
 	}
 	else if (!access(cmd, F_OK) && cmd[ft_strlen(cmd) - 1] == '/')
+		return (free_split(path), print_error2(_shell, cmd, 126, \
+		"is a directory"), NULL);
+	else if (cmd[ft_strlen(cmd) - 1] == '/')
 	{
-		ft_printf("minishell: %s: %s\n", cmd, "is a directory");
-		_shell->status = 126;
-	}
-	else if (cmd[ft_strlen(cmd) - 1] == '/' && ft_memset(cmd + ft_strlen(cmd) - 1, 0, 1) && !access(cmd, F_OK))
-	{
-		ft_printf("minishell: %s/: %s\n", cmd, "Not a directory");
-		_shell->status = 126;
+		cmd[ft_strlen(cmd) - 1] = '\0';
+		if (!access(cmd, F_OK))
+			return (free_split(path), print_error2(_shell, cmd, 126, \
+			"Not a directory"), NULL);
 	}
 	else if (!access(cmd, F_OK) && !access(cmd, X_OK))
 		return (free_split(path), ft_strdup(cmd));
-	else
-	{
-		// ft_printf("minishell: %s: %s\n", cmd, "No such file or directory");
-		ft_printf("minishell: No such file or directory\n");
-		_shell->status = 127;
-	}
-	return (free_split(path), NULL);
+	return (free_split(path), print_error2(_shell, cmd, 127, \
+	"No such file or directory"), NULL);
 }
 
-int	ft_parsing(t_shell *_shell)
+char	*ft_join_cmd(t_shell *_shell)
 {
-	char *tmp_cmd;
+	char	**path;
+	char	*cmd;
 
-	tmp_cmd = ft_strdup(_shell->line);
-	_shell->pipes = main_parsing(_shell, _shell->line);
-	if (!_shell->pipes)
-		return (free(tmp_cmd), 0);
-	_shell->i = 0;
-	add_history(tmp_cmd);
-	free(tmp_cmd);
-	return (1);
+	cmd = ft_path(_shell);
+	if (ft_is_builtins(cmd))
+		return (cmd);
+	path = ft_split(cmd, ':');
+	free(cmd);
+	cmd = _shell->pipes->content->commands[0];
+	return (check_error(_shell, path, cmd));
 }
