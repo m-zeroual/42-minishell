@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 23:15:40 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/08 22:46:02 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/08 22:50:28 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,22 @@ void	sig_handler(int sig)
 		return ;
 }
 
+void	ft_init_struct(char *ev[])
+{
+	g_shell.env = ft_fill_env(ev, ft_count_env(ev));
+	g_shell.status = 0;
+	g_shell.here_doc_parsing = 1;
+	g_shell.command_with_path = NULL;
+	g_shell.fd = dup(0);
+}
+
 int	main(int ac, char *av[], char *ev[])
 {
 	(void)ac;
 	(void)av;
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-	g_shell.env = ft_fill_env(ev, ft_count_env(ev));
-	g_shell.status = 0;
-	g_shell.here_doc_parsing = 1;
-	g_shell.command_with_path = NULL;
-	g_shell.fd = dup(0);
+	ft_init_struct(ev);
 	while (1)
 	{
 		rl_catch_signals = 0;
