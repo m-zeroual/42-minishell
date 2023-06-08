@@ -62,20 +62,6 @@ void	del_content(void *cont)
 	return ;
 }
 
-// int ft_get_index(char *str, char c)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == c)
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 void	free_split(char **str)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:21:06 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/05 17:47:49 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/08 17:25:41 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	if (!s1 && s2)
 		return (ft_strdup(s2));
+	if (s1 && !s2)
+		return (ft_strdup(s1));
 	d = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!d)
 		return (0);

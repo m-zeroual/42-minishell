@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: esalim <esalim@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/06/08 17:37:27 by esalim            #+#    #+#              #
+#    Updated: 2023/06/08 17:43:04 by esalim           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	=	minishell
 
 SRCS	=	src/main.c \
@@ -40,15 +52,16 @@ OBJS	=	$(SRCS:%.c=%.o)
 CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
 RM		=	rm -f
+RL_FLAGS = -L /Users/esalim/.brew/opt/readline/lib
 
 all	:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 	@make -C libft
-	$(CC) $(CFLAGS)  $^ libft/libft.a -o $@ -lreadline
+	$(CC) $(CFLAGS) $(RL_FLAGS) $^ libft/libft.a  -o $@ -lreadline
 
 %.o		:	%.c
-	@$(CC) $(CFLAGS) -c $^ -o $@
+	@$(CC) $(CFLAGS) -I /Users/esalim/.brew/opt/readline/include -c $^ -o $@
 	
 
 run		: all

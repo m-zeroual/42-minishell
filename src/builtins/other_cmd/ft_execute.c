@@ -88,14 +88,10 @@ char	*ft_join_cmd(t_shell *_shell)
 
 int	ft_parsing(t_shell *_shell)
 {
-	char *cmd;
 	char *tmp_cmd;
 
-	cmd = readline("minishell -> ");
-	if (!cmd)
-		exit(_shell->status);
-	tmp_cmd = ft_strdup(cmd);
-	_shell->pipes = main_parsing(_shell, cmd);
+	tmp_cmd = ft_strdup(_shell->line);
+	_shell->pipes = main_parsing(_shell, _shell->line);
 	if (!_shell->pipes)
 		return (free(tmp_cmd), 0);
 	_shell->i = 0;

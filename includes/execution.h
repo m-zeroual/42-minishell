@@ -31,14 +31,12 @@ typedef struct s_shell
 	t_list 	*pipes;
 	int		i;
 	int		here_doc_parsing;
-
-//	Last added ======================
-	// char	**dest;
 	int		isheredoc;
 	int		check;
 	int		isopen;
 	int		index;
 	char	separator;
+	int		fd;
 }	t_shell;
 
 

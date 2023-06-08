@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 23:51:41 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/07 16:40:04 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/08 20:07:56 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init(t_shell *_shell)
 	return (1);
 }
 
-void	open_here_docs(t_shell *shell, t_list *node)
+int	open_here_docs(t_shell *shell, t_list *node)
 {
 	int	i;
 
@@ -49,12 +49,15 @@ void	open_here_docs(t_shell *shell, t_list *node)
 		{
 			node->content->here_doc_string = get_here_doc_content(shell, \
 						node->content->input_redirections[i].file);
+			if (!node->content->here_doc_string)
+				return (0);
 			continue ;
 		}
 		if (node->content->input_redirections[i].is_here_doc)
 			free(get_here_doc_content(shell, \
 				node->content->input_redirections[i].file));
 	}
+	return (1);
 }
 
 int	create_redirections(t_shell *shell, t_list *node)
@@ -70,7 +73,8 @@ int	create_redirections(t_shell *shell, t_list *node)
 		return (0);
 	node->content->input_redirections = get_input_file(shell, \
 						node->content->input_redirections, &error);
-	open_here_docs(shell, node);
+	if (!open_here_docs(shell, node))
+		return (0);
 	if (error > 1)
 	{
 		if (error > 2)
@@ -85,15 +89,6 @@ int	create_redirections(t_shell *shell, t_list *node)
 	}
 	return (1);
 }
-
-// void	swap_and_free(t_shell *_shell)
-// {
-// 	t_list	*tmp;
-
-// 	tmp = _shell->pipes;
-// 	_shell->pipes = _shell->pipes->next;
-// 	free_struct(_shell, tmp);
-// }
 
 int	minishell(t_shell *_shell)
 {
@@ -117,6 +112,7 @@ int	minishell(t_shell *_shell)
 			_shell->pipes = _shell->pipes->next;
 			continue ;
 		}
+
 		ft_exe_command(_shell);
 		close(_shell->pipes->content->pipe_fds[0]);
 		close(_shell->pipes->content->pipe_fds[1]);
