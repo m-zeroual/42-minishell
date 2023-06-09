@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:46:02 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/07 16:55:45 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/09 15:12:44 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char		*get_here_doc_content(t_shell *_shell, char *eol);
 //PATH: /parsing_redirections/parsing_redirection_tools.c
 int			skip_commands(char **commands, int *j);
 int			redirect_len(char **commands, int *j, char c, char *print_c);
-int			check_redirection_error(char **cmds, int *j, int len);
 int			for_each_command(t_redirect *redirection, \
 								char **commands, int *i, int *j);
 void		init_t_redirect(t_redirect *dest, t_redirect *src);

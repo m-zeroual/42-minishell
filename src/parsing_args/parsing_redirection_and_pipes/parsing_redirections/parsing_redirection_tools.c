@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:46:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/08 21:49:40 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/09 15:11:57 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,11 @@ int	redirect_len(char **commands, int *j, char c, char *print_c)
 	{
 		len++;
 		if (len > max && two < max - 1 && ++two)
-			ft_printf("minishell: syntax error\n");
+			return (ft_printf("minishell: syntax error\n"), 4);
 		ft_memset(commands[*j], 3, ft_strlen(commands[*j]));
 		(*j)++;
 	}
-	if (!commands[*j] && len && len < 4)
-	{
-		ft_printf("minishell: syntax error\n");
-		len = 4;
-	}
 	return (len);
-}
-
-int	check_redirection_error(char **cmds, int *j, int len)
-{
-	int	two;
-
-	two = 0;
-	if (len != 0 && cmds[(*j)] && cmds[(*j)][0] < 32 \
-		&& cmds[*j][0] > 1 && two++ < 2)
-	{
-		len = 200;
-		ft_printf("minishell: syntax error\n");
-		(*j)++;
-	}
-	if (len == 200)
-		return (200);
-	return (0);
 }
 
 int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
@@ -78,7 +56,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 	if (skip_commands(commands, j))
 		return (2);
 	input_len = redirect_len(commands, j, INPUT_REDIRECT, "<");
-	if (input_len > 3 || check_redirection_error(commands, j, input_len))
+	if (input_len > 3)
 		return (0);
 	if (input_len < 4 && commands[*j] && commands[*j][0] == 1)
 		return (print_error("", "No such file or directory\n"), 4);
@@ -87,7 +65,7 @@ int	for_each_command(t_redirect *redirection, char **commands, int *i, int *j)
 	output_len = redirect_len(commands, j, OUTPUT_REDIRECT, ">");
 	if (output_len < 3 && commands[*j] && commands[*j][0] == 1)
 		return (print_error("", "No such file or directory\n"), 4);
-	if (output_len > 2 || check_redirection_error(commands, j, output_len))
+	if (output_len > 2)
 		return (0);
 	if (output_len != 0 && commands[*j] && commands[*j][0] != INPUT_REDIRECT)
 		set_redirections(&redirection[(*i)++], commands[(*j)++], 0, output_len);

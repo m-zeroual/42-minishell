@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 19:40:55 by mzeroual          #+#    #+#             */
-/*   Updated: 2023/06/07 19:41:14 by mzeroual         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:54:53 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ void	ft_exe_pwd(t_shell *_shell)
 
 	str = 0;
 	pid = fork ();
-	if (pid == -1)
-		return ;
 	if (pid == 0)
 	{
 		setup_all(_shell);
-		str = getcwd(NULL, 1024);
+		str = getcwd(NULL, 0);
 		printf("%s\n", str);
 		free(str);
 		exit (0);
@@ -59,7 +57,7 @@ void	ch_pwd(t_shell *_shell)
 {
 	int		i;
 	char	**str;
-	char	str1[1024];
+	char	*str1;
 
 	i = 0;
 	while (_shell->env[i])
@@ -68,8 +66,9 @@ void	ch_pwd(t_shell *_shell)
 		if (!ft_strncmp(str[0], "PWD", 3))
 		{
 			free(_shell->env[i]);
-			getcwd(str1, 1024);
+			str1 = getcwd(NULL, 0);
 			_shell->env[i] = ft_strjoin("PWD=", str1);
+			free(str1);
 		}
 		free_split(str);
 		i++;

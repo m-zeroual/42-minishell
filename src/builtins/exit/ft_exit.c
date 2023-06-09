@@ -6,12 +6,11 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:00:27 by mzeroual          #+#    #+#             */
-/*   Updated: 2023/06/08 21:55:01 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/09 14:54:55 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-#include <inttypes.h>
 
 int	ft_chr_to_int(const char *str, int *print)
 {

@@ -6,7 +6,7 @@
 #    By: esalim <esalim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/08 17:37:27 by esalim            #+#    #+#              #
-#    Updated: 2023/06/08 20:47:22 by esalim           ###   ########.fr        #
+#    Updated: 2023/06/08 23:15:02 by esalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
 RM		=	rm -f
 RL_FLAGS = -L /Users/esalim/.brew/opt/readline/lib
+INCLUDES	=	-I ./include -I /Users/esalim/.brew/opt/readline/include
 
 all	:	$(NAME)
 
@@ -61,7 +62,7 @@ $(NAME)	:	$(OBJS)
 	$(CC) $(CFLAGS) $(RL_FLAGS) $^ libft/libft.a  -o $@ -lreadline
 
 %.o		:	%.c
-	@$(CC) $(CFLAGS) -I /Users/esalim/.brew/opt/readline/include -c $^ -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
 	
 
 run		: all

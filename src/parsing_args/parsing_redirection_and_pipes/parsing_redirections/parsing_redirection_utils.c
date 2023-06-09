@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:38:55 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/08 20:51:38 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/09 14:43:18 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*get_here_doc_content(t_shell *_shell, char	*delimiter)
 	result = get_string(_shell, string, delimiter, check);
 	fd = dup(0);
 	if (fd == -1)
-		return (free(result), NULL);
+		return (free(result), _shell->status = 1, NULL);
 	close(fd);
 	return (result);
 }

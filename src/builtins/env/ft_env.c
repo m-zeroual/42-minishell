@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeroual <mzeroual@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 15:00:01 by mzeroual          #+#    #+#             */
-/*   Updated: 2023/06/07 15:00:04 by mzeroual         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:54:54 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	ft_exe_env(t_shell *_shell)
 
 	j = 0;
 	pid = fork();
-	if (pid == -1)
-		return ;
 	if (pid == 0)
 	{
 		setup_all(_shell);
