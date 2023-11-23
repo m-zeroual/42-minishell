@@ -1,0 +1,7 @@
+minishell
+.vscode
+.DS_Store
+*.o
+./src/**/*.o
+testing/*
+mini-ms-tester
