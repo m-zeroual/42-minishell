@@ -6,7 +6,7 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:49:23 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/02 21:01:38 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/09 15:03:03 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +97,13 @@ t_list	*parsing_pipes(t_shell *shell, char **commands)
 		return (NULL);
 	p = split_into_pipes(commands);
 	if (!p)
-	{
-		ft_printf("minishell: syntax error 12\n");
-		shell->status = 2;
-		return (NULL);
-	}
+		return (print_error("", "syntax error\n"), shell->status = 258, NULL);
 	i = 0;
 	pipes = NULL;
 	while (p[i])
 	{
 		content = ft_calloc(2, sizeof(*content));
-		if (!content)
-			return (free_pipe(p), NULL);
-		if (!parsing_redirection(shell, content, p[i]))
+		if (!content || !parsing_redirection(shell, content, p[i]))
 			return (free_pipe(p), free(content), NULL);
 		len = get_lenght_of_list_without_three(p[i]);
 		content->commands = get_list_without_three(p[i], len);

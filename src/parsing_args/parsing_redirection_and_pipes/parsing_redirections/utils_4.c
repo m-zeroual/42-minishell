@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 16:21:06 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/08 17:25:41 by esalim           ###   ########.fr       */
+/*   Created: 2023/03/28 15:31:43 by esalim            #+#    #+#             */
+/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../../../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	split_commands(t_shell *shell, t_redirect	*redirect, char	**commands)
 {
-	char	*d;
-	int		i;
-	int		j;
+	int	res;
+	int	i;
+	int	j;
 
 	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if (!s1 && s2)
-		return (ft_strdup(s2));
-	if (s1 && !s2)
-		return (ft_strdup(s1));
-	d = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!d)
-		return (0);
 	j = 0;
-	while (s1[j])
-		d[i++] = s1[j++];
-	j = 0;
-	while (s2[j])
-		d[i++] = s2[j++];
-	d[i] = 0;
-	return (d);
+	res = 0;
+	while (commands[j])
+	{
+		res = for_each_command(redirect, commands, &i, &j);
+		if (!res || res == 4)
+		{
+			free(redirect);
+			shell->status = 2;
+			if (res == 4)
+				shell->status = 1;
+			return (0);
+		}
+		if (res == 2)
+			break ;
+	}
+	return (1);
 }

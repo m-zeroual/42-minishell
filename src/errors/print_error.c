@@ -6,32 +6,23 @@
 /*   By: esalim <esalim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 23:19:50 by esalim            #+#    #+#             */
-/*   Updated: 2023/06/03 16:17:18 by esalim           ###   ########.fr       */
+/*   Updated: 2023/06/05 17:39:40 by esalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/errors.h"
 
-void	print_error(char *file, char *message)
+int	print_error(char *file, char *message)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(file, 2);
 	ft_putstr_fd(message, 2);
+	return (1);
 }
 
-void	p_error(char *str)
+void	print_error2(t_shell *_shell, char *cmd, int status, char *str_error)
 {
-	(void)str;
-	ft_printf("minishell: syntax error\n");
-	// static int  i;
-	// char        *text;
-	// text = "minishell: syntax error near unexpected token `";
-	// if (!i)
-	// {
-	//     ft_putstr_fd(text, 2);
-	//     i = 1;
-	// }
-	// ft_putstr_fd(str, 2);
-	// if (str[0] == '\'')
-	//     i = 0;
+	(void)cmd;
+	ft_printf("minishell: %s: %s\n", cmd, str_error);
+	_shell->status = status;
 }
